@@ -1,22 +1,21 @@
 package anightdazingzoroark.squirrelwitchery.server;
 
-import anightdazingzoroark.squirrelwitchery.IProxy;
+import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class ServerProxy implements IProxy {
-    @Override
+public class ServerProxy {
     public void preInit(FMLPreInitializationEvent e) {
-
+        SquirrelWitcheryItems.registerItems();
+        MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryItems());
     }
 
-    @Override
     public void init(FMLInitializationEvent e) {
 
     }
 
-    @Override
     public void postInit(FMLPostInitializationEvent e) {
 
     }

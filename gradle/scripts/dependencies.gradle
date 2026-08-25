@@ -24,6 +24,8 @@ dependencies {
 
     //jei as expected
     modImplementation 'mezz:jei:4.33.0:dev'
+    //compileOnly 'curse.maven:just-enough-resources-jer-240630:4440936'
+    //compileOnly 'curse.maven:just-enough-magiculture-940521:5796192'
 
     //riftlibrary
     compileOnly files("libs/riftlib-2.0.0-dev.jar")
