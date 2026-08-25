@@ -15,33 +15,33 @@ public class SquirrelWitcheryItems {
     public static final List<Item> ITEMS = new ArrayList<>();
 
     public static Item NUT;
-    /*
     public static ItemArmor WITCH_HAT;
     public static ItemArmor WITCH_ROBE;
     public static ItemArmor WITCH_SKIRT;
     public static ItemArmor WITCH_BOOTS;
+    /*
+    public static Item WITCH_STAFF;
+    public static Item NUTSABER;
      */
 
     public static void registerItems() {
         NUT = registerItem(new Item(), "nut", true);
-        /*
         WITCH_HAT = (ItemArmor) registerItem(
                 new ItemArmor(ItemArmor.ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.HEAD),
                 "witch_hat", true
         );
         WITCH_ROBE = (ItemArmor) registerItem(
                 new ItemArmor(ItemArmor.ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.CHEST),
-                "witch_hat", true
+                "witch_robe", true
         );
         WITCH_SKIRT = (ItemArmor) registerItem(
                 new ItemArmor(ItemArmor.ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.LEGS),
-                "witch_hat", true
+                "witch_skirt", true
         );
         WITCH_BOOTS = (ItemArmor) registerItem(
                 new ItemArmor(ItemArmor.ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.FEET),
-                "witch_hat", true
+                "witch_boots", true
         );
-         */
     }
 
     private static Item registerItem(Item item, String registryName, boolean canBeInCreative) {
