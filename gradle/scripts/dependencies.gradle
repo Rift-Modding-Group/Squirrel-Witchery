@@ -22,7 +22,16 @@ dependencies {
         compileOnly "com.cleanroommc:lwjglx:1.0.0"
     }
 
-    modLibrary 'mezz:jei:4.33.0:dev'
+    //jei as expected
+    modImplementation 'mezz:jei:4.33.0:dev'
+
+    //riftlibrary
+    compileOnly files("libs/riftlib-2.0.0-dev.jar")
+
+    //thaumcraft and related mods
+    modImplementation 'curse.maven:thaumicapi-1533287:8473028'
+    modImplementation 'curse.maven:thaumcraft-223628:2629023'
+    modImplementation 'curse.maven:baubles-227083:2518667'
 
     // Example - Dependency descriptor:
     // 'com.google.code.gson:gson:2.8.6' << group: com.google.code.gson, name:gson, version:2.8.6
