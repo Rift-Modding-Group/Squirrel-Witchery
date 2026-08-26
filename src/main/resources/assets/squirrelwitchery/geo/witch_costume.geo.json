@@ -40,7 +40,7 @@
 				},
 				{
 					"name": "robe",
-					"pivot": [0, 0, 0],
+					"pivot": [0, 24, 0],
 					"cubes": [
 						{"origin": [-4, 18, -2], "size": [8, 6, 4], "inflate": 1.01, "uv": [24, 33]}
 					]
@@ -57,7 +57,14 @@
 					"name": "leftArm",
 					"pivot": [5, 22, 0],
 					"cubes": [
-						{"origin": [4, 17, -2], "size": [4, 7, 4], "inflate": 0.5, "uv": [32, 53]},
+						{"origin": [4, 17, -2], "size": [4, 7, 4], "inflate": 0.5, "uv": [32, 53]}
+					]
+				},
+				{
+					"name": "leftGlove",
+					"parent": "leftArm",
+					"pivot": [5, 22, 0],
+					"cubes": [
 						{"origin": [4, 12, -2], "size": [4, 2, 4], "inflate": 0.25, "uv": [0, 61]}
 					]
 				},
@@ -65,7 +72,14 @@
 					"name": "rightArm",
 					"pivot": [-5, 22, 0],
 					"cubes": [
-						{"origin": [-8, 17, -2], "size": [4, 7, 4], "inflate": 0.5, "uv": [16, 53]},
+						{"origin": [-8, 17, -2], "size": [4, 7, 4], "inflate": 0.5, "uv": [16, 53]}
+					]
+				},
+				{
+					"name": "rightGlove",
+					"parent": "rightArm",
+					"pivot": [-5, 22, 0],
+					"cubes": [
 						{"origin": [-8, 12, -2], "size": [4, 2, 4], "inflate": 0.25, "uv": [56, 21]}
 					]
 				},
@@ -88,9 +102,17 @@
 				},
 				{
 					"name": "skirt",
-					"pivot": [0, 0, 0],
+					"pivot": [0, 24, 0],
 					"cubes": [
 						{"origin": [-4, 9, -2], "size": [8, 8, 4], "inflate": 0.49, "uv": [32, 21]}
+					]
+				},
+				{
+					"name": "skirtFront",
+					"parent": "skirt",
+					"pivot": [0, 24, 0],
+					"cubes": [
+						{"origin": [-4, 9, -2], "size": [8, 8, 1], "inflate": 0.49, "uv": [64, 37]}
 					]
 				}
 			]

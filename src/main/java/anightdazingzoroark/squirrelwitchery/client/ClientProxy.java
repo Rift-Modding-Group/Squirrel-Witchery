@@ -9,7 +9,6 @@ import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -18,12 +17,6 @@ public class ClientProxy extends ServerProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
-
-        WitchCostumeRenderer witchCostumeRenderer = new WitchCostumeRenderer();
-        GeoArmorRenderer.registerArmorRenderer(new ResourceLocation(SquirrelWitchery.MODID, "witch_hat"), witchCostumeRenderer);
-        GeoArmorRenderer.registerArmorRenderer(new ResourceLocation(SquirrelWitchery.MODID, "witch_robe"), witchCostumeRenderer);
-        GeoArmorRenderer.registerArmorRenderer(new ResourceLocation(SquirrelWitchery.MODID, "witch_skirt"), witchCostumeRenderer);
-        GeoArmorRenderer.registerArmorRenderer(new ResourceLocation(SquirrelWitchery.MODID, "witch_boots"), witchCostumeRenderer);
     }
 
     @Override
@@ -36,6 +29,13 @@ public class ClientProxy extends ServerProxy {
             final ModelResourceLocation res = new ModelResourceLocation(resName, "inventory");
             Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, res);
         }
+
+        //register armor models
+        WitchCostumeRenderer witchCostumeRenderer = new WitchCostumeRenderer();
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.WITCH_HAT, witchCostumeRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.WITCH_ROBE, witchCostumeRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.WITCH_SKIRT, witchCostumeRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.WITCH_BOOTS, witchCostumeRenderer);
     }
 
     @Override
