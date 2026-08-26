@@ -10,6 +10,7 @@ public class ServerProxy {
     public void preInit(FMLPreInitializationEvent e) {
         SquirrelWitcheryItems.registerItems();
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryItems());
+        MinecraftForge.EVENT_BUS.register(new ServerEvents());
     }
 
     public void init(FMLInitializationEvent e) {
