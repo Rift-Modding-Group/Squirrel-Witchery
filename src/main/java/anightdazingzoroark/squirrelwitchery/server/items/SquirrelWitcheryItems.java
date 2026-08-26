@@ -26,25 +26,25 @@ public class SquirrelWitcheryItems {
 
     public static void registerItems() {
         NUT = registerItem(new Item(), "nut", true);
-        WITCH_HAT = (WitchCostume) registerItem(
+        WITCH_HAT = registerItem(
                 new WitchCostume(0, EntityEquipmentSlot.HEAD, 5),
                 "witch_hat", true
         );
-        WITCH_ROBE = (WitchCostume) registerItem(
+        WITCH_ROBE = registerItem(
                 new WitchCostume(0, EntityEquipmentSlot.CHEST, 5),
                 "witch_robe", true
         );
-        WITCH_SKIRT = (WitchCostume) registerItem(
+        WITCH_SKIRT = registerItem(
                 new WitchCostume(0, EntityEquipmentSlot.LEGS, 5),
                 "witch_skirt", true
         );
-        WITCH_BOOTS = (WitchCostume) registerItem(
+        WITCH_BOOTS = registerItem(
                 new WitchCostume(0, EntityEquipmentSlot.FEET, 5),
                 "witch_boots", true
         );
     }
 
-    private static Item registerItem(Item item, String registryName, boolean canBeInCreative) {
+    public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {
         if (canBeInCreative) item.setCreativeTab(SquirrelWitchery.creativeItemsTab);
         item.setRegistryName(registryName);
         item.setTranslationKey(registryName);

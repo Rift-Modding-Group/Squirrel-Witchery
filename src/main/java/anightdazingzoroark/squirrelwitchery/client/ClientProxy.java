@@ -5,10 +5,14 @@ import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.client.renderer.WitchCostumeRenderer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
+import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
+import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -17,6 +21,19 @@ public class ClientProxy extends ServerProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
+
+        ModelResourceLocation crystalModel = new ModelResourceLocation("thaumcraft:crystal_aer", "normal");
+        ModelLoader.setCustomStateMapper(SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM, new StateMapperBase() {
+            @Override
+            protected ModelResourceLocation getModelResourceLocation(net.minecraft.block.state.IBlockState state) {
+                return crystalModel;
+            }
+        });
+        ModelLoader.setCustomModelResourceLocation(
+                SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM_ITEM,
+                0,
+                new ModelResourceLocation("thaumcraft:crystal_aer", "inventory")
+        );
     }
 
     @Override
@@ -29,6 +46,20 @@ public class ClientProxy extends ServerProxy {
             final ModelResourceLocation res = new ModelResourceLocation(resName, "inventory");
             Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, res);
         }
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(
+                SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM_ITEM,
+                0,
+                new ModelResourceLocation("thaumcraft:crystal_aer", "inventory")
+        );
+
+        Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(
+                (state, world, pos, tintIndex) -> SquirrelWitcheryAspects.RISUNIUM.getColor(),
+                SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM
+        );
+        Minecraft.getMinecraft().getItemColors().registerItemColorHandler(
+                (stack, tintIndex) -> SquirrelWitcheryAspects.RISUNIUM.getColor(),
+                SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM_ITEM
+        );
 
         //register armor models
         WitchCostumeRenderer witchCostumeRenderer = new WitchCostumeRenderer();
