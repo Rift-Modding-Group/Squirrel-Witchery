@@ -15,6 +15,7 @@ public class SquirrelWitcheryItems {
     public static final List<Item> ITEMS = new ArrayList<>();
 
     public static Item NUT;
+    public static Item WITCH_FABRIC;
     public static ItemArmor WITCH_HAT;
     public static ItemArmor WITCH_ROBE;
     public static ItemArmor WITCH_SKIRT;
@@ -26,6 +27,7 @@ public class SquirrelWitcheryItems {
 
     public static void registerItems() {
         NUT = registerItem(new Item(), "nut", true);
+        WITCH_FABRIC = registerItem(new Item(), "witch_fabric", true);
         WITCH_HAT = registerItem(
                 new WitchCostume(0, EntityEquipmentSlot.HEAD, 5),
                 "witch_hat", true

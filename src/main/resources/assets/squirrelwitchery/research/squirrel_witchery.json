@@ -30,7 +30,8 @@
       "stages": [
         {
           "text": "research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.1",
-          "recipes": ["squirrelwitchery:vis_crystal_risunium"]
+          "recipes": ["squirrelwitchery:vis_crystal_risunium"],
+          "required_craft": ["thaumcraft:crystal_essence;1;0;{Aspects:[{amount:1,key:'risunium'}]}"]
         },
         {
           "text": "research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.2",
@@ -51,7 +52,8 @@
       "stages": [
         {
           "text": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.1",
-          "recipes": ["squirrelwitchery:crystal_cluster_risunium"]
+          "recipes": ["squirrelwitchery:crystal_cluster_risunium"],
+          "required_craft": ["squirrelwitchery:crystal_risunium"]
         },
         {
           "text": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.2",

@@ -11,10 +11,10 @@ tc.aspect.risunium=Risunium, Squirrels
 
 tc.research_category.SQUIRREL_WITCHERY=Squirrel Witchery
 research.SQUIRREL_WITCHERY_NUTS.title=Nuts
-research.SQUIRREL_WITCHERY_NUTS.stage.1=Breaking leaves has revealed these peculiar items known as nuts. Closer examination reveals that these nuts are unusually rich in a form of essentia known as Risunium. I must study this Risunium to see what secrets it holds.
+research.SQUIRREL_WITCHERY_NUTS.stage.1=Breaking leaves has revealed a surprising source of essentia: nuts. Closer examination shows that they contain traces of Risunium essentia. I must study this new aspect and see what secrets it holds.
 research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.title=Crystallized Risunium
-research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.1=Risunium does not appear to be related to any other aspect I have encountered. I therefore conclude that it must be a primal aspect. While I am yet to find it manifest as crystals in the world, the concentrated Risunium within nuts should respond to the same alchemical process used to crystallize other forms of essentia.
-research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.2=It appears indeed that Risunium can be crystallized similar to other forms of essentia. My search for Risunium crystals in the world continues.
+research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.1=Risunium does not appear to be composed of any other aspects I have encountered. I therefore conclude that it must be a primal aspect. Though I have yet to discover naturally occurring Risunium vis crystals, the essentia concentrated within nuts should respond to the same alchemical process used to create other essentia crystals.
+research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.2=My experiment was a success. By using quartz shards as a growth medium, I can crystallize Risunium essentia into Risunium vis crystals.<BR>My search for naturally occurring Risunium crystals continues.
 research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.title=Cultivating Risunium
-research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.1=After much searching, it appears that Risunium can only be extracted from nuts, and cannot manifest as crystals in the world. Harvesting nuts from trees can only do so much. I must create my own Risunium crystals.
-research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.2=I conclude that Risunium cannot manifest naturally as crystals, and must be created through the same infusion process as all other crystals that represent primal aspects.
+research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.1=Despite continued searching, I have found no Risunium crystal clusters growing naturally. Nuts remain my only source of Risunium essentia, but harvesting leaves can only provide so much. I must find a way to grow my own supply.
+research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.2=I have found a way to reinvigorate Risunium vis crystals so that I can replant them, much like the crystals of the six familiar primal aspects. Since Risunium crystal clusters do not appear to grow naturally, arcane infusion will have to provide the missing impetus.
