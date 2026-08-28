@@ -60,6 +60,43 @@
           "recipes": ["squirrelwitchery:crystal_cluster_risunium"]
         }
       ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_WITCH_COSTUME",
+      "name": "research.SQUIRREL_WITCHERY_WITCH_COSTUME.title",
+      "icons": ["squirrelwitchery:witch_robe"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM"],
+      "location": [2, 2],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_COSTUME.stage.1",
+          "recipes": [
+            "squirrelwitchery:witch_hat",
+            "squirrelwitchery:witch_robe",
+            "squirrelwitchery:witch_skirt",
+            "squirrelwitchery:witch_boots"
+          ],
+          "required_craft": [
+            "squirrelwitchery:witch_hat",
+            "squirrelwitchery:witch_robe",
+            "squirrelwitchery:witch_skirt",
+            "squirrelwitchery:witch_boots"
+          ]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_COSTUME.stage.1",
+          "recipes": [
+            "squirrelwitchery:witch_hat",
+            "squirrelwitchery:witch_robe",
+            "squirrelwitchery:witch_skirt",
+            "squirrelwitchery:witch_boots"
+          ]
+        }
+      ]
     }
   ]
 }

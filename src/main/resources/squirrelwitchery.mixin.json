@@ -3,9 +3,12 @@
   "package": "anightdazingzoroark.squirrelwitchery.mixin",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(MOD)",
-  "client": [],
+  "client": [
+    "GuiArcaneWorkbenchMixin"
+  ],
   "mixins": [
-    "SlotCrystalMixin"
+    "SlotCrystalMixin",
+    "ThaumcraftCraftingManagerMixin"
   ],
   "server": [],
   "setSourceFile": true,
