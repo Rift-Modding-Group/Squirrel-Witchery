@@ -4,7 +4,6 @@ import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspec
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -27,6 +26,6 @@ public class ServerProxy {
     }
 
     public void postInit(FMLPostInitializationEvent e) {
-        SquirrelWitcheryRecipes.addRecipesToResearch();
+        SquirrelWitcheryRecipes.configureResearch();
     }
 }

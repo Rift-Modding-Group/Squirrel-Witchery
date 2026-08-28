@@ -52,24 +52,14 @@ public class SquirrelWitcheryRecipes {
         );
     }
 
-    public static void addRecipesToResearch() {
-        ResearchEntry crystalFarmer = ResearchCategories.getResearch("CRYSTALFARMER");
-        if (crystalFarmer == null || crystalFarmer.getStages() == null || crystalFarmer.getStages().length == 0) {
-            SquirrelWitchery.LOGGER.warn("Unable to add the Risunium crystal recipe to CRYSTALFARMER research");
-            return;
+    public static void configureResearch() {
+        //manually set risunium vis crystal research icon here, doesn't work in json
+        ResearchEntry visCrystalRisunium = ResearchCategories.getResearch(SquirrelWitcheryResearch.VIS_CRYSTAL_RISUNIUM);
+        if (visCrystalRisunium == null) {
+            SquirrelWitchery.LOGGER.warn("Unable to set the Risunium vis crystal research icon");
         }
-
-        ResearchStage recipeStage = crystalFarmer.getStages()[crystalFarmer.getStages().length - 1];
-        ResourceLocation[] recipes = recipeStage.getRecipes();
-        if (recipes == null) {
-            recipeStage.setRecipes(new ResourceLocation[]{RISUNIUM_CRYSTAL_RECIPE});
-            return;
+        else {
+            visCrystalRisunium.setIcons(new Object[]{ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM)});
         }
-
-        if (Arrays.asList(recipes).contains(RISUNIUM_CRYSTAL_RECIPE)) return;
-
-        ResourceLocation[] recipesWithRisunium = Arrays.copyOf(recipes, recipes.length + 1);
-        recipesWithRisunium[recipes.length] = RISUNIUM_CRYSTAL_RECIPE;
-        recipeStage.setRecipes(recipesWithRisunium);
     }
 }

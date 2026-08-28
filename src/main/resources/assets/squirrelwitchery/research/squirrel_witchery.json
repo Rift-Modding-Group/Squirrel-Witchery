@@ -16,6 +16,48 @@
           "text": "research.SQUIRREL_WITCHERY_NUTS.stage.1"
         }
       ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM",
+      "name": "research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.title",
+      "icons": ["thaumcraft:crystal_essence;1;0;{Aspects:[{amount:1,key:'risunium'}]}"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_NUTS", "~BASEALCHEMY"],
+      "location": [2, 0],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.1",
+          "recipes": ["squirrelwitchery:vis_crystal_risunium"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.2",
+          "recipes": ["squirrelwitchery:vis_crystal_risunium"]
+        }
+      ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM",
+      "name": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.title",
+      "icons": ["squirrelwitchery:crystal_risunium"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM", "~CRYSTALFARMER"],
+      "location": [4, 0],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.1",
+          "recipes": ["squirrelwitchery:crystal_cluster_risunium"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.2",
+          "recipes": ["squirrelwitchery:crystal_cluster_risunium"]
+        }
+      ]
     }
   ]
 }
