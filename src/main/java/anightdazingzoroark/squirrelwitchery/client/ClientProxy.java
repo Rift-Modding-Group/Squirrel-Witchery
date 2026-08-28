@@ -63,10 +63,16 @@ public class ClientProxy extends ServerProxy {
 
         //register armor models
         WitchCostumeRenderer witchCostumeRenderer = new WitchCostumeRenderer();
+
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.WITCH_HAT, witchCostumeRenderer);
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.WITCH_ROBE, witchCostumeRenderer);
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.WITCH_SKIRT, witchCostumeRenderer);
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.WITCH_BOOTS, witchCostumeRenderer);
+
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_HAT, witchCostumeRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_ROBE, witchCostumeRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_SKIRT, witchCostumeRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_BOOTS, witchCostumeRenderer);
     }
 
     @Override

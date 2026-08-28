@@ -10,8 +10,8 @@ import thaumcraft.api.items.IVisDiscountGear;
 public class WitchCostume extends ItemArmor implements IVisDiscountGear {
     private final int visDiscount;
 
-    public WitchCostume(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, int visDiscount) {
-        super(ThaumcraftMaterials.ARMORMAT_SPECIAL, renderIndexIn, equipmentSlotIn);
+    public WitchCostume(ItemArmor.ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, int visDiscount) {
+        super(materialIn, renderIndexIn, equipmentSlotIn);
         this.visDiscount = visDiscount;
     }
 

@@ -6,6 +6,8 @@ import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.squirrelwitchery.client.model.WitchCostumeModel;
 import anightdazingzoroark.squirrelwitchery.server.armor.WitchCostumeHolder;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import thaumcraft.common.items.casters.ItemCaster;
