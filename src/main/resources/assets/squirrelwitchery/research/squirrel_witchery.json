@@ -40,6 +40,26 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_RISUNIC_STUDIES",
+      "name": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.title",
+      "icons": ["thaumcraft:crystal_essence;1;0;{Aspects:[{amount:1,key:'risunium'}]}"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM"],
+      "location": [4, 2],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.1",
+          "required_knowledge": ["THEORY;SQUIRREL_WITCHERY;1"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.2"
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM",
       "name": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.title",
       "icons": ["squirrelwitchery:crystal_risunium"],
@@ -66,8 +86,8 @@
       "name": "research.SQUIRREL_WITCHERY_WITCH_COSTUME.title",
       "icons": ["squirrelwitchery:witch_robe"],
       "category": "SQUIRREL_WITCHERY",
-      "parents": ["SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM"],
-      "location": [2, 2],
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
+      "location": [6, 2],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],
@@ -104,7 +124,7 @@
       "icons": ["squirrelwitchery:dark_witch_hat"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_WITCH_COSTUME", "~VOIDROBEARMOR"],
-      "location": [4, 2],
+      "location": [8, 2],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],
