@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "anightdazingzoroark.squirrelwitchery.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(MOD)",
+  "client": [],
+  "mixins": [
+    "SlotCrystalMixin"
+  ],
+  "server": [],
+  "setSourceFile": true,
+  "minVersion": "0.8.7"
+}

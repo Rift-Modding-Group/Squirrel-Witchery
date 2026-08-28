@@ -41,12 +41,11 @@ public class SquirrelWitcheryRecipes {
                         "CRYSTALFARMER",
                         new ItemStack(SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM),
                         0,
-                        new AspectList()
-                                .add(SquirrelWitcheryAspects.RISUNIUM, 10)
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 10)
                                 .add(Aspect.CRYSTAL, 10)
                                 .add(Aspect.TRAP, 5),
                         ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
-                        new ItemStack(Items.ENDER_PEARL),
+                        new ItemStack(Items.WHEAT_SEEDS),
                         new ItemStack(ItemsTC.salisMundus)
                 )
         );
