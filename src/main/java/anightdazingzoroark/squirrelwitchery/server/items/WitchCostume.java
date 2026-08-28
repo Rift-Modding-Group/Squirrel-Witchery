@@ -11,7 +11,7 @@ public class WitchCostume extends ItemArmor implements IVisDiscountGear {
     private final int visDiscount;
 
     public WitchCostume(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, int visDiscount) {
-        super(ThaumcraftMaterials.ARMORMAT_VOIDROBE, renderIndexIn, equipmentSlotIn);
+        super(ThaumcraftMaterials.ARMORMAT_SPECIAL, renderIndexIn, equipmentSlotIn);
         this.visDiscount = visDiscount;
     }
 

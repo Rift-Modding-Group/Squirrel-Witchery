@@ -27,19 +27,19 @@ public class SquirrelWitcheryItems {
     public static void registerItems() {
         NUT = registerItem(new Item(), "nut", true);
         WITCH_HAT = registerItem(
-                new WitchCostume(0, EntityEquipmentSlot.HEAD, 5),
+                new WitchCostume(0, EntityEquipmentSlot.HEAD, 2),
                 "witch_hat", true
         );
         WITCH_ROBE = registerItem(
-                new WitchCostume(0, EntityEquipmentSlot.CHEST, 5),
+                new WitchCostume(0, EntityEquipmentSlot.CHEST, 2),
                 "witch_robe", true
         );
         WITCH_SKIRT = registerItem(
-                new WitchCostume(0, EntityEquipmentSlot.LEGS, 5),
+                new WitchCostume(0, EntityEquipmentSlot.LEGS, 2),
                 "witch_skirt", true
         );
         WITCH_BOOTS = registerItem(
-                new WitchCostume(0, EntityEquipmentSlot.FEET, 5),
+                new WitchCostume(0, EntityEquipmentSlot.FEET, 2),
                 "witch_boots", true
         );
     }

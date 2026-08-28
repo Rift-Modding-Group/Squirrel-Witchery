@@ -31,25 +31,20 @@ public final class SquirrelWitcheryAspects {
         //---item assignments---
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.NUT, false, new ImmutablePair<>(RISUNIUM, 5)));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
-                SquirrelWitcheryItems.WITCH_HAT, false,
-                new ImmutablePair<>(RISUNIUM, 89), new ImmutablePair<>(Aspect.MAGIC, 15), new ImmutablePair<>(Aspect.SENSES, 29),
-                new ImmutablePair<>(Aspect.LIGHT, 64), new ImmutablePair<>(Aspect.DARKNESS, 64), new ImmutablePair<>(Aspect.CRAFT, 18)
+                SquirrelWitcheryItems.WITCH_HAT, true,
+                new ImmutablePair<>(RISUNIUM, 89), new ImmutablePair<>(Aspect.CRAFT, 7), new ImmutablePair<>(Aspect.MAGIC, 7)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
-                SquirrelWitcheryItems.WITCH_ROBE, false,
-                new ImmutablePair<>(RISUNIUM, 140), new ImmutablePair<>(Aspect.MAGIC, 14), new ImmutablePair<>(Aspect.EXCHANGE, 37),
-                new ImmutablePair<>(Aspect.SOUL, 69), new ImmutablePair<>(Aspect.LIFE, 48), new ImmutablePair<>(Aspect.DEATH, 48),
-                new ImmutablePair<>(Aspect.CRAFT, 31)
+                SquirrelWitcheryItems.WITCH_ROBE, true,
+                new ImmutablePair<>(RISUNIUM, 156), new ImmutablePair<>(Aspect.CRAFT, 36), new ImmutablePair<>(Aspect.MAGIC, 13)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
-                SquirrelWitcheryItems.WITCH_SKIRT, false,
-                new ImmutablePair<>(RISUNIUM, 125), new ImmutablePair<>(Aspect.MAGIC, 13),
-                new ImmutablePair<>(Aspect.ORDER, 32), new ImmutablePair<>(Aspect.ENTROPY, 32),
-                new ImmutablePair<>(Aspect.CRAFT, 27)
+                SquirrelWitcheryItems.WITCH_SKIRT, true,
+                new ImmutablePair<>(RISUNIUM, 136), new ImmutablePair<>(Aspect.CRAFT, 31), new ImmutablePair<>(Aspect.MAGIC, 12)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
-                SquirrelWitcheryItems.WITCH_BOOTS, false,
-                new ImmutablePair<>(RISUNIUM, 78), new ImmutablePair<>(Aspect.MAGIC, 12), new ImmutablePair<>(Aspect.CRAFT, 9)
+                SquirrelWitcheryItems.WITCH_BOOTS, true,
+                new ImmutablePair<>(RISUNIUM, 78), new ImmutablePair<>(Aspect.CRAFT, 18), new ImmutablePair<>(Aspect.MAGIC, 10)
         ));
 
         //---block assignments---
