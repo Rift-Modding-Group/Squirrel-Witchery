@@ -8,3 +8,7 @@ tile.crystal_risunium.name=Risunium Crystal
 itemGroup.squirrel_witchery=Squirrel Witchery
 
 tc.aspect.risunium=Risunium, Squirrels
+
+tc.research_category.SQUIRREL_WITCHERY=Squirrel Witchery
+research.SQUIRREL_WITCHERY_NUTS.title=Nuts
+research.SQUIRREL_WITCHERY_NUTS.stage.1=Breaking leaves has revealed these peculiar items known as nuts. Closer examination reveals that these nuts are unusually rich in §dRisunium§r. I must study this §dRisunium§r to see what secrets it holds.
