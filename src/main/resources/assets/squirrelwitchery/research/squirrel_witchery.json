@@ -97,6 +97,33 @@
           ]
         }
       ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_DARK_WITCH_COSTUME",
+      "name": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.title",
+      "icons": ["squirrelwitchery:dark_witch_hat"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_WITCH_COSTUME", "~VOIDROBEARMOR"],
+      "location": [4, 2],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.1",
+          "required_knowledge": ["OBSERVATION;ELDRITCH;2", "THEORY;ELDRITCH;2", "THEORY;SQUIRREL_WITCHERY;2"],
+          "warp": 1
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.2",
+          "recipes": [
+            "squirrelwitchery:dark_witch_hat",
+            "squirrelwitchery:dark_witch_robe",
+            "squirrelwitchery:dark_witch_skirt",
+            "squirrelwitchery:dark_witch_boots"
+          ]
+        }
+      ]
     }
   ]
 }

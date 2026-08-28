@@ -106,6 +106,91 @@ public class SquirrelWitcheryRecipes {
                         new ItemStack(ItemsTC.salisMundus)
                 )
         );
+        ThaumcraftApi.addInfusionCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "dark_witch_hat"),
+                new InfusionRecipe(
+                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME,
+                        new ItemStack(SquirrelWitcheryItems.DARK_WITCH_HAT),
+                        6,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 25)
+                                .add(Aspect.METAL, 25)
+                                .add(Aspect.SENSES, 25)
+                                .add(Aspect.PROTECT, 25)
+                                .add(Aspect.ENERGY, 25)
+                                .add(Aspect.ELDRITCH, 25)
+                                .add(Aspect.VOID, 25),
+                        new ItemStack(SquirrelWitcheryItems.WITCH_HAT),
+                        new ItemStack(ItemsTC.voidHelm),
+                        new ItemStack(ItemsTC.fabric),
+                        new ItemStack(ItemsTC.fabric),
+                        new ItemStack(ItemsTC.salisMundus),
+                        new ItemStack(ItemsTC.fabric),
+                        new ItemStack(ItemsTC.fabric)
+                )
+        );
+        ThaumcraftApi.addInfusionCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "dark_witch_robe"),
+                new InfusionRecipe(
+                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME,
+                        new ItemStack(SquirrelWitcheryItems.DARK_WITCH_ROBE),
+                        6,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 35)
+                                .add(Aspect.METAL, 35)
+                                .add(Aspect.PROTECT, 35)
+                                .add(Aspect.ENERGY, 25)
+                                .add(Aspect.ELDRITCH, 25)
+                                .add(Aspect.VOID, 35),
+                        new ItemStack(SquirrelWitcheryItems.WITCH_ROBE),
+                        new ItemStack(ItemsTC.voidChest),
+                        "plateVoid",
+                        "plateVoid",
+                        new ItemStack(ItemsTC.salisMundus),
+                        new ItemStack(ItemsTC.fabric),
+                        "leather"
+                )
+        );
+        ThaumcraftApi.addInfusionCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "dark_witch_skirt"),
+                new InfusionRecipe(
+                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME,
+                        new ItemStack(SquirrelWitcheryItems.DARK_WITCH_SKIRT),
+                        6,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 30)
+                                .add(Aspect.METAL, 30)
+                                .add(Aspect.PROTECT, 30)
+                                .add(Aspect.ENERGY, 25)
+                                .add(Aspect.ELDRITCH, 25)
+                                .add(Aspect.VOID, 30),
+                        new ItemStack(SquirrelWitcheryItems.WITCH_SKIRT),
+                        new ItemStack(ItemsTC.voidLegs),
+                        "plateVoid",
+                        "plateVoid",
+                        new ItemStack(ItemsTC.salisMundus),
+                        new ItemStack(ItemsTC.fabric),
+                        "leather"
+                )
+        );
+        ThaumcraftApi.addInfusionCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "dark_witch_boots"),
+                new InfusionRecipe(
+                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME,
+                        new ItemStack(SquirrelWitcheryItems.DARK_WITCH_BOOTS),
+                        6,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 20)
+                                .add(Aspect.METAL, 20)
+                                .add(Aspect.PROTECT, 20)
+                                .add(Aspect.ENERGY, 25)
+                                .add(Aspect.ELDRITCH, 25)
+                                .add(Aspect.VOID, 20),
+                        new ItemStack(SquirrelWitcheryItems.WITCH_BOOTS),
+                        new ItemStack(ItemsTC.voidBoots),
+                        "plateVoid",
+                        "plateVoid",
+                        new ItemStack(ItemsTC.salisMundus),
+                        new ItemStack(ItemsTC.fabric),
+                        "leather"
+                )
+        );
     }
 
     public static void configureResearch() {
