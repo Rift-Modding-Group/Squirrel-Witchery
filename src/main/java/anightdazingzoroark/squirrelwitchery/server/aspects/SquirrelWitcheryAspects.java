@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectHelper;
 import thaumcraft.api.aspects.AspectList;
@@ -75,6 +76,12 @@ public final class SquirrelWitcheryAspects {
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Block>(
                 SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM, true, new ImmutablePair<>(RISUNIUM, 15)
         ));
+
+        //---entity assignments---
+        ThaumcraftApi.registerEntityTag(
+                "squirrel",
+                new AspectList().add(RISUNIUM, 15).add(Aspect.BEAST, 10)
+        );
     }
 
     @SubscribeEvent

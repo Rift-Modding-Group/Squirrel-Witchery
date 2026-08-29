@@ -1,3 +1,5 @@
+entity.squirrel.name=Squirrel
+
 item.nut.name=Nut
 item.witch_hat.name=Witch's Hat
 item.witch_robe.name=Witch's Robe
@@ -7,6 +9,7 @@ item.dark_witch_hat.name=Dark Witch's Hat
 item.dark_witch_robe.name=Dark Witch's Robe
 item.dark_witch_skirt.name=Dark Witch's Skirt
 item.dark_witch_boots.name=Dark Witch's Boots
+
 tile.crystal_risunium.name=Risunium Crystal
 
 itemGroup.squirrel_witchery=Squirrel Witchery
