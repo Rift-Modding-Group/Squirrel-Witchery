@@ -35,7 +35,7 @@ public class SquirrelWitcheryRecipes {
                         "  F",
                         " F ",
                         "FFF",
-                        'F', new ItemStack(ItemsTC.fabric)
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
                 )
         );
         ThaumcraftApi.addArcaneCraftingRecipe(
@@ -49,7 +49,7 @@ public class SquirrelWitcheryRecipes {
                         "F F",
                         "FFF",
                         "FFF",
-                        'F', new ItemStack(ItemsTC.fabric)
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
                 )
         );
         ThaumcraftApi.addArcaneCraftingRecipe(
@@ -63,7 +63,7 @@ public class SquirrelWitcheryRecipes {
                         "FFF",
                         "F F",
                         "F F",
-                        'F', new ItemStack(ItemsTC.fabric)
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
                 )
         );
         ThaumcraftApi.addArcaneCraftingRecipe(
@@ -76,7 +76,7 @@ public class SquirrelWitcheryRecipes {
                         SquirrelWitcheryItems.WITCH_BOOTS,
                         "F F",
                         "F F",
-                        'F', new ItemStack(ItemsTC.fabric)
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
                 )
         );
 

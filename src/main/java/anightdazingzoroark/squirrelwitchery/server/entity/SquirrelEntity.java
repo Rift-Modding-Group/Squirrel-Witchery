@@ -31,7 +31,7 @@ import java.util.Set;
 
 public class SquirrelEntity extends EntityAnimal implements IAnimatable<AnimationDataEntity>, IShearable {
     @NotNull
-    private final AnimationDataEntity animData = new AnimationDataEntity(this, 0.5f);
+    private final AnimationDataEntity animData = new AnimationDataEntity(this, entity -> entity.isChild() ? 0.25f : 0.5f);
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(SquirrelEntity.class, DataSerializers.BOOLEAN);
 
     //server only
@@ -80,9 +80,13 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
     }
 
     @Override
-    @Nullable
     public EntityAgeable createChild(EntityAgeable ageable) {
-        return null;
+        return new SquirrelEntity(this.world);
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == SquirrelWitcheryItems.NUT;
     }
 
     //---shearing stuff---
