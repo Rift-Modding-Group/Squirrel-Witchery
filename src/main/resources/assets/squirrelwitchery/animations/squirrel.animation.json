@@ -22,11 +22,21 @@
 					"rotation": ["-25-math.sin(query.anim_time * 30) * -15", 0, 0]
 				},
 				"tail": {
-					"rotation": [-45, 0, 0]
+					"rotation": [-45, 0, 0],
+					"position": [0, 0, -1]
 				},
 				"head": {
 					"rotation": [-45, 0, 0],
 					"position": [0, 1, 0]
+				}
+			}
+		},
+		"animation.squirrel.sheared": {
+			"loop": true,
+			"bones": {
+				"tail": {
+					"position": [0, 0, -1],
+					"scale": 0.7
 				}
 			}
 		}

@@ -38,6 +38,7 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
         super(worldIn);
         this.setSize(0.5f, 0.5f);
     }
+
     @Override
     protected void entityInit() {
         super.entityInit();
@@ -125,12 +126,20 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
     @Override
     public void initializeAnimationData(AnimationDataEntity animationData) {
         animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntity>(
-                this, "movement", "default",
+                this, "movementCont", "default",
                 new AnimationControllerState<AnimationDataEntity>("default", 0.1)
                         .addStateTransition("walk", AnimationDataEntity::isMoving),
                 new AnimationControllerState<AnimationDataEntity>("walk", 0.1)
                         .addAnimation("animation.squirrel.walk")
                         .addStateTransition("default", data -> !data.isMoving())
+        ));
+        animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntity>(
+                this, "shearedCont", "default",
+                new AnimationControllerState<AnimationDataEntity>("default")
+                        .addStateTransition("sheared", data -> this.isSheared()),
+                new AnimationControllerState<AnimationDataEntity>("sheared")
+                        .addAnimation("animation.squirrel.sheared")
+                        .addStateTransition("default", data -> !this.isSheared())
         ));
     }
 }
