@@ -1,6 +1,21 @@
 {
   "entries": [
     {
+      "key": "!squirrel",
+      "name": "research.SQUIRREL_WITCHERY_SQUIRREL.title",
+      "icons": ["squirrelwitchery:squirrel_fur"],
+      "category": "SQUIRREL_WITCHERY",
+      "location": [-2, 0],
+      "meta": ["HEX", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_SQUIRREL.stage.1"
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_NUTS",
       "name": "research.SQUIRREL_WITCHERY_NUTS.title",
       "icons": ["squirrelwitchery:nut"],

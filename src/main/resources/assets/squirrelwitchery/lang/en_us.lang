@@ -1,4 +1,5 @@
 entity.squirrel.name=Squirrel
+subtitles.squirrelwitchery.squirrel_ambient=Squirrel chirps
 
 item.nut.name=Nut
 item.squirrel_fur.name=Squirrel Fur
@@ -18,6 +19,8 @@ itemGroup.squirrel_witchery=Squirrel Witchery
 tc.aspect.risunium=Risunium, Squirrels
 
 tc.research_category.SQUIRREL_WITCHERY=Squirrel Witchery
+research.SQUIRREL_WITCHERY_SQUIRREL.title=Squirrels
+research.SQUIRREL_WITCHERY_SQUIRREL.stage.1=These small, lively beasts can be found in forests of every description. From familiar woodlands to the strangest distant groves, squirrels appear wherever trees gather thickly enough to offer them shelter.<IMG>squirrelwitchery:textures/ui/squirrel_bestiary.png:0:0:256:150:0.5</IMG>Their fondness for nuts is extraordinary. Merely holding one is often enough to lure a nearby squirrel closer, and the creatures seem quite content to make nuts the center of their diet.<BR>Thaumic examination reveals the Bestia expected of an animal, but also a surprisingly strong concentration of Risunium. Perhaps their playful nature and peculiar appetite offer some clue as to why this aspect gathers within them.
 research.SQUIRREL_WITCHERY_NUTS.title=Nuts
 research.SQUIRREL_WITCHERY_NUTS.stage.1=Breaking leaves has revealed a surprising source of essentia: nuts. Closer examination shows that they contain traces of Risunium essentia. I must study this new aspect and see what secrets it holds.
 research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.title=Crystallized Risunium

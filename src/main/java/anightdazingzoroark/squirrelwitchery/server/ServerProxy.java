@@ -4,6 +4,7 @@ import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspec
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelWitcheryEntities;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -19,6 +20,7 @@ public class ServerProxy {
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryBlocks());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryItems());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryAspects());
+        MinecraftForge.EVENT_BUS.register(new SquirrelWitcherySounds());
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
     }
 

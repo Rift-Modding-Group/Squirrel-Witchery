@@ -1,0 +1,23 @@
+{
+  "squirrel_ambient": {
+    "subtitle": "subtitles.squirrelwitchery.squirrel_ambient",
+    "sounds": [
+      "squirrelwitchery:squirrel_ambient_0",
+      "squirrelwitchery:squirrel_ambient_1",
+      "squirrelwitchery:squirrel_ambient_2",
+      "squirrelwitchery:squirrel_ambient_3"
+    ]
+  },
+  "squirrel_hurt": {
+    "subtitle": "subtitles.squirrelwitchery.squirrel_hurt",
+    "sounds": [
+      "squirrelwitchery:squirrel_hurt"
+    ]
+  },
+  "squirrel_death": {
+    "subtitle": "subtitles.squirrelwitchery.squirrel_death",
+    "sounds": [
+      "squirrelwitchery:squirrel_death"
+    ]
+  }
+}
