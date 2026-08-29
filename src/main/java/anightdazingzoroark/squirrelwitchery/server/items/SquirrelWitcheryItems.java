@@ -16,6 +16,8 @@ public class SquirrelWitcheryItems {
     public static final List<Item> ITEMS = new ArrayList<>();
 
     public static Item NUT;
+    public static Item SQUIRREL_FUR;
+    public static Item CRYSTALLIZED_SQUIRREL_HEART;
     public static ItemArmor WITCH_HAT;
     public static ItemArmor WITCH_ROBE;
     public static ItemArmor WITCH_SKIRT;
@@ -31,6 +33,8 @@ public class SquirrelWitcheryItems {
 
     public static void registerItems() {
         NUT = registerItem(new Item(), "nut", true);
+        SQUIRREL_FUR = registerItem(new Item(), "squirrel_fur", true);
+        CRYSTALLIZED_SQUIRREL_HEART = registerItem(new Item(), "crystallized_squirrel_heart", true);
         WITCH_HAT = registerItem(
                 new WitchCostume(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.HEAD, 2),
                 "witch_hat", true

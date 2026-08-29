@@ -1,18 +1,19 @@
 package anightdazingzoroark.squirrelwitchery.client;
 
-import anightdazingzoroark.riftlib.RiftLib;
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
-import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
+import anightdazingzoroark.squirrelwitchery.client.renderer.SquirrelRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.WitchCostumeRenderer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
+import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -22,6 +23,10 @@ public class ClientProxy extends ServerProxy {
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
 
+        //---entity rendering---
+        RenderingRegistry.registerEntityRenderingHandler(SquirrelEntity.class, SquirrelRenderer::new);
+
+        //---crystal risunium---
         ModelResourceLocation crystalModel = new ModelResourceLocation("thaumcraft:crystal_aer", "normal");
         ModelLoader.setCustomStateMapper(SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM, new StateMapperBase() {
             @Override

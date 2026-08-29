@@ -2,6 +2,7 @@ package anightdazingzoroark.squirrelwitchery.server;
 
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
+import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelWitcheryEntities;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -12,6 +13,7 @@ public class ServerProxy {
     public void preInit(FMLPreInitializationEvent e) {
         SquirrelWitcheryBlocks.registerBlocks();
         SquirrelWitcheryItems.registerItems();
+        SquirrelWitcheryEntities.registerEntities();
         SquirrelWitcheryAspects.assignAspects();
 
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryBlocks());
