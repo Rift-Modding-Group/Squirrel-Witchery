@@ -31,6 +31,9 @@ public final class SquirrelWitcheryAspects {
     public static void assignAspects() {
         //---item assignments---
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.NUT, false, new ImmutablePair<>(RISUNIUM, 5)));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.SQUIRREL_FUR, false,
+                new ImmutablePair<>(RISUNIUM, 10), new ImmutablePair<>(Aspect.BEAST, 10)
+        ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.WITCH_HAT, true,
                 new ImmutablePair<>(RISUNIUM, 89), new ImmutablePair<>(Aspect.CRAFT, 7), new ImmutablePair<>(Aspect.MAGIC, 7)

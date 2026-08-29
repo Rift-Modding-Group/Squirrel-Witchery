@@ -10,19 +10,38 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IShearable;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 
-public class SquirrelEntity extends EntityAnimal implements IAnimatable<AnimationDataEntity> {
+public class SquirrelEntity extends EntityAnimal implements IAnimatable<AnimationDataEntity>, IShearable {
     @NotNull
     private final AnimationDataEntity animData = new AnimationDataEntity(this, 0.5f);
+    private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(SquirrelEntity.class, DataSerializers.BOOLEAN);
+
+    //server only
+    private int shearCountdown;
 
     public SquirrelEntity(World worldIn) {
         super(worldIn);
         this.setSize(0.5f, 0.5f);
+    }
+    @Override
+    protected void entityInit() {
+        super.entityInit();
+        this.dataManager.register(SHEARED, false);
     }
 
     @Override
@@ -45,6 +64,60 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
     }
 
     @Override
+    public void onLivingUpdate() {
+        super.onLivingUpdate();
+
+        if (!this.world.isRemote) {
+            if (this.isSheared()) {
+                if (this.shearCountdown > 0) this.shearCountdown--;
+                else this.setSheared(false);
+            }
+        }
+    }
+
+    @Override
+    @Nullable
+    public EntityAgeable createChild(EntityAgeable ageable) {
+        return null;
+    }
+
+    //---shearing stuff---
+    public boolean isSheared() {
+        return this.dataManager.get(SHEARED);
+    }
+
+    private void setSheared(boolean value) {
+        this.dataManager.set(SHEARED, value);
+    }
+
+    @Override
+    public boolean isShearable(@NonNull ItemStack itemStack, IBlockAccess iBlockAccess, BlockPos blockPos) {
+        return !this.isSheared();
+    }
+
+    @Override
+    @NonNull
+    public List<ItemStack> onSheared(@NonNull ItemStack itemStack, IBlockAccess iBlockAccess, BlockPos blockPos, int i) {
+        this.setSheared(true);
+        this.shearCountdown = 24000; //should correspond to 1 in-game day
+        return List.of(new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR, this.world.rand.nextInt(1, 4)));
+    }
+
+    //---nbt stuff---
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        compound.setBoolean("Sheared", this.isSheared());
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        if (compound.hasKey("Sheared")) this.setSheared(compound.getBoolean("Sheared"));
+    }
+
+    //---anim stuff---
+    @Override
     public AnimationDataEntity getAnimationData() {
         return this.animData;
     }
@@ -59,10 +132,5 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
                         .addAnimation("animation.squirrel.walk")
                         .addStateTransition("default", data -> !data.isMoving())
         ));
-    }
-
-    @Override
-    public @Nullable EntityAgeable createChild(EntityAgeable ageable) {
-        return null;
     }
 }

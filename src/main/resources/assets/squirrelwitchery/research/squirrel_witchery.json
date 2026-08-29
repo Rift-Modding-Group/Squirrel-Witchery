@@ -42,7 +42,7 @@
     {
       "key": "SQUIRREL_WITCHERY_RISUNIC_STUDIES",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.title",
-      "icons": ["thaumcraft:crystal_essence;1;0;{Aspects:[{amount:1,key:'risunium'}]}"],
+      "icons": ["squirrelwitchery:squirrel_fur"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM"],
       "location": [4, 2],

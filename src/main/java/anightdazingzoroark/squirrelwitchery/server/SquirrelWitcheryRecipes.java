@@ -202,13 +202,5 @@ public class SquirrelWitcheryRecipes {
         else {
             visCrystalRisunium.setIcons(new Object[]{ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM)});
         }
-
-        ResearchEntry risunicStudies = ResearchCategories.getResearch(SquirrelWitcheryResearch.RISUNIC_STUDIES);
-        if (risunicStudies == null) {
-            SquirrelWitchery.LOGGER.warn("Unable to set the Risunic Studies research icon");
-        }
-        else {
-            risunicStudies.setIcons(new Object[]{ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM)});
-        }
     }
 }
