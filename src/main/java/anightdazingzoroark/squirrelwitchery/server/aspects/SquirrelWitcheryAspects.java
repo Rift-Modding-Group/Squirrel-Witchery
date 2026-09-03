@@ -30,54 +30,54 @@ public final class SquirrelWitcheryAspects {
 
     public static void assignAspects() {
         //---item assignments---
-        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.NUT, false, new ImmutablePair<>(RISUNIUM, 5)));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.NUT, false, new AspectPair(RISUNIUM, 5)));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.SQUIRREL_FUR, false,
-                new ImmutablePair<>(RISUNIUM, 10), new ImmutablePair<>(Aspect.BEAST, 10)
+                new AspectPair(RISUNIUM, 10), new AspectPair(Aspect.BEAST, 10)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.WITCH_HAT, true,
-                new ImmutablePair<>(RISUNIUM, 89), new ImmutablePair<>(Aspect.CRAFT, 7), new ImmutablePair<>(Aspect.MAGIC, 7)
+                new AspectPair(RISUNIUM, 89), new AspectPair(Aspect.CRAFT, 7), new AspectPair(Aspect.MAGIC, 7)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.WITCH_ROBE, true,
-                new ImmutablePair<>(RISUNIUM, 156), new ImmutablePair<>(Aspect.CRAFT, 36), new ImmutablePair<>(Aspect.MAGIC, 13)
+                new AspectPair(RISUNIUM, 156), new AspectPair(Aspect.CRAFT, 36), new AspectPair(Aspect.MAGIC, 13)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.WITCH_SKIRT, true,
-                new ImmutablePair<>(RISUNIUM, 136), new ImmutablePair<>(Aspect.CRAFT, 31), new ImmutablePair<>(Aspect.MAGIC, 12)
+                new AspectPair(RISUNIUM, 136), new AspectPair(Aspect.CRAFT, 31), new AspectPair(Aspect.MAGIC, 12)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.WITCH_BOOTS, true,
-                new ImmutablePair<>(RISUNIUM, 78), new ImmutablePair<>(Aspect.CRAFT, 18), new ImmutablePair<>(Aspect.MAGIC, 10)
+                new AspectPair(RISUNIUM, 78), new AspectPair(Aspect.CRAFT, 18), new AspectPair(Aspect.MAGIC, 10)
         ));
         //note to self: in gimp, use 0x791aa1 to color dark witch costume
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.DARK_WITCH_HAT, true,
-                new ImmutablePair<>(RISUNIUM, 89), new ImmutablePair<>(Aspect.MAGIC, 15),
-                new ImmutablePair<>(Aspect.LIGHT, 64), new ImmutablePair<>(Aspect.DARKNESS, 64),
-                new ImmutablePair<>(Aspect.CRAFT, 18), new ImmutablePair<>(Aspect.FLUX, 6)
+                new AspectPair(RISUNIUM, 89), new AspectPair(Aspect.MAGIC, 15),
+                new AspectPair(Aspect.LIGHT, 64), new AspectPair(Aspect.DARKNESS, 64),
+                new AspectPair(Aspect.CRAFT, 18), new AspectPair(Aspect.FLUX, 6)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.DARK_WITCH_ROBE, true,
-                new ImmutablePair<>(RISUNIUM, 140), new ImmutablePair<>(Aspect.MAGIC, 14),
-                new ImmutablePair<>(Aspect.LIFE, 48), new ImmutablePair<>(Aspect.DEATH, 48),
-                new ImmutablePair<>(Aspect.CRAFT, 31), new ImmutablePair<>(Aspect.ELDRITCH, 10)
+                new AspectPair(RISUNIUM, 140), new AspectPair(Aspect.MAGIC, 14),
+                new AspectPair(Aspect.LIFE, 48), new AspectPair(Aspect.DEATH, 48),
+                new AspectPair(Aspect.CRAFT, 31), new AspectPair(Aspect.ELDRITCH, 10)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.DARK_WITCH_SKIRT, true,
-                new ImmutablePair<>(RISUNIUM, 125), new ImmutablePair<>(Aspect.MAGIC, 13),
-                new ImmutablePair<>(Aspect.ORDER, 32), new ImmutablePair<>(Aspect.ENTROPY, 32),
-                new ImmutablePair<>(Aspect.CRAFT, 27), new ImmutablePair<>(Aspect.ELDRITCH, 8)
+                new AspectPair(RISUNIUM, 125), new AspectPair(Aspect.MAGIC, 13),
+                new AspectPair(Aspect.ORDER, 32), new AspectPair(Aspect.ENTROPY, 32),
+                new AspectPair(Aspect.CRAFT, 27), new AspectPair(Aspect.ELDRITCH, 8)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.DARK_WITCH_BOOTS, true,
-                new ImmutablePair<>(RISUNIUM, 78), new ImmutablePair<>(Aspect.MAGIC, 12),
-                new ImmutablePair<>(Aspect.CRAFT, 9), new ImmutablePair<>(Aspect.FLUX, 6)
+                new AspectPair(RISUNIUM, 78), new AspectPair(Aspect.MAGIC, 12),
+                new AspectPair(Aspect.CRAFT, 9), new AspectPair(Aspect.FLUX, 6)
         ));
 
         //---block assignments---
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Block>(
-                SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM, true, new ImmutablePair<>(RISUNIUM, 15)
+                SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM, true, new AspectPair(RISUNIUM, 15)
         ));
 
         //---entity assignments---
@@ -102,15 +102,14 @@ public final class SquirrelWitcheryAspects {
                 aspects = aspects == null ? new AspectList() : aspects.copy();
             }
 
-            for (ImmutablePair<Aspect, Integer> aspectAssignment : itemAspectAssignment.aspects) {
-                aspects.merge(aspectAssignment.getLeft(), aspectAssignment.getRight());
+            for (AspectPair aspectPair : itemAspectAssignment.aspects) {
+                aspects.merge(aspectPair.aspect, aspectPair.amount);
             }
             event.register.registerObjectTag(itemStack, aspects);
         }
     }
 
-    private record AspectAssignment<T> (T object, boolean clearExistingAspects, ImmutablePair<Aspect, Integer>... aspects) {
-        @SafeVarargs
-        public AspectAssignment {}
-    }
+    private record AspectAssignment<T> (T object, boolean clearExistingAspects, AspectPair... aspects) {}
+
+    private record AspectPair(Aspect aspect, int amount) {}
 }

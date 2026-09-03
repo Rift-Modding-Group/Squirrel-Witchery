@@ -16,6 +16,7 @@ public class SquirrelWitcheryItems {
     public static final List<Item> ITEMS = new ArrayList<>();
 
     public static Item NUT;
+    public static Item BIG_NUT;
     public static Item SQUIRREL_FUR;
     public static Item CRYSTALLIZED_SQUIRREL_HEART;
     public static ItemArmor WITCH_HAT;
@@ -33,6 +34,7 @@ public class SquirrelWitcheryItems {
 
     public static void registerItems() {
         NUT = registerItem(new Item(), "nut", true);
+        BIG_NUT = registerItem(new Item(), "big_nut", true);
         SQUIRREL_FUR = registerItem(new Item(), "squirrel_fur", true);
         CRYSTALLIZED_SQUIRREL_HEART = registerItem(new Item(), "crystallized_squirrel_heart", true);
         WITCH_HAT = registerItem(
