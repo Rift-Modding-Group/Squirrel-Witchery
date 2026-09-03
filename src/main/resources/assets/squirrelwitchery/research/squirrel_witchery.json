@@ -67,7 +67,7 @@
       "stages": [
         {
           "text": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.1",
-          "required_knowledge": ["THEORY;SQUIRREL_WITCHERY;1"]
+          "required_knowledge": ["OBSERVATION;SQUIRREL_WITCHERY;1", "THEORY;SQUIRREL_WITCHERY;1"]
         },
         {
           "text": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.2"

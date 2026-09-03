@@ -3,8 +3,12 @@ package anightdazingzoroark.squirrelwitchery.server;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -45,6 +49,7 @@ public class ServerEvents {
         if (pickedUpStack.getItem() == SquirrelWitcheryItems.NUT || pickedUpStack.getItem() == SquirrelWitcheryItems.BIG_NUT) {
             IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
             if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.FOUND_NUT)) {
+                player.sendStatusMessage(new TextComponentString(TextFormatting.DARK_PURPLE + I18n.format("message.found_nuts")), false);
                 knowledge.sync(player);
             }
         }
