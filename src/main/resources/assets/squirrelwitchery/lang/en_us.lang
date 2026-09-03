@@ -2,6 +2,7 @@ entity.squirrel.name=Squirrel
 subtitles.squirrelwitchery.squirrel_ambient=Squirrel chirps
 
 item.nut.name=Nut
+item.big_nut.name=Big Nut
 item.squirrel_fur.name=Squirrel Fur
 item.witch_hat.name=Witch's Hat
 item.witch_robe.name=Witch's Robe

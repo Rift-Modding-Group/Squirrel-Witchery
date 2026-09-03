@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectHelper;
@@ -31,6 +30,7 @@ public final class SquirrelWitcheryAspects {
     public static void assignAspects() {
         //---item assignments---
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.NUT, false, new AspectPair(RISUNIUM, 5)));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.BIG_NUT, false, new AspectPair(RISUNIUM, 35)));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(SquirrelWitcheryItems.SQUIRREL_FUR, false,
                 new AspectPair(RISUNIUM, 10), new AspectPair(Aspect.BEAST, 10)
         ));

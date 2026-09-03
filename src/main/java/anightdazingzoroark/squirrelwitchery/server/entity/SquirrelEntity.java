@@ -4,6 +4,7 @@ import anightdazingzoroark.riftlib.core.IAnimatable;
 import anightdazingzoroark.riftlib.core.controller.AnimationController;
 import anightdazingzoroark.riftlib.core.controller.AnimationControllerState;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataEntity;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraft.entity.EntityAgeable;
@@ -60,7 +61,7 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
         this.tasks.addTask(3, new EntityAIMate(this, 1D));
-        this.tasks.addTask(4, new EntityAITempt(this, 1.2D, false, Set.of(SquirrelWitcheryItems.NUT)));
+        this.tasks.addTask(4, new EntityAITempt(this, 1.2D, false, Set.of(SquirrelWitcheryItems.NUT, SquirrelWitcheryItems.BIG_NUT)));
         this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1D));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6f));
@@ -86,7 +87,7 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem() == SquirrelWitcheryItems.NUT;
+        return stack.getItem() == SquirrelWitcheryItems.NUT || stack.getItem() == SquirrelWitcheryItems.BIG_NUT;
     }
 
     //---shearing stuff---

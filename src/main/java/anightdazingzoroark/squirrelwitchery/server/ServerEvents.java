@@ -5,7 +5,6 @@ import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -24,13 +23,16 @@ public class ServerEvents {
         //leaves must be broken
         if (event.getState().getMaterial() != Material.LEAVES) return;
 
-        //50% chance by default
+        //drop rate for each of the nuts
         Random random = event.getWorld().rand;
-        if (random.nextInt(SquirrelWitcheryConfig.nutDropRate) == 0) return;
-
-        //add nuts to the block's drops
-        int quantity = random.nextInt(SquirrelWitcheryConfig.nutDropQuantity[0], SquirrelWitcheryConfig.nutDropQuantity[1] + 1);
-        event.getDrops().add(new ItemStack(SquirrelWitcheryItems.NUT, quantity));
+        if (random.nextInt(SquirrelWitcheryConfig.nutDropRate) == 0) {
+            int quantity = random.nextInt(SquirrelWitcheryConfig.nutDropQuantity[0], SquirrelWitcheryConfig.nutDropQuantity[1] + 1);
+            event.getDrops().add(new ItemStack(SquirrelWitcheryItems.NUT, quantity));
+        }
+        if (random.nextInt(SquirrelWitcheryConfig.bigNutDropRate) == 0) {
+            int quantity = random.nextInt(SquirrelWitcheryConfig.bigNutDropQuantity[0], SquirrelWitcheryConfig.bigNutDropQuantity[1] + 1);
+            event.getDrops().add(new ItemStack(SquirrelWitcheryItems.BIG_NUT, quantity));
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -40,7 +42,7 @@ public class ServerEvents {
         ItemStack pickedUpStack = event.getItem().getItem();
 
         //unlock research tab after getting a nut
-        if (pickedUpStack.getItem() == SquirrelWitcheryItems.NUT) {
+        if (pickedUpStack.getItem() == SquirrelWitcheryItems.NUT || pickedUpStack.getItem() == SquirrelWitcheryItems.BIG_NUT) {
             IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
             if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.FOUND_NUT)) {
                 knowledge.sync(player);
