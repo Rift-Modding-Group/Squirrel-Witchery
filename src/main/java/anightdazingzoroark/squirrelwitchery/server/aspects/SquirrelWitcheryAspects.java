@@ -74,6 +74,11 @@ public final class SquirrelWitcheryAspects {
                 new AspectPair(RISUNIUM, 78), new AspectPair(Aspect.MAGIC, 12),
                 new AspectPair(Aspect.CRAFT, 9), new AspectPair(Aspect.FLUX, 6)
         ));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
+                SquirrelWitcheryItems.WITCH_BROOM, true,
+                new AspectPair(RISUNIUM, 51), new AspectPair(Aspect.FLIGHT, 46), new AspectPair(Aspect.MAGIC, 23),
+                new AspectPair(Aspect.EARTH, 13)
+        ));
 
         //---block assignments---
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Block>(

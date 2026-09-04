@@ -70,16 +70,6 @@ public class WitchBroomEntity extends EntityLiving implements IAnimatable<Animat
         }
     }
 
-    //temporary, will be replaced w an item automountin to this entity
-    @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if (!player.isRiding()) {
-            this.getNavigator().clearPath();
-            player.startRiding(this, true);
-        }
-        return super.processInteract(player, hand);
-    }
-
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         return super.attackEntityFrom(source, amount);

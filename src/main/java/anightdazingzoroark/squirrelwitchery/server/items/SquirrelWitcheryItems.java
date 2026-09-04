@@ -1,9 +1,16 @@
 package anightdazingzoroark.squirrelwitchery.server.items;
 
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
+import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -70,7 +77,31 @@ public class SquirrelWitcheryItems {
                 new DarkWitchCostume(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.FEET, 8),
                 "dark_witch_boots", true
         );
-        WITCH_BROOM = registerItem(new Item(), "witch_broom", true);
+        WITCH_BROOM = registerItem(
+                new Item() {
+                    @Override
+                    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+                        ItemStack itemstack = playerIn.getHeldItem(handIn);
+
+                        if (!worldIn.isRemote) {
+                            if (playerIn.isRiding()) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+
+                            //summon witch broom
+                            WitchBroomEntity witchBroomEntity = new WitchBroomEntity(worldIn);
+                            witchBroomEntity.setPosition(playerIn.posX, playerIn.posY, playerIn.posZ);
+                            worldIn.spawnEntity(witchBroomEntity);
+                            playerIn.startRiding(witchBroomEntity, true);
+
+                            //remove item
+                            itemstack.shrink(1);
+
+                            return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+                        }
+                        return new ActionResult<>(EnumActionResult.PASS, itemstack);
+                    }
+                }.setMaxStackSize(1),
+                "witch_broom", true
+        );
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

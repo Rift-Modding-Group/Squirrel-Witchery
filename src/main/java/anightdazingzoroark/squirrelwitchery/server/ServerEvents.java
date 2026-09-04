@@ -1,14 +1,17 @@
 package anightdazingzoroark.squirrelwitchery.server;
 
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
+import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -62,6 +65,23 @@ public class ServerEvents {
         IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
         if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.FOUND_NUT)) {
             knowledge.sync(player);
+        }
+    }
+
+    @SubscribeEvent
+    public void onDismount(EntityMountEvent event) {
+        //make sure that, when dismounting from a witch's broom, said witch's broom becomes an item
+        if (event.isMounting() || event.getWorldObj().isRemote) return;
+
+        if (event.getEntityBeingMounted() instanceof WitchBroomEntity witchBroomEntity) {
+            //create item
+            EntityItem entityItem = new EntityItem(event.getWorldObj());
+            entityItem.setItem(new ItemStack(SquirrelWitcheryItems.WITCH_BROOM));
+            entityItem.setPosition(witchBroomEntity.posX, witchBroomEntity.posY, witchBroomEntity.posZ);
+            event.getWorldObj().spawnEntity(entityItem);
+
+            //despawn
+            witchBroomEntity.setDead();
         }
     }
 }
