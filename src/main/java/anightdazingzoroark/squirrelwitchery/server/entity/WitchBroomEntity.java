@@ -4,6 +4,7 @@ import anightdazingzoroark.riftlib.core.IAnimatable;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataEntity;
 import anightdazingzoroark.squirrelwitchery.client.SquirrelWitcheryControls;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
+import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -18,7 +20,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -68,11 +69,34 @@ public class WitchBroomEntity extends EntityLiving implements IAnimatable<Animat
             else if (goingDown) ServerProxy.MESSAGE_WRAPPER.sendToServer(new MessageControlWitchBroom(this, FlightState.DOWN));
             else ServerProxy.MESSAGE_WRAPPER.sendToServer(new MessageControlWitchBroom(this, FlightState.NONE));
         }
+        //other server-only stuff
+        else {
+            if (this.collidedHorizontally && !this.dead) this.convertToItem();
+        }
     }
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         return super.attackEntityFrom(source, amount);
+    }
+
+    @Override
+    protected void doBlockCollisions() {
+        super.doBlockCollisions();
+    }
+
+    //server only, helper for converting back into item
+    public void convertToItem() {
+        if (this.world.isRemote) return;
+
+        //create item
+        EntityItem entityItem = new EntityItem(this.world);
+        entityItem.setItem(new ItemStack(SquirrelWitcheryItems.WITCH_BROOM));
+        entityItem.setPosition(this.posX, this.posY, this.posZ);
+        this.world.spawnEntity(entityItem);
+
+        //despawn
+        this.setDead();
     }
 
     //---ride management---

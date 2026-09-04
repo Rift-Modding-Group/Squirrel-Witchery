@@ -73,15 +73,8 @@ public class ServerEvents {
         //make sure that, when dismounting from a witch's broom, said witch's broom becomes an item
         if (event.isMounting() || event.getWorldObj().isRemote) return;
 
-        if (event.getEntityBeingMounted() instanceof WitchBroomEntity witchBroomEntity) {
-            //create item
-            EntityItem entityItem = new EntityItem(event.getWorldObj());
-            entityItem.setItem(new ItemStack(SquirrelWitcheryItems.WITCH_BROOM));
-            entityItem.setPosition(witchBroomEntity.posX, witchBroomEntity.posY, witchBroomEntity.posZ);
-            event.getWorldObj().spawnEntity(entityItem);
-
-            //despawn
-            witchBroomEntity.setDead();
+        if (event.getEntityBeingMounted() instanceof WitchBroomEntity witchBroomEntity && !witchBroomEntity.isDead) {
+            witchBroomEntity.convertToItem();
         }
     }
 }
