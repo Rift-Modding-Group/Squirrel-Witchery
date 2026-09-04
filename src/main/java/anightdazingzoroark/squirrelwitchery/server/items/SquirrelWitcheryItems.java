@@ -37,6 +37,8 @@ public class SquirrelWitcheryItems {
     public static WitchBroomItem WITCH_BROOM;
     /*
     public static Item WITCH_STAFF;
+    public static Item WITCH_SHOTGUN;
+    public static Item NUT_BOMB;
     public static Item NUTSABER;
      */
 

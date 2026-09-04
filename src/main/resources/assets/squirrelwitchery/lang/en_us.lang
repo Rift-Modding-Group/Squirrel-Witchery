@@ -21,7 +21,8 @@ tile.crystal_risunium.name=Risunium Crystal
 key.categories.squirrel_witchery=Squirrel Witchery
 broom.go_up=Ascend (Witch's Broom)
 broom.go_down=Descend (Witch's Broom)
-broom.risunium_amount=Risunium: %s / %s
+
+risunium_consumer.amount=Risunium: %s / %s
 
 itemGroup.squirrel_witchery=Squirrel Witchery
 
