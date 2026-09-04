@@ -27,6 +27,7 @@ public class SquirrelWitcheryItems {
     public static ItemArmor DARK_WITCH_ROBE;
     public static ItemArmor DARK_WITCH_SKIRT;
     public static ItemArmor DARK_WITCH_BOOTS;
+    public static Item WITCH_BROOM;
     /*
     public static Item WITCH_STAFF;
     public static Item NUTSABER;
@@ -69,6 +70,7 @@ public class SquirrelWitcheryItems {
                 new DarkWitchCostume(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.FEET, 8),
                 "dark_witch_boots", true
         );
+        WITCH_BROOM = registerItem(new Item(), "witch_broom", true);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

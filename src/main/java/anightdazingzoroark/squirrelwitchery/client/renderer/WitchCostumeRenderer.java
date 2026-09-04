@@ -2,19 +2,45 @@ package anightdazingzoroark.squirrelwitchery.client.renderer;
 
 import anightdazingzoroark.riftlib.geo.GeoBone;
 import anightdazingzoroark.riftlib.geo.GeoModel;
+import anightdazingzoroark.riftlib.model.AnimatedGeoModel;
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
-import anightdazingzoroark.squirrelwitchery.client.model.WitchCostumeModel;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.armor.WitchCostumeHolder;
+import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import org.jetbrains.annotations.NotNull;
 import thaumcraft.common.items.casters.ItemCaster;
 
 public class WitchCostumeRenderer extends GeoArmorRenderer<WitchCostumeHolder> {
     public WitchCostumeRenderer() {
-        super(new WitchCostumeModel(), WitchCostumeHolder::new);
+        super(new AnimatedGeoModel<WitchCostumeHolder>() {
+                @Override
+                @NotNull
+                public String getModId() {
+                    return SquirrelWitchery.MODID;
+                }
+
+                @Override
+                public String getModelIdentifier(WitchCostumeHolder witchCostumeHolder) {
+                    return "geometry.witch_costume";
+                }
+
+                @Override
+                public String getTextureLocation(WitchCostumeHolder witchCostumeHolder) {
+                    Item item = witchCostumeHolder.getAnimationData().getStack().getItem();
+                    if (item == SquirrelWitcheryItems.DARK_WITCH_HAT || item == SquirrelWitcheryItems.DARK_WITCH_ROBE
+                            || item == SquirrelWitcheryItems.DARK_WITCH_SKIRT || item == SquirrelWitcheryItems.DARK_WITCH_BOOTS
+                    ) {
+                        return "armor/dark_witch_costume.png";
+                    }
+                    return "armor/witch_costume.png";
+                }
+            },
+            WitchCostumeHolder::new
+        );
         this.setHeadBone("hat");
         this.setBodyBone("robe");
         this.setRightArmBone("rightArm");
