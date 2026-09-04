@@ -17,6 +17,10 @@ message.found_nuts=You feel something simultaneously playful and chaotic from wi
 
 tile.crystal_risunium.name=Risunium Crystal
 
+key.categories.squirrel_witchery=Squirrel Witchery
+broom.go_up=Ascend (Witch's Broom)
+broom.go_down=Descend (Witch's Broom)
+
 itemGroup.squirrel_witchery=Squirrel Witchery
 
 tc.aspect.risunium=Risunium, Squirrels

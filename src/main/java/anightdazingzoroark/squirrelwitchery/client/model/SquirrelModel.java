@@ -23,10 +23,4 @@ public class SquirrelModel extends AnimatedGeoModel<SquirrelEntity> {
         if (squirrelEntity.isSheared()) return "entity/squirrel_sheared.png";
         return "entity/squirrel.png";
     }
-
-    @Override
-    @NotNull
-    public List<String> getAnimationIdentifiers(SquirrelEntity squirrelEntity) {
-        return List.of("animation.squirrel.walk", "animation.squirrel.sheared");
-    }
 }

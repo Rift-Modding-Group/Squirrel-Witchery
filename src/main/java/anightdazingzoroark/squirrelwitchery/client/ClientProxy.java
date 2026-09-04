@@ -2,11 +2,13 @@ package anightdazingzoroark.squirrelwitchery.client;
 
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.SquirrelRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.WitchBroomRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.WitchCostumeRenderer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
+import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -25,6 +27,7 @@ public class ClientProxy extends ServerProxy {
 
         //---entity rendering---
         RenderingRegistry.registerEntityRenderingHandler(SquirrelEntity.class, SquirrelRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WitchBroomEntity.class, WitchBroomRenderer::new);
 
         //---crystal risunium---
         ModelResourceLocation crystalModel = new ModelResourceLocation("thaumcraft:crystal_aer", "normal");
@@ -39,6 +42,9 @@ public class ClientProxy extends ServerProxy {
                 0,
                 new ModelResourceLocation("thaumcraft:crystal_aer", "inventory")
         );
+
+        //---others---
+        SquirrelWitcheryControls.init();
     }
 
     @Override

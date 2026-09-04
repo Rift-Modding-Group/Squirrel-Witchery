@@ -31,10 +31,4 @@ public class WitchCostumeModel extends AnimatedGeoModel<WitchCostumeHolder> {
         }
         return "armor/witch_costume.png";
     }
-
-    @Override
-    @NotNull
-    public List<String> getAnimationIdentifiers(WitchCostumeHolder witchCostumeHolder) {
-        return List.of();
-    }
 }
