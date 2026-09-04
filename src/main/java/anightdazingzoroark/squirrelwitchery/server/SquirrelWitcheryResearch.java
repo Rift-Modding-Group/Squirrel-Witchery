@@ -19,6 +19,7 @@ public final class SquirrelWitcheryResearch {
     public static final String CRYSTAL_RISUNIUM = "SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM";
     public static final String WITCH_COSTUME = "SQUIRREL_WITCHERY_WITCH_COSTUME";
     public static final String DARK_WITCH_COSTUME = "SQUIRREL_WITCHERY_DARK_WITCH_COSTUME";
+    public static final String WITCH_BROOM = "SQUIRREL_WITCHERY_WITCH_BROOM";
 
     public static void registerCategory() {
         ResearchCategories.registerCategory(

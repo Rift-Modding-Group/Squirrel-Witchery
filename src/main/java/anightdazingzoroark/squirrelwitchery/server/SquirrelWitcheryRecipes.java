@@ -19,7 +19,6 @@ import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchEntry;
 
 public class SquirrelWitcheryRecipes {
-    private static final ResourceLocation RISUNIUM_CRYSTAL_RECIPE = new ResourceLocation(SquirrelWitchery.MODID, "crystal_cluster_risunium");
     private static final ResourceLocation WITCH_COSTUME_RECIPE_GROUP = new ResourceLocation(SquirrelWitchery.MODID, "witch_costume");
 
     public static void registerRecipes() {
@@ -30,7 +29,7 @@ public class SquirrelWitcheryRecipes {
                         WITCH_COSTUME_RECIPE_GROUP,
                         SquirrelWitcheryResearch.WITCH_COSTUME + "@1",
                         100,
-                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 3),
                         SquirrelWitcheryItems.WITCH_HAT,
                         "  F",
                         " F ",
@@ -44,7 +43,7 @@ public class SquirrelWitcheryRecipes {
                         WITCH_COSTUME_RECIPE_GROUP,
                         SquirrelWitcheryResearch.WITCH_COSTUME + "@1",
                         100,
-                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 3),
                         SquirrelWitcheryItems.WITCH_ROBE,
                         "F F",
                         "FFF",
@@ -58,7 +57,7 @@ public class SquirrelWitcheryRecipes {
                         WITCH_COSTUME_RECIPE_GROUP,
                         SquirrelWitcheryResearch.WITCH_COSTUME + "@1",
                         100,
-                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 3),
                         SquirrelWitcheryItems.WITCH_SKIRT,
                         "FFF",
                         "F F",
@@ -72,11 +71,26 @@ public class SquirrelWitcheryRecipes {
                         WITCH_COSTUME_RECIPE_GROUP,
                         SquirrelWitcheryResearch.WITCH_COSTUME + "@1",
                         100,
-                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 3),
                         SquirrelWitcheryItems.WITCH_BOOTS,
                         "F F",
                         "F F",
                         'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
+                )
+        );
+        ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "witch_broom"),
+                new ShapedArcaneRecipe(
+                        new ResourceLocation(SquirrelWitchery.MODID, "witch_broom"),
+                        SquirrelWitcheryResearch.WITCH_BROOM + "@1",
+                        50,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1).add(Aspect.AIR, 1),
+                        SquirrelWitcheryItems.WITCH_BROOM,
+                        "  S",
+                        "FS ",
+                        "FF ",
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
+                        'S', new ItemStack(Items.STICK)
                 )
         );
 
@@ -93,7 +107,7 @@ public class SquirrelWitcheryRecipes {
 
         //---infusion stuff---
         ThaumcraftApi.addInfusionCraftingRecipe(
-                RISUNIUM_CRYSTAL_RECIPE,
+                new ResourceLocation(SquirrelWitchery.MODID, "crystal_cluster_risunium"),
                 new InfusionRecipe(
                         "CRYSTALFARMER",
                         new ItemStack(SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM),

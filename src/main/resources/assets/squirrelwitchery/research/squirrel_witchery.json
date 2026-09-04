@@ -159,6 +159,34 @@
           ]
         }
       ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_WITCH_BROOM",
+      "name": "research.SQUIRREL_WITCHERY_WITCH_BROOM.title",
+      "icons": ["squirrelwitchery:witch_broom"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
+      "location": [6, 4],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_BROOM.stage.1",
+          "recipes": [
+            "squirrelwitchery:witch_broom"
+          ],
+          "required_craft": [
+            "squirrelwitchery:witch_broom"
+          ]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_BROOM.stage.2",
+          "recipes": [
+            "squirrelwitchery:witch_broom"
+          ]
+        }
+      ]
     }
   ]
 }
