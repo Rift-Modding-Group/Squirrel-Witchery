@@ -7,8 +7,8 @@ import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
 import net.minecraft.client.renderer.entity.RenderManager;
 import org.jetbrains.annotations.NotNull;
 
-public class SquirrelRenderer extends GeoEntityRenderer<SquirrelEntity> {
-    public SquirrelRenderer(RenderManager renderManager) {
+public class SquirrelEntityRenderer extends GeoEntityRenderer<SquirrelEntity> {
+    public SquirrelEntityRenderer(RenderManager renderManager) {
         super(renderManager, new AnimatedGeoModel<SquirrelEntity>() {
             @Override
             @NotNull

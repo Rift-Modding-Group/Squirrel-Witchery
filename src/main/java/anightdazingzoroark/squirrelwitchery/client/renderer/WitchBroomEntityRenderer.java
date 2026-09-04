@@ -7,8 +7,8 @@ import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import net.minecraft.client.renderer.entity.RenderManager;
 import org.jetbrains.annotations.NotNull;
 
-public class WitchBroomRenderer extends GeoEntityRenderer<WitchBroomEntity> {
-    public WitchBroomRenderer(RenderManager renderManager) {
+public class WitchBroomEntityRenderer extends GeoEntityRenderer<WitchBroomEntity> {
+    public WitchBroomEntityRenderer(RenderManager renderManager) {
         super(renderManager, new AnimatedGeoModel<WitchBroomEntity>() {
             @Override
             @NotNull

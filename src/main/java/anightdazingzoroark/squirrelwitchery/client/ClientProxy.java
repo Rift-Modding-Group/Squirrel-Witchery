@@ -1,8 +1,10 @@
 package anightdazingzoroark.squirrelwitchery.client;
 
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.SquirrelRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.WitchBroomRenderer;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
+import anightdazingzoroark.squirrelwitchery.client.renderer.SquirrelEntityRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.WitchBroomEntityRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.WitchBroomItemRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.WitchCostumeRenderer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
@@ -26,8 +28,11 @@ public class ClientProxy extends ServerProxy {
         super.preInit(e);
 
         //---entity rendering---
-        RenderingRegistry.registerEntityRenderingHandler(SquirrelEntity.class, SquirrelRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(WitchBroomEntity.class, WitchBroomRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(SquirrelEntity.class, SquirrelEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WitchBroomEntity.class, WitchBroomEntityRenderer::new);
+
+        //---item rendering---
+        SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());
 
         //---crystal risunium---
         ModelResourceLocation crystalModel = new ModelResourceLocation("thaumcraft:crystal_aer", "normal");

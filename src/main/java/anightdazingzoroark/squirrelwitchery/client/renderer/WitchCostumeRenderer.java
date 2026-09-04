@@ -1,11 +1,12 @@
 package anightdazingzoroark.squirrelwitchery.client.renderer;
 
+import anightdazingzoroark.riftlib.armor.AnimatedArmorHolder;
+import anightdazingzoroark.riftlib.core.manager.AnimationDataArmor;
 import anightdazingzoroark.riftlib.geo.GeoBone;
 import anightdazingzoroark.riftlib.geo.GeoModel;
 import anightdazingzoroark.riftlib.model.AnimatedGeoModel;
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
-import anightdazingzoroark.squirrelwitchery.server.armor.WitchCostumeHolder;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -14,9 +15,9 @@ import net.minecraft.util.EnumHand;
 import org.jetbrains.annotations.NotNull;
 import thaumcraft.common.items.casters.ItemCaster;
 
-public class WitchCostumeRenderer extends GeoArmorRenderer<WitchCostumeHolder> {
+public class WitchCostumeRenderer extends GeoArmorRenderer<AnimatedArmorHolder> {
     public WitchCostumeRenderer() {
-        super(new AnimatedGeoModel<WitchCostumeHolder>() {
+        super(new AnimatedGeoModel<AnimatedArmorHolder>() {
                 @Override
                 @NotNull
                 public String getModId() {
@@ -24,12 +25,12 @@ public class WitchCostumeRenderer extends GeoArmorRenderer<WitchCostumeHolder> {
                 }
 
                 @Override
-                public String getModelIdentifier(WitchCostumeHolder witchCostumeHolder) {
+                public String getModelIdentifier(AnimatedArmorHolder witchCostumeHolder) {
                     return "geometry.witch_costume";
                 }
 
                 @Override
-                public String getTextureLocation(WitchCostumeHolder witchCostumeHolder) {
+                public String getTextureLocation(AnimatedArmorHolder witchCostumeHolder) {
                     Item item = witchCostumeHolder.getAnimationData().getStack().getItem();
                     if (item == SquirrelWitcheryItems.DARK_WITCH_HAT || item == SquirrelWitcheryItems.DARK_WITCH_ROBE
                             || item == SquirrelWitcheryItems.DARK_WITCH_SKIRT || item == SquirrelWitcheryItems.DARK_WITCH_BOOTS
@@ -39,7 +40,10 @@ public class WitchCostumeRenderer extends GeoArmorRenderer<WitchCostumeHolder> {
                     return "armor/witch_costume.png";
                 }
             },
-            WitchCostumeHolder::new
+            itemStack -> new AnimatedArmorHolder(itemStack) {
+                @Override
+                public void initializeAnimationData(AnimationDataArmor animationDataArmor) {}
+            }
         );
         this.setHeadBone("hat");
         this.setBodyBone("robe");
@@ -51,7 +55,7 @@ public class WitchCostumeRenderer extends GeoArmorRenderer<WitchCostumeHolder> {
     }
 
     @Override
-    public void render(GeoModel model, WitchCostumeHolder animatable, float partialTicks, float red, float green, float blue, float alpha) {
+    public void render(GeoModel model, AnimatedArmorHolder animatable, float partialTicks, float red, float green, float blue, float alpha) {
         if (animatable.getAnimationData().getWearer() != null) {
             EntityLivingBase wearer = animatable.getAnimationData().getWearer();
 
