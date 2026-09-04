@@ -34,7 +34,7 @@ public class SquirrelWitcheryItems {
     public static ItemArmor DARK_WITCH_ROBE;
     public static ItemArmor DARK_WITCH_SKIRT;
     public static ItemArmor DARK_WITCH_BOOTS;
-    public static Item WITCH_BROOM;
+    public static WitchBroomItem WITCH_BROOM;
     /*
     public static Item WITCH_STAFF;
     public static Item NUTSABER;
@@ -46,62 +46,38 @@ public class SquirrelWitcheryItems {
         SQUIRREL_FUR = registerItem(new Item(), "squirrel_fur", true);
         CRYSTALLIZED_SQUIRREL_HEART = registerItem(new Item(), "crystallized_squirrel_heart", true);
         WITCH_HAT = registerItem(
-                new WitchCostume(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.HEAD, 2),
+                new WitchCostumeItem(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.HEAD, 2),
                 "witch_hat", true
         );
         WITCH_ROBE = registerItem(
-                new WitchCostume(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.CHEST, 2),
+                new WitchCostumeItem(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.CHEST, 2),
                 "witch_robe", true
         );
         WITCH_SKIRT = registerItem(
-                new WitchCostume(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.LEGS, 2),
+                new WitchCostumeItem(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.LEGS, 2),
                 "witch_skirt", true
         );
         WITCH_BOOTS = registerItem(
-                new WitchCostume(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.FEET, 2),
+                new WitchCostumeItem(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.FEET, 2),
                 "witch_boots", true
         );
         DARK_WITCH_HAT = registerItem(
-                new DarkWitchCostume(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.HEAD, 8),
+                new DarkWitchCostumeItem(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.HEAD, 8),
                 "dark_witch_hat", true
         );
         DARK_WITCH_ROBE = registerItem(
-                new DarkWitchCostume(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.CHEST, 8),
+                new DarkWitchCostumeItem(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.CHEST, 8),
                 "dark_witch_robe", true
         );
         DARK_WITCH_SKIRT = registerItem(
-                new DarkWitchCostume(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.LEGS, 8),
+                new DarkWitchCostumeItem(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.LEGS, 8),
                 "dark_witch_skirt", true
         );
         DARK_WITCH_BOOTS = registerItem(
-                new DarkWitchCostume(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.FEET, 8),
+                new DarkWitchCostumeItem(ThaumcraftMaterials.ARMORMAT_VOIDROBE, 0, EntityEquipmentSlot.FEET, 8),
                 "dark_witch_boots", true
         );
-        WITCH_BROOM = registerItem(
-                new Item() {
-                    @Override
-                    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-                        ItemStack itemstack = playerIn.getHeldItem(handIn);
-
-                        if (!worldIn.isRemote) {
-                            if (playerIn.isRiding()) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
-
-                            //summon witch broom
-                            WitchBroomEntity witchBroomEntity = new WitchBroomEntity(worldIn);
-                            witchBroomEntity.setPosition(playerIn.posX, playerIn.posY, playerIn.posZ);
-                            worldIn.spawnEntity(witchBroomEntity);
-                            playerIn.startRiding(witchBroomEntity, true);
-
-                            //remove item
-                            itemstack.shrink(1);
-
-                            return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
-                        }
-                        return new ActionResult<>(EnumActionResult.PASS, itemstack);
-                    }
-                }.setMaxStackSize(1),
-                "witch_broom", true
-        );
+        WITCH_BROOM = registerItem(new WitchBroomItem(), "witch_broom", true);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

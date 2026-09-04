@@ -6,8 +6,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.items.IWarpingGear;
 
-public class DarkWitchCostume extends WitchCostume implements IWarpingGear {
-    public DarkWitchCostume(ItemArmor.ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, int visDiscount) {
+public class DarkWitchCostumeItem extends WitchCostumeItem implements IWarpingGear {
+    public DarkWitchCostumeItem(ItemArmor.ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, int visDiscount) {
         super(materialIn, renderIndexIn, equipmentSlotIn, visDiscount);
     }
 

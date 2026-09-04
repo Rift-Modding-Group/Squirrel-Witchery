@@ -5,6 +5,7 @@ import anightdazingzoroark.riftlib.core.manager.AnimationDataEntity;
 import anightdazingzoroark.squirrelwitchery.client.SquirrelWitcheryControls;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import anightdazingzoroark.squirrelwitchery.server.items.WitchBroomItem;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -16,6 +17,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -28,11 +30,16 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * note to self: use /give @p thaumcraft:jar_normal 1 0 {Aspects:[{key:"risunium",amount:250}],AspectFilter:"risunium"}
+ * to get risunium jar for testing
+ * */
 public class WitchBroomEntity extends EntityLiving implements IAnimatable<AnimationDataEntity> {
     @NotNull
     private final AnimationDataEntity animData = new AnimationDataEntity(this, entity -> 1.25f);
     private static final DataParameter<Boolean> GOING_UP = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> GOING_DOWN = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> RISUNIUM = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.VARINT);
 
     public WitchBroomEntity(World worldIn) {
         super(worldIn);
@@ -44,6 +51,7 @@ public class WitchBroomEntity extends EntityLiving implements IAnimatable<Animat
         super.entityInit();
         this.dataManager.register(GOING_UP, false);
         this.dataManager.register(GOING_DOWN, false);
+        this.dataManager.register(RISUNIUM, 0);
     }
 
     protected void applyEntityAttributes() {
@@ -71,13 +79,34 @@ public class WitchBroomEntity extends EntityLiving implements IAnimatable<Animat
         }
         //other server-only stuff
         else {
+            //count down risunium use when being ridden (as good as every second)
+            if (this.ticksExisted % 20 == 0 && this.ticksExisted > 0 && this.isBeingRidden()) {
+                this.setRisuniumAmount(this.getRisuniumAmount() - 1);
+            }
+
+            //convert to item upon runnin out of risunium
+            if (this.getRisuniumAmount() == 0 && !this.dead) this.convertToItem();
+
+            //convert to item upon colliding
             if (this.collidedHorizontally && !this.dead) this.convertToItem();
         }
     }
 
     @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        compound.setInteger("Risunium", this.getRisuniumAmount());
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        this.setRisuniumAmount(compound.getInteger("Risunium"));
+    }
+
+    @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        return super.attackEntityFrom(source, amount);
+        return true;
     }
 
     @Override
@@ -90,9 +119,9 @@ public class WitchBroomEntity extends EntityLiving implements IAnimatable<Animat
         if (this.world.isRemote) return;
 
         //create item
-        EntityItem entityItem = new EntityItem(this.world);
-        entityItem.setItem(new ItemStack(SquirrelWitcheryItems.WITCH_BROOM));
-        entityItem.setPosition(this.posX, this.posY, this.posZ);
+        ItemStack stack = new ItemStack(SquirrelWitcheryItems.WITCH_BROOM);
+        SquirrelWitcheryItems.WITCH_BROOM.setRisuniumAmount(stack, this.getRisuniumAmount());
+        EntityItem entityItem = new EntityItem(this.world, this.posX, this.posY, this.posZ, stack);
         this.world.spawnEntity(entityItem);
 
         //despawn
@@ -171,6 +200,15 @@ public class WitchBroomEntity extends EntityLiving implements IAnimatable<Animat
 
     public void setGoingDown(boolean value) {
         this.dataManager.set(GOING_DOWN, value);
+    }
+
+    //---risunium management---
+    public int getRisuniumAmount() {
+        return this.dataManager.get(RISUNIUM);
+    }
+
+    public void setRisuniumAmount(int value) {
+        this.dataManager.set(RISUNIUM, Math.clamp(value, 0, WitchBroomItem.MAX_RISUNIUM));
     }
 
     //---anim stuff---
