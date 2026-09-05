@@ -16,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -47,6 +48,9 @@ public class ClientProxy extends ServerProxy {
                 0,
                 new ModelResourceLocation("thaumcraft:crystal_aer", "inventory")
         );
+
+        //---events---
+        MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryOverlay());
 
         //---others---
         SquirrelWitcheryControls.init();
