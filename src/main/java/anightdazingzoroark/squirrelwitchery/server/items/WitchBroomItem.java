@@ -20,8 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class WitchBroomItem extends Item implements IRisuniumConsumer {
-    public static final int MAX_RISUNIUM = 250;
-
     public WitchBroomItem() {
         super();
         this.setMaxStackSize(1);
@@ -85,28 +83,5 @@ public class WitchBroomItem extends Item implements IRisuniumConsumer {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
         tooltip.add(this.stringForDisplayAmount(stack));
-    }
-
-    //---risunium storage management---
-    @Override
-    public int getRisuniumAmount(@NotNull ItemStack stack) {
-        if (!stack.hasTagCompound() || stack.getTagCompound() == null) return 0;
-        return stack.getTagCompound().getInteger("Risunium");
-    }
-
-    @Override
-    public void setRisuniumAmount(@NotNull ItemStack stack, int amount) {
-        NBTTagCompound tag = stack.getTagCompound();
-        if (tag == null) {
-            tag = new NBTTagCompound();
-            stack.setTagCompound(tag);
-        }
-
-        tag.setInteger("Risunium", Math.clamp(amount, 0, MAX_RISUNIUM));
-    }
-
-    @Override
-    public int getMaxRisunium() {
-        return MAX_RISUNIUM;
     }
 }

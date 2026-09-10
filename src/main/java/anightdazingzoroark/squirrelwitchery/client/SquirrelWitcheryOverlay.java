@@ -123,14 +123,14 @@ public class SquirrelWitcheryOverlay {
 
     private int[] getRisuniumAmntAndMax(@NotNull EntityPlayer player) {
         if (player.getRidingEntity() instanceof WitchBroomEntity broom) {
-            return new int[]{broom.getRisuniumAmount(), WitchBroomItem.MAX_RISUNIUM};
+            return new int[]{broom.getRisuniumAmount(), IRisuniumConsumer.MAX_RISUNIUM};
         }
         else {
             ItemStack stack = player.getHeldItemMainhand();
             if (!(stack.getItem() instanceof IRisuniumConsumer)) stack = player.getHeldItemOffhand();
             if (!(stack.getItem() instanceof IRisuniumConsumer consumer)) return new int[]{-1, -1};
 
-            return new int[]{consumer.getRisuniumAmount(stack), consumer.getMaxRisunium()};
+            return new int[]{consumer.getRisuniumAmount(stack), IRisuniumConsumer.MAX_RISUNIUM};
         }
     }
 }

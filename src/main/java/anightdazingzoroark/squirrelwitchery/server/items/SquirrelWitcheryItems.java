@@ -80,7 +80,7 @@ public class SquirrelWitcheryItems {
                 "dark_witch_boots", true
         );
         WITCH_BROOM = registerItem(new WitchBroomItem(), "witch_broom", true);
-        WITCH_STAFF = registerItem(new Item().setMaxStackSize(1), "witch_staff", true);
+        WITCH_STAFF = registerItem(new WitchStaffItem(), "witch_staff", true);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

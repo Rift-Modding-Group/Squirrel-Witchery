@@ -5,6 +5,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +20,8 @@ import thaumcraft.common.tiles.essentia.TileJarFillable;
  * implement on any item that requires risunium to function
  * */
 public interface IRisuniumConsumer {
+    int MAX_RISUNIUM = 250;
+
     //helper for getting risunium from jar block in world by interacting w it
     default boolean getRisuniumFromJarBlock(EntityPlayer player, World world, BlockPos pos, EnumHand hand) {
         ItemStack broom = player.getHeldItem(hand);
@@ -28,7 +31,7 @@ public interface IRisuniumConsumer {
         if (!(world.getTileEntity(pos) instanceof TileJarFillable jar)) return false;
 
         int current = this.getRisuniumAmount(broom);
-        int needed = this.getMaxRisunium() - current;
+        int needed = MAX_RISUNIUM - current;
 
         if (needed <= 0) return false;
 
@@ -58,9 +61,9 @@ public interface IRisuniumConsumer {
         if (world.isRemote) return false;
 
         int current = this.getRisuniumAmount(broom);
-        if (current > this.getMaxRisunium()) return false;
+        if (current > MAX_RISUNIUM) return false;
 
-        int needed = this.getMaxRisunium() - current;
+        int needed = MAX_RISUNIUM - current;
         if (needed <= 0) return false;
 
         //search in player inventory for warded jars w risunium inside
@@ -94,12 +97,21 @@ public interface IRisuniumConsumer {
     //helper for showin risunium amount in tooltips
     @NotNull
     default String stringForDisplayAmount(@NotNull ItemStack stack) {
-        return TextFormatting.LIGHT_PURPLE + I18n.format("risunium_consumer.amount", this.getRisuniumAmount(stack), this.getMaxRisunium());
+        return TextFormatting.LIGHT_PURPLE + I18n.format("risunium_consumer.amount", this.getRisuniumAmount(stack), MAX_RISUNIUM);
     }
 
-    int getRisuniumAmount(@NotNull ItemStack stack);
+    default int getRisuniumAmount(@NotNull ItemStack stack) {
+        if (!stack.hasTagCompound() || stack.getTagCompound() == null) return 0;
+        return stack.getTagCompound().getInteger("Risunium");
+    }
 
-    void setRisuniumAmount(@NotNull ItemStack stack, int amount);
+    default void setRisuniumAmount(@NotNull ItemStack stack, int amount) {
+        NBTTagCompound tag = stack.getTagCompound();
+        if (tag == null) {
+            tag = new NBTTagCompound();
+            stack.setTagCompound(tag);
+        }
 
-    int getMaxRisunium();
+        tag.setInteger("Risunium", Math.clamp(amount, 0, MAX_RISUNIUM));
+    }
 }
