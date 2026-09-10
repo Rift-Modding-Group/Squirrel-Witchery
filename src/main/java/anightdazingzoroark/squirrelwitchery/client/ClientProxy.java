@@ -1,11 +1,11 @@
 package anightdazingzoroark.squirrelwitchery.client;
 
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
-import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
-import anightdazingzoroark.squirrelwitchery.client.renderer.SquirrelEntityRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.WitchBroomEntityRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.WitchBroomItemRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.WitchCostumeRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntityRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.entity.WitchBroomEntityRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchBroomItemRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.armor.WitchCostumeRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchStaffItemRenderer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
@@ -34,6 +34,7 @@ public class ClientProxy extends ServerProxy {
 
         //---item rendering---
         SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());
+        SquirrelWitcheryItems.WITCH_STAFF.setTileEntityItemStackRenderer(new WitchStaffItemRenderer());
 
         //---crystal risunium---
         ModelResourceLocation crystalModel = new ModelResourceLocation("thaumcraft:crystal_aer", "normal");

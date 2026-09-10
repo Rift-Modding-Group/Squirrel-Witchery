@@ -1,4 +1,4 @@
-package anightdazingzoroark.squirrelwitchery.client.renderer;
+package anightdazingzoroark.squirrelwitchery.client.renderer.armor;
 
 import anightdazingzoroark.riftlib.armor.AnimatedArmorHolder;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataArmor;

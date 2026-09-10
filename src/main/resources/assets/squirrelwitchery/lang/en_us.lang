@@ -13,8 +13,9 @@ item.dark_witch_robe.name=Dark Witch's Robe
 item.dark_witch_skirt.name=Dark Witch's Skirt
 item.dark_witch_boots.name=Dark Witch's Boots
 item.witch_broom.name=Witch's Broom
+item.witch_staff.name=Witch's Staff
 
-message.found_nuts=You feel something simultaneously playful and chaotic from within this nut.
+message.found_nuts=You feel something simultaneously playful and chaotic emanate from within this nut.
 
 tile.crystal_risunium.name=Risunium Crystal
 

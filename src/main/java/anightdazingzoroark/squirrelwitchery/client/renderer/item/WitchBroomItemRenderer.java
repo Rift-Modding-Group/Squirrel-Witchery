@@ -1,4 +1,4 @@
-package anightdazingzoroark.squirrelwitchery.client.renderer;
+package anightdazingzoroark.squirrelwitchery.client.renderer.item;
 
 import anightdazingzoroark.riftlib.core.manager.AnimationDataItemStack;
 import anightdazingzoroark.riftlib.item.AnimatedItemStackHolder;

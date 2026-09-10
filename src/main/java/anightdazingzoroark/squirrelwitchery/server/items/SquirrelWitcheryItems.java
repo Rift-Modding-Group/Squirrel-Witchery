@@ -35,8 +35,8 @@ public class SquirrelWitcheryItems {
     public static ItemArmor DARK_WITCH_SKIRT;
     public static ItemArmor DARK_WITCH_BOOTS;
     public static WitchBroomItem WITCH_BROOM;
-    /*
     public static Item WITCH_STAFF;
+    /*
     public static Item WITCH_SHOTGUN;
     public static Item NUT_BOMB;
     public static Item NUTSABER;
@@ -80,6 +80,7 @@ public class SquirrelWitcheryItems {
                 "dark_witch_boots", true
         );
         WITCH_BROOM = registerItem(new WitchBroomItem(), "witch_broom", true);
+        WITCH_STAFF = registerItem(new Item().setMaxStackSize(1), "witch_staff", true);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

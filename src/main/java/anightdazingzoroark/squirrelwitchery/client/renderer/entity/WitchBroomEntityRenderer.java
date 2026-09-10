@@ -1,4 +1,4 @@
-package anightdazingzoroark.squirrelwitchery.client.renderer;
+package anightdazingzoroark.squirrelwitchery.client.renderer.entity;
 
 import anightdazingzoroark.riftlib.model.AnimatedGeoModel;
 import anightdazingzoroark.riftlib.renderers.geo.GeoEntityRenderer;
