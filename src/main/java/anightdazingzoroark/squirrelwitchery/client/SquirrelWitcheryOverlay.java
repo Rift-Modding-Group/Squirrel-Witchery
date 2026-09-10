@@ -3,9 +3,11 @@ package anightdazingzoroark.squirrelwitchery.client;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.IRisuniumConsumer;
+import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.items.WitchBroomItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -34,11 +36,15 @@ public class SquirrelWitcheryOverlay {
 
         int risuniumColor = SquirrelWitcheryAspects.RISUNIUM.getColor();
 
-        GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
 
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.tryBlendFuncSeparate(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO
+        );
 
         GlStateManager.disableLighting();
         GlStateManager.color(1f, 1f, 1f, 1f);
@@ -61,6 +67,27 @@ public class SquirrelWitcheryOverlay {
 
         //-----risunium icon----
         UtilsFX.drawTag(8, 8, SquirrelWitcheryAspects.RISUNIUM);
+
+        //-----broom item-----
+        if (player.getRidingEntity() instanceof WitchBroomEntity) {
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0f, 0f, 90f);
+            RenderHelper.enableGUIStandardItemLighting();
+            GlStateManager.enableRescaleNormal();
+            minecraft.getRenderItem().renderItemIntoGUI(new ItemStack(SquirrelWitcheryItems.WITCH_BROOM), 8, 8);
+            RenderHelper.disableStandardItemLighting();
+            GlStateManager.disableRescaleNormal();
+            GlStateManager.enableAlpha();
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                    GlStateManager.SourceFactor.ONE,
+                    GlStateManager.DestFactor.ZERO
+            );
+            GlStateManager.color(1f, 1f, 1f, 1f);
+            GlStateManager.popMatrix();
+        }
 
         //-----risunium meter-----
         minecraft.getTextureManager().bindTexture(HUD_TEXTURE);
@@ -92,7 +119,6 @@ public class SquirrelWitcheryOverlay {
         GlStateManager.color(1f, 1f, 1f, 1f);
 
         GlStateManager.popMatrix();
-        GlStateManager.popAttrib();
     }
 
     private int[] getRisuniumAmntAndMax(@NotNull EntityPlayer player) {
