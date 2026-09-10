@@ -16,6 +16,7 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.ResearchEvent;
@@ -51,8 +52,14 @@ public class ServerEvents {
         //unlock research tab after getting a nut
         if (pickedUpStack.getItem() == SquirrelWitcheryItems.NUT || pickedUpStack.getItem() == SquirrelWitcheryItems.BIG_NUT) {
             IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
-            if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.FOUND_NUT)) {
+            if (knowledge == null) return;
+
+            boolean nutsCompleted = ThaumcraftApi.internalMethods.completeResearch(player, SquirrelWitcheryResearch.NUTS);
+            boolean risuniumStudiesUnlocked = knowledge.addResearch(SquirrelWitcheryResearch.RISUNIUM_DISCOVERED);
+            if (nutsCompleted) {
                 player.sendStatusMessage(new TextComponentString(TextFormatting.DARK_PURPLE + I18n.format("message.found_nuts")), false);
+            }
+            if (nutsCompleted || risuniumStudiesUnlocked) {
                 knowledge.sync(player);
             }
         }
@@ -60,10 +67,11 @@ public class ServerEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onSquirrelScanned(ResearchEvent.Research event) {
-        if (!"!squirrel".equals(event.getResearchKey()) || !(event.getPlayer() instanceof EntityPlayerMP player)) return;
+        if (!SquirrelWitcheryResearch.SQUIRREL.equals(event.getResearchKey())
+                || !(event.getPlayer() instanceof EntityPlayerMP player)) return;
 
         IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
-        if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.FOUND_NUT)) {
+        if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.RISUNIUM_DISCOVERED)) {
             knowledge.sync(player);
         }
     }

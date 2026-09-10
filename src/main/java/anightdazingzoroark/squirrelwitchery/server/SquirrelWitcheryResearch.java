@@ -13,17 +13,19 @@ import thaumcraft.api.research.theorycraft.TheorycraftManager;
 
 public final class SquirrelWitcheryResearch {
     public static final String CATEGORY = "SQUIRREL_WITCHERY";
-    public static final String FOUND_NUT = "SQUIRREL_WITCHERY_FOUND_NUT";
-    public static final String VIS_CRYSTAL_RISUNIUM = "SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM";
-    public static final String RISUNIC_STUDIES = "SQUIRREL_WITCHERY_RISUNIC_STUDIES";
-    public static final String CRYSTAL_RISUNIUM = "SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM";
+    public static final String SQUIRREL = "!squirrel";
+    public static final String NUTS = "SQUIRREL_WITCHERY_NUTS";
+    public static final String RISUNIUM_DISCOVERED = "SQUIRREL_WITCHERY_RISUNIUM_DISCOVERED";
+    public static final String RISUNIC_AUROMANCY = "SQUIRREL_WITCHERY_RISUNIC_AUROMANCY";
+    public static final String RISUNIC_ARTIFICE = "SQUIRREL_WITCHERY_RISUNIC_ARTIFICE";
+    public static final String RISUNIC_INFUSION = "SQUIRREL_WITCHERY_RISUNIC_INFUSION";
     public static final String WITCH_COSTUME = "SQUIRREL_WITCHERY_WITCH_COSTUME";
     public static final String DARK_WITCH_COSTUME = "SQUIRREL_WITCHERY_DARK_WITCH_COSTUME";
     public static final String WITCH_BROOM = "SQUIRREL_WITCHERY_WITCH_BROOM";
 
     public static void registerCategory() {
         ResearchCategories.registerCategory(
-                CATEGORY, FOUND_NUT,
+                CATEGORY, RISUNIUM_DISCOVERED,
                 new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 15),
                 new ResourceLocation(SquirrelWitchery.MODID, "textures/items/witch_hat.png"),
                 new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_1.jpg"),

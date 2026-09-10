@@ -84,9 +84,7 @@ public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
         ItemFocus focus = this.getFocus(stack);
         if (focus != null && focusStack != null && !focusStack.isEmpty()) {
             int risuniumCost = (int) Math.ceil(focus.getVisCost(focusStack));
-            tooltip.add(TextFormatting.ITALIC + "" + TextFormatting.LIGHT_PURPLE + I18n.format(
-                    "risunium_consumer.cost", risuniumCost
-            ));
+            tooltip.add(TextFormatting.ITALIC + "" + TextFormatting.LIGHT_PURPLE + I18n.format("risunium_consumer.cost", risuniumCost));
             tooltip.add(
                     TextFormatting.BOLD + "" + TextFormatting.ITALIC + "" + TextFormatting.GREEN + focus.getItemStackDisplayName(focusStack)
             );

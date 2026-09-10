@@ -42,7 +42,5 @@ public class ServerProxy {
         SquirrelWitcheryRecipes.registerRecipes();
     }
 
-    public void postInit(FMLPostInitializationEvent e) {
-        SquirrelWitcheryRecipes.configureResearch();
-    }
+    public void postInit(FMLPostInitializationEvent e) {}
 }

@@ -12,7 +12,7 @@ public class CardSquirrelFieldNotes extends TheorycraftCard {
 
     @Override
     public boolean initialize(EntityPlayer player, ResearchTableData data) {
-        return ThaumcraftCapabilities.knowsResearchStrict(player, SquirrelWitcheryResearch.VIS_CRYSTAL_RISUNIUM);
+        return ThaumcraftCapabilities.knowsResearchStrict(player, SquirrelWitcheryResearch.RISUNIUM_DISCOVERED);
     }
 
     @Override

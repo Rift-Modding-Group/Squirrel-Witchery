@@ -20,9 +20,7 @@
       "name": "research.SQUIRREL_WITCHERY_NUTS.title",
       "icons": ["squirrelwitchery:nut"],
       "category": "SQUIRREL_WITCHERY",
-      "parents": ["~SQUIRREL_WITCHERY_FOUND_NUT"],
-      "siblings": ["~SQUIRREL_WITCHERY_FOUND_NUT"],
-      "location": [0, 0],
+      "location": [-2, 2],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],
@@ -33,34 +31,12 @@
       ]
     },
     {
-      "key": "SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM",
-      "name": "research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.title",
-      "icons": ["thaumcraft:crystal_essence;1;0;{Aspects:[{amount:1,key:'risunium'}]}"],
-      "category": "SQUIRREL_WITCHERY",
-      "parents": ["SQUIRREL_WITCHERY_NUTS", "~BASEALCHEMY"],
-      "location": [2, 0],
-      "meta": ["ROUND", "HIDDEN"],
-      "reward_item": [],
-      "reward_knowledge": [],
-      "stages": [
-        {
-          "text": "research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.1",
-          "recipes": ["squirrelwitchery:vis_crystal_risunium"],
-          "required_craft": ["thaumcraft:crystal_essence;1;0;{Aspects:[{amount:1,key:'risunium'}]}"]
-        },
-        {
-          "text": "research.SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM.stage.2",
-          "recipes": ["squirrelwitchery:vis_crystal_risunium"]
-        }
-      ]
-    },
-    {
       "key": "SQUIRREL_WITCHERY_RISUNIC_STUDIES",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.title",
       "icons": ["squirrelwitchery:squirrel_fur"],
       "category": "SQUIRREL_WITCHERY",
-      "parents": ["SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM"],
-      "location": [4, 2],
+      "parents": ["~SQUIRREL_WITCHERY_RISUNIUM_DISCOVERED", "~BASEALCHEMY"],
+      "location": [0, 0],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],
@@ -70,29 +46,8 @@
           "required_knowledge": ["OBSERVATION;SQUIRREL_WITCHERY;1", "THEORY;SQUIRREL_WITCHERY;1"]
         },
         {
-          "text": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.2"
-        }
-      ]
-    },
-    {
-      "key": "SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM",
-      "name": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.title",
-      "icons": ["squirrelwitchery:crystal_risunium"],
-      "category": "SQUIRREL_WITCHERY",
-      "parents": ["SQUIRREL_WITCHERY_VIS_CRYSTAL_RISUNIUM", "~CRYSTALFARMER"],
-      "location": [4, 0],
-      "meta": ["ROUND", "HIDDEN"],
-      "reward_item": [],
-      "reward_knowledge": [],
-      "stages": [
-        {
-          "text": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.1",
-          "recipes": ["squirrelwitchery:crystal_cluster_risunium"],
-          "required_craft": ["squirrelwitchery:crystal_risunium"]
-        },
-        {
-          "text": "research.SQUIRREL_WITCHERY_CRYSTAL_RISUNIUM.stage.2",
-          "recipes": ["squirrelwitchery:crystal_cluster_risunium"]
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.2",
+          "recipes": ["squirrelwitchery:vis_crystal_risunium"]
         }
       ]
     },
@@ -102,7 +57,7 @@
       "icons": ["squirrelwitchery:witch_robe"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
-      "location": [6, 2],
+      "location": [3, -1],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],
@@ -134,39 +89,12 @@
       ]
     },
     {
-      "key": "SQUIRREL_WITCHERY_DARK_WITCH_COSTUME",
-      "name": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.title",
-      "icons": ["squirrelwitchery:dark_witch_hat"],
-      "category": "SQUIRREL_WITCHERY",
-      "parents": ["SQUIRREL_WITCHERY_WITCH_COSTUME", "~VOIDROBEARMOR"],
-      "location": [8, 2],
-      "meta": ["ROUND", "HIDDEN"],
-      "reward_item": [],
-      "reward_knowledge": [],
-      "stages": [
-        {
-          "text": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.1",
-          "required_knowledge": ["OBSERVATION;ELDRITCH;2", "THEORY;ELDRITCH;2", "THEORY;SQUIRREL_WITCHERY;2"],
-          "warp": 1
-        },
-        {
-          "text": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.2",
-          "recipes": [
-            "squirrelwitchery:dark_witch_hat",
-            "squirrelwitchery:dark_witch_robe",
-            "squirrelwitchery:dark_witch_skirt",
-            "squirrelwitchery:dark_witch_boots"
-          ]
-        }
-      ]
-    },
-    {
       "key": "SQUIRREL_WITCHERY_WITCH_BROOM",
       "name": "research.SQUIRREL_WITCHERY_WITCH_BROOM.title",
       "icons": ["squirrelwitchery:witch_broom"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
-      "location": [6, 4],
+      "location": [5, -1],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],
@@ -185,6 +113,26 @@
           "recipes": [
             "squirrelwitchery:witch_broom"
           ]
+        }
+      ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_RISUNIC_AUROMANCY",
+      "name": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.title",
+      "icons": ["squirrelwitchery:squirrel_fur"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEAUROMANCY"],
+      "location": [1, 2],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.1",
+          "required_knowledge": ["THEORY;AUROMANCY;1", "THEORY;SQUIRREL_WITCHERY;2"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.2"
         }
       ]
     }

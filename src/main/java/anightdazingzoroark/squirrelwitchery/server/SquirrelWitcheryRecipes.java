@@ -206,15 +206,4 @@ public class SquirrelWitcheryRecipes {
                 )
         );
     }
-
-    public static void configureResearch() {
-        //manually set Risunium vis crystal research icons here, doesn't work in json
-        ResearchEntry visCrystalRisunium = ResearchCategories.getResearch(SquirrelWitcheryResearch.VIS_CRYSTAL_RISUNIUM);
-        if (visCrystalRisunium == null) {
-            SquirrelWitchery.LOGGER.warn("Unable to set the Risunium vis crystal research icon");
-        }
-        else {
-            visCrystalRisunium.setIcons(new Object[]{ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM)});
-        }
-    }
 }
