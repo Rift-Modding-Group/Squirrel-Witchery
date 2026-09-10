@@ -4,7 +4,7 @@ import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspec
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.IRisuniumConsumer;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
-import anightdazingzoroark.squirrelwitchery.server.items.WitchBroomItem;
+import anightdazingzoroark.squirrelwitchery.server.items.WitchStaffItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -50,9 +50,12 @@ public class SquirrelWitcheryOverlay {
         GlStateManager.color(1f, 1f, 1f, 1f);
 
         //---position this hud element---
-        boolean holdingCaster = player.getHeldItemMainhand().getItem() instanceof ICaster || player.getHeldItemOffhand().getItem() instanceof ICaster;
+        ItemStack mainHandStack = player.getHeldItemMainhand();
+        ItemStack offHandStack = player.getHeldItemOffhand();
+        boolean holdingVisCaster = mainHandStack.getItem() instanceof ICaster && !(mainHandStack.getItem() instanceof WitchStaffItem)
+                || offHandStack.getItem() instanceof ICaster && !(offHandStack.getItem() instanceof WitchStaffItem);
         GlStateManager.translate(
-                holdingCaster ? 40 : 0,
+                holdingVisCaster ? 40 : 0,
                 ModConfig.CONFIG_GRAPHICS.dialBottom ? event.getResolution().getScaledHeight() - 32 : 0,
                 0f
         );
@@ -68,25 +71,21 @@ public class SquirrelWitcheryOverlay {
         //-----risunium icon----
         UtilsFX.drawTag(8, 8, SquirrelWitcheryAspects.RISUNIUM);
 
+        //-----equipped focus-----
+        ItemStack staffStack = ItemStack.EMPTY;
+        if (mainHandStack.getItem() instanceof WitchStaffItem) staffStack = mainHandStack;
+        else if (offHandStack.getItem() instanceof WitchStaffItem) staffStack = offHandStack;
+
+        if (!staffStack.isEmpty() && staffStack.getItem() instanceof WitchStaffItem staff) {
+            ItemStack focusStack = staff.getFocusStack(staffStack);
+            if (focusStack != null && !focusStack.isEmpty()) {
+                this.renderItem(minecraft, focusStack, 8, 8);
+            }
+        }
+
         //-----broom item-----
         if (player.getRidingEntity() instanceof WitchBroomEntity) {
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(0f, 0f, 90f);
-            RenderHelper.enableGUIStandardItemLighting();
-            GlStateManager.enableRescaleNormal();
-            minecraft.getRenderItem().renderItemIntoGUI(new ItemStack(SquirrelWitcheryItems.WITCH_BROOM), 8, 8);
-            RenderHelper.disableStandardItemLighting();
-            GlStateManager.disableRescaleNormal();
-            GlStateManager.enableAlpha();
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA,
-                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE,
-                    GlStateManager.DestFactor.ZERO
-            );
-            GlStateManager.color(1f, 1f, 1f, 1f);
-            GlStateManager.popMatrix();
+            this.renderItem(minecraft, new ItemStack(SquirrelWitcheryItems.WITCH_BROOM), 8, 8);
         }
 
         //-----risunium meter-----
@@ -118,6 +117,26 @@ public class SquirrelWitcheryOverlay {
 
         GlStateManager.color(1f, 1f, 1f, 1f);
 
+        GlStateManager.popMatrix();
+    }
+
+    private void renderItem(Minecraft minecraft, ItemStack stack, int x, int y) {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0f, 0f, 90f);
+        RenderHelper.enableGUIStandardItemLighting();
+        GlStateManager.enableRescaleNormal();
+        minecraft.getRenderItem().renderItemAndEffectIntoGUI(stack, x, y);
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO
+        );
+        GlStateManager.color(1f, 1f, 1f, 1f);
         GlStateManager.popMatrix();
     }
 

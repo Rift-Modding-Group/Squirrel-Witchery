@@ -24,6 +24,7 @@ broom.go_up=Ascend (Witch's Broom)
 broom.go_down=Descend (Witch's Broom)
 
 risunium_consumer.amount=Risunium: %s / %s
+risunium_consumer.cost=Risunium Cost: %s
 
 itemGroup.squirrel_witchery=Squirrel Witchery
 

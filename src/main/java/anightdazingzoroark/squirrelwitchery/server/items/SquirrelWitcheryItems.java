@@ -35,7 +35,7 @@ public class SquirrelWitcheryItems {
     public static ItemArmor DARK_WITCH_SKIRT;
     public static ItemArmor DARK_WITCH_BOOTS;
     public static WitchBroomItem WITCH_BROOM;
-    public static Item WITCH_STAFF;
+    public static WitchStaffItem WITCH_STAFF;
     /*
     public static Item WITCH_SHOTGUN;
     public static Item NUT_BOMB;
@@ -85,7 +85,7 @@ public class SquirrelWitcheryItems {
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {
         if (canBeInCreative) item.setCreativeTab(SquirrelWitchery.creativeItemsTab);
-        item.setRegistryName(registryName);
+        if (item.getRegistryName() == null) item.setRegistryName(registryName);
         item.setTranslationKey(registryName);
         ITEMS.add(item);
         return item;
