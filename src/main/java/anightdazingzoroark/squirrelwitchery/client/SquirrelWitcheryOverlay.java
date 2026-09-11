@@ -4,7 +4,6 @@ import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspec
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.IRisuniumConsumer;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
-import anightdazingzoroark.squirrelwitchery.server.items.WitchStaffItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -52,8 +51,7 @@ public class SquirrelWitcheryOverlay {
         //---position this hud element---
         ItemStack mainHandStack = player.getHeldItemMainhand();
         ItemStack offHandStack = player.getHeldItemOffhand();
-        boolean holdingVisCaster = mainHandStack.getItem() instanceof ICaster && !(mainHandStack.getItem() instanceof WitchStaffItem)
-                || offHandStack.getItem() instanceof ICaster && !(offHandStack.getItem() instanceof WitchStaffItem);
+        boolean holdingVisCaster = mainHandStack.getItem() instanceof ICaster || offHandStack.getItem() instanceof ICaster;
         GlStateManager.translate(
                 holdingVisCaster ? 40 : 0,
                 ModConfig.CONFIG_GRAPHICS.dialBottom ? event.getResolution().getScaledHeight() - 32 : 0,
@@ -70,18 +68,6 @@ public class SquirrelWitcheryOverlay {
 
         //-----risunium icon----
         UtilsFX.drawTag(8, 8, SquirrelWitcheryAspects.RISUNIUM);
-
-        //-----equipped focus-----
-        ItemStack staffStack = ItemStack.EMPTY;
-        if (mainHandStack.getItem() instanceof WitchStaffItem) staffStack = mainHandStack;
-        else if (offHandStack.getItem() instanceof WitchStaffItem) staffStack = offHandStack;
-
-        if (!staffStack.isEmpty() && staffStack.getItem() instanceof WitchStaffItem staff) {
-            ItemStack focusStack = staff.getFocusStack(staffStack);
-            if (focusStack != null && !focusStack.isEmpty()) {
-                this.renderItem(minecraft, focusStack, 8, 8);
-            }
-        }
 
         //-----broom item-----
         if (player.getRidingEntity() instanceof WitchBroomEntity) {

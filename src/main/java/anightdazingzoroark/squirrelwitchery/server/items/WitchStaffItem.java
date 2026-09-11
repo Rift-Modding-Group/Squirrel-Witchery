@@ -5,6 +5,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -15,14 +16,17 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.casters.ItemCaster;
-import thaumcraft.common.items.casters.ItemFocus;
 
 import java.util.List;
+import java.util.Locale;
 
 public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
+    public static final int ATTACHMENT_RISUNIUM_COST = 5;
+
     public WitchStaffItem() {
         super("witch_staff", 0);
         //required to not fuck up transforms for some reason
@@ -35,7 +39,6 @@ public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
         return false;
     }
 
-    //start out full when obtained from creative tab
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
         if (!this.isInCreativeTab(tab)) return;
@@ -43,20 +46,6 @@ public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
         ItemStack stack = new ItemStack(this);
         this.setRisuniumAmount(stack, MAX_RISUNIUM);
         items.add(stack);
-    }
-
-    //staff uses risunium instead of vis
-    @Override
-    public boolean consumeVis(ItemStack stack, EntityPlayer player, float amount, boolean crafting, boolean simulate) {
-        int risuniumCost = (int) Math.ceil(amount * this.getConsumptionModifier(stack, player, crafting));
-        int risuniumAmount = this.getRisuniumAmount(stack);
-        if (risuniumAmount < risuniumCost) return false;
-
-        if (!simulate) {
-            this.setRisuniumAmount(stack, risuniumAmount - risuniumCost);
-            player.inventoryContainer.detectAndSendChanges();
-        }
-        return true;
     }
 
     @Override
@@ -74,22 +63,64 @@ public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
         if (player.isSneaking() && this.getRisuniumFromJarInInventory(player, world, hand)) {
             return new ActionResult<>(EnumActionResult.SUCCESS, stack);
         }
-        return super.onItemRightClick(world, player, hand);
+
+        if (!world.isRemote) {
+            if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+            stack.getTagCompound().setBoolean("Casting", true);
+        }
+
+        ActionResult<ItemStack> result = super.onItemRightClick(world, player, hand);
+        if (!world.isRemote && stack.hasTagCompound()) stack.getTagCompound().removeTag("Casting");
+        return result;
+    }
+
+    public boolean hasAttachment(@NotNull ItemStack stack, WitchStaffAttachmentItem.Type type) {
+        if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("Attachments", 10)) return false;
+        return stack.getTagCompound().getCompoundTag("Attachments").getBoolean(type.name());
+    }
+
+    public boolean hasAnyAttachment(@NotNull ItemStack stack) {
+        for (WitchStaffAttachmentItem.Type type : WitchStaffAttachmentItem.Type.values()) {
+            if (this.hasAttachment(stack, type)) return true;
+        }
+        return false;
+    }
+
+    public void setAttachment(@NotNull ItemStack stack, WitchStaffAttachmentItem.Type type, boolean attached) {
+        if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+
+        NBTTagCompound attachments;
+        if (stack.getTagCompound().hasKey("Attachments", 10)) {
+            attachments = stack.getTagCompound().getCompoundTag("Attachments");
+        }
+        else {
+            attachments = new NBTTagCompound();
+            stack.getTagCompound().setTag("Attachments", attachments);
+        }
+
+        if (attached) {
+            for (WitchStaffAttachmentItem.Type attachmentType : WitchStaffAttachmentItem.Type.values()) {
+                attachments.removeTag(attachmentType.name());
+            }
+            attachments.setBoolean(type.name(), true);
+        }
+        else attachments.removeTag(type.name());
+
+        if (!this.hasAnyAttachment(stack)) stack.getTagCompound().removeTag("Attachments");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-        ItemStack focusStack = this.getFocusStack(stack);
-        ItemFocus focus = this.getFocus(stack);
-        if (focus != null && focusStack != null && !focusStack.isEmpty()) {
-            int risuniumCost = (int) Math.ceil(focus.getVisCost(focusStack));
-            tooltip.add(TextFormatting.ITALIC + "" + TextFormatting.LIGHT_PURPLE + I18n.format("risunium_consumer.cost", risuniumCost));
-            tooltip.add(
-                    TextFormatting.BOLD + "" + TextFormatting.ITALIC + "" + TextFormatting.GREEN + focus.getItemStackDisplayName(focusStack)
-            );
-            focus.addFocusInformation(focusStack, world, tooltip, flag);
-        }
+        super.addInformation(stack, world, tooltip, flag);
         tooltip.add(this.stringForDisplayAmount(stack));
+
+        boolean hasAttachments = false;
+        for (WitchStaffAttachmentItem.Type type : WitchStaffAttachmentItem.Type.values()) {
+            if (!this.hasAttachment(stack, type)) continue;
+            if (!hasAttachments) tooltip.add(TextFormatting.GOLD + I18n.format("witch_staff.attachments"));
+            tooltip.add(TextFormatting.GRAY + " - " + I18n.format("witch_staff.attachment." + type.name().toLowerCase(Locale.ROOT)));
+            hasAttachments = true;
+        }
     }
 }

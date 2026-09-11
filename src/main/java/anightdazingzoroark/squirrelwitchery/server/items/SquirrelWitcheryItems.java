@@ -1,16 +1,9 @@
 package anightdazingzoroark.squirrelwitchery.server.items;
 
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
-import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -37,6 +30,9 @@ public class SquirrelWitcheryItems {
     public static WitchBroomItem WITCH_BROOM;
     public static WitchStaffItem WITCH_STAFF;
     public static Item RISUNIC_FOCI;
+    public static Item RISUNIC_FOCAL_POWER_BOOSTER;
+    public static Item RISUNIC_FOCAL_LINGERER;
+    public static Item RISUNIC_FOCAL_PROJECTILE_BOOSTER;
     /*
     public static Item WITCH_SHOTGUN;
     public static Item NUT_BOMB;
@@ -83,6 +79,18 @@ public class SquirrelWitcheryItems {
         WITCH_BROOM = registerItem(new WitchBroomItem(), "witch_broom", true);
         WITCH_STAFF = registerItem(new WitchStaffItem(), "witch_staff", true);
         RISUNIC_FOCI = registerItem(new Item(), "risunic_foci", true);
+        RISUNIC_FOCAL_POWER_BOOSTER = registerItem(
+                new WitchStaffAttachmentItem(WitchStaffAttachmentItem.Type.POWER_BOOSTER),
+                "risunic_focal_power_booster", true
+        );
+        RISUNIC_FOCAL_LINGERER = registerItem(
+                new WitchStaffAttachmentItem(WitchStaffAttachmentItem.Type.LINGERER),
+                "risunic_focal_lingerer", true
+        );
+        RISUNIC_FOCAL_PROJECTILE_BOOSTER = registerItem(
+                new WitchStaffAttachmentItem(WitchStaffAttachmentItem.Type.PROJECTILE_BOOSTER),
+                "risunic_focal_projectile_booster", true
+        );
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

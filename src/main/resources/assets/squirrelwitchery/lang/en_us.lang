@@ -15,6 +15,9 @@ item.dark_witch_boots.name=Dark Witch's Boots
 item.witch_broom.name=Witch's Broom
 item.witch_staff.name=Witch's Staff
 item.risunic_foci.name=Risunic Foci
+item.risunic_focal_power_booster.name=Risunic Focal Power Booster
+item.risunic_focal_lingerer.name=Risunic Focal Lingerer
+item.risunic_focal_projectile_booster.name=Risunic Focal Projectile Booster
 
 message.found_nuts=You feel something simultaneously playful and chaotic emanate from within this nut.
 
@@ -26,6 +29,14 @@ broom.go_down=Descend (Witch's Broom)
 
 risunium_consumer.amount=Risunium: %s / %s
 risunium_consumer.cost=Risunium Cost: %s
+witch_staff.attachments=Attachments:
+witch_staff.attachment.power_booster=Power Booster (+25%% power)
+witch_staff.attachment.lingerer=Lingerer (+50%% duration)
+witch_staff.attachment.projectile_booster=Projectile Booster (+50%% projectile speed)
+witch_staff.attachment.tooltip.power_booster=Boosts spell power by 25%%.
+witch_staff.attachment.tooltip.lingerer=Extends compatible spell durations by 50%%.
+witch_staff.attachment.tooltip.projectile_booster=Boosts projectile spell speed by 50%%.
+witch_staff.attachment.tooltip.cost=Consumes %s Risunium when it affects a spell.
 
 itemGroup.squirrel_witchery=Squirrel Witchery
 
@@ -40,16 +51,20 @@ research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.title=Risunic Studies
 research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.1=Risunium as a form of essentia has shown to be unlike any other that I have encountered. Before I attempt to shape this unusual essentia into more elaborate creations, I should develop a theory that explains its peculiar affinities.
 research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.2=My notes are beginning to reveal a coherent pattern. Risunium responds especially well to playful ideas, unconventional materials, and a willingness to follow curious trains of thought. With this framework established, I can begin finding practical uses for it.<BR>I have also discovered a most curious property: Risunium vis crystals resonate with every primal aspect. Unlike ordinary vis crystals, they can occupy any of the six crystal slots around an arcane workbench.
 research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.title=Risunic Auromancy
-research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.1=Risunium's affinity for every primal aspect suggests that it may be capable of more than substituting for vis crystals at an arcane workbench. If it can assume the patterns imposed by a focus, then it may serve as a source of power for focused spellcraft. I must reconcile what I know of Risunium with the principles of auromancy before I can test this possibility safely.
-research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.2=My experiments have confirmed that Risunium can flow through a focus and sustain its spell pattern much as vis does. Better still, the aspect remains stable when held in a suitable reservoir. A casting implement built around such a reserve could carry its own power, replenish it from Risunium stored in warded jars, and spare the local aura from every working. I believe I now understand enough to devise such an instrument.
+research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.1=Risunium's affinity for every primal aspect suggests a useful role in focused spellcraft. Its behavior differs from vis itself: rather than supplying raw power, it seems eager to mediate between otherwise incompatible arcane patterns. I must reconcile this property with the principles of auromancy before attempting to build with it.
+research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.2=My calculations show that Risunium can sit alongside a conventional focus without disturbing its spell pattern. The spell should continue to draw ordinary vis from the aura, while Risunium provides a separate path through which auxiliary components can influence the working. This separation may permit a casting implement whose behavior can be expanded without rebuilding the focus within it.
+research.SQUIRREL_WITCHERY_WITCH_STAFF.title=Witch's Staff
+research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.1=A caster's gauntlet leaves little room for the additional structure my design requires. I first need a compact Risunic intermediary. By adapting the recipe for a blank lesser focus and replacing its Ordo crystal with a Risunium vis crystal, I should be able to create a Risunic Foci suited to binding an implement and its attachments together.
+research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.2=The Risunic Foci is stable and receptive, exactly as my calculations predicted. By mounting it atop a long wooden haft and balancing the assembly with each primal aspect, I should be able to create a staff that channels ordinary vis as reliably as a caster's gauntlet while preserving the Foci's attachment framework.
+research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.3=The Witch's Staff draws vis directly from the surrounding aura to power the spell focus placed within it. The Risunic Foci does not serve as fuel; it anchors a separate framework through which Risunic attachments can modify spells without interfering with their ordinary vis supply.
 research.SQUIRREL_WITCHERY_WITCH_COSTUME.title=Witch's Garb
 research.SQUIRREL_WITCHERY_WITCH_COSTUME.stage.1=Squirrel fur is naturally saturated with Risunium, making it unusually receptive to thaumaturgical shaping. I have devised patterns that weave it into a hat, robe, skirt, and boots. Each piece reduces the vis cost of my workings, and wearing the complete ensemble should provide a considerable benefit.
 research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.title=Dark Witch's Garb
 research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.1=My studies of the eldritch have revealed how void metal can be worked into thaumaturgical attire. The cheerful garb I devised before could serve as a foundation for something darker, but shaping so much hungry metal around Risunium will be a dangerous undertaking.
 research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.2=By fusing each piece of my witch's garb with its void metal counterpart, I can create a complete set of dark witch's garb. It offers a far greater vis discount and the protection of void metal, though wearing it will expose me to the same warping influence as my other eldritch creations.
 research.SQUIRREL_WITCHERY_WITCH_BROOM.title=Witch's Broom
-research.SQUIRREL_WITCHERY_WITCH_BROOM.stage.1=If I bind Risunium and Aer into a simple frame of sticks and squirrel fur, the two aspects may work together to produce sustained movement through the air.<BR>Aer should provide the necessary lift, while Risunium may give the otherwise ordinary materials enough arcane vitality to remain aloft and respond to a rider. If my theory is correct, I may be able to fashion something capable of true flight: a Witch's Broom.
-research.SQUIRREL_WITCHERY_WITCH_BROOM.stage.2=It works! The combination of squirrel fur, Aer, and Risunium has produced a remarkably effective flying implement.<BR>The Witch's Broom requires a supply of Risunium to remain active. While ridden, it steadily consumes the Risunium stored within it, and once that supply is exhausted it can no longer sustain flight.<BR>While mounted, the broom travels continuously in the direction I am facing. I can control my altitude separately, allowing me to ascend or descend without changing my direction of travel.<BR>Its Risunium supply can be replenished from a Warded Jar containing Risunium, either by drawing from a placed jar directly or from one carried in my inventory. With a sufficient supply on hand, extended flight should be quite practical.
+research.SQUIRREL_WITCHERY_WITCH_BROOM.stage.1=Binding Aer and Risunium into a simple framework of sticks and squirrel fur may produce sustained flight. Aer should provide lift, while Risunium lends the mundane materials enough arcane vitality to remain aloft and respond to a rider.<BR>If my theory is sound, I should be able to fashion a simple yet effective flying implement: the Witch's Broom.
+research.SQUIRREL_WITCHERY_WITCH_BROOM.stage.2=My Witch's Broom works even better than expected. Once mounted, it travels continuously in the direction I face, and I can control its altitude independently.<BR>The broom steadily consumes Risunium while in flight. When its internal reserve is exhausted, it can no longer remain aloft and returns to its portable form.<BR>I can replenish this reserve by using the broom on a Warded Jar containing Risunium. Sneaking while holding the broom will instead draw Risunium from a suitable jar in my inventory. With enough essentia at hand, even long journeys should prove practical.
 
 card.squirrel_field_notes.name=Squirrel Field Notes
 card.squirrel_field_notes.text=You organize your scattered observations about nuts, squirrels, and Risunium into a more useful form. Gain 20 Squirrel Witchery.

@@ -19,6 +19,7 @@ public final class SquirrelWitcheryResearch {
     public static final String RISUNIC_AUROMANCY = "SQUIRREL_WITCHERY_RISUNIC_AUROMANCY";
     public static final String RISUNIC_ARTIFICE = "SQUIRREL_WITCHERY_RISUNIC_ARTIFICE";
     public static final String RISUNIC_INFUSION = "SQUIRREL_WITCHERY_RISUNIC_INFUSION";
+    public static final String WITCH_STAFF = "SQUIRREL_WITCHERY_WITCH_STAFF";
     public static final String WITCH_COSTUME = "SQUIRREL_WITCHERY_WITCH_COSTUME";
     public static final String DARK_WITCH_COSTUME = "SQUIRREL_WITCHERY_DARK_WITCH_COSTUME";
     public static final String WITCH_BROOM = "SQUIRREL_WITCHERY_WITCH_BROOM";

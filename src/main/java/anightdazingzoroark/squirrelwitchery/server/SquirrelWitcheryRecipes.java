@@ -24,6 +24,10 @@ public class SquirrelWitcheryRecipes {
     public static void registerRecipes() {
         //---arcane workbench stuff---
         ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "witch_staff_attachment"),
+                new WitchStaffAttachmentRecipe()
+        );
+        ThaumcraftApi.addArcaneCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "witch_hat"),
                 new ShapedArcaneRecipe(
                         WITCH_COSTUME_RECIPE_GROUP,
@@ -93,6 +97,27 @@ public class SquirrelWitcheryRecipes {
                         'S', new ItemStack(Items.STICK)
                 )
         );
+        ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "witch_staff"),
+                new ShapedArcaneRecipe(
+                        new ResourceLocation(SquirrelWitchery.MODID, "witch_staff"),
+                        SquirrelWitcheryResearch.WITCH_STAFF + "@2",
+                        100,
+                        new AspectList()
+                                .add(Aspect.AIR, 1)
+                                .add(Aspect.EARTH, 1)
+                                .add(Aspect.WATER, 1)
+                                .add(Aspect.FIRE, 1)
+                                .add(Aspect.ORDER, 1)
+                                .add(Aspect.ENTROPY, 1),
+                        SquirrelWitcheryItems.WITCH_STAFF,
+                        "  F",
+                        " S ",
+                        "S  ",
+                        'F', new ItemStack(SquirrelWitcheryItems.RISUNIC_FOCI),
+                        'S', new ItemStack(Items.STICK)
+                )
+        );
 
         //---crucible stuff---
         ThaumcraftApi.addCrucibleRecipe(
@@ -103,6 +128,18 @@ public class SquirrelWitcheryRecipes {
                     "nuggetQuartz",
                     new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 2)
                 ).setGroup(new ResourceLocation("thaumcraft", "viscrystalgroup"))
+        );
+        ThaumcraftApi.addCrucibleRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "risunic_foci"),
+                new CrucibleRecipe(
+                        SquirrelWitcheryResearch.WITCH_STAFF + "@1",
+                        new ItemStack(SquirrelWitcheryItems.RISUNIC_FOCI),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        new AspectList()
+                                .add(Aspect.CRYSTAL, 20)
+                                .add(Aspect.MAGIC, 10)
+                                .add(Aspect.AURA, 5)
+                )
         );
 
         //---infusion stuff---

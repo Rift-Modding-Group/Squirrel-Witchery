@@ -81,6 +81,10 @@ public class ClientProxy extends ServerProxy {
                 (stack, tintIndex) -> SquirrelWitcheryAspects.RISUNIUM.getColor(),
                 SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM_ITEM
         );
+        Minecraft.getMinecraft().getItemColors().registerItemColorHandler(
+                (stack, tintIndex) -> SquirrelWitcheryAspects.RISUNIUM.getColor(),
+                SquirrelWitcheryItems.RISUNIC_FOCI
+        );
 
         //register armor models
         WitchCostumeRenderer witchCostumeRenderer = new WitchCostumeRenderer();

@@ -135,6 +135,33 @@
           "text": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.2"
         }
       ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_WITCH_STAFF",
+      "name": "research.SQUIRREL_WITCHERY_WITCH_STAFF.title",
+      "icons": ["squirrelwitchery:witch_staff"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_AUROMANCY"],
+      "location": [3, 2],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.1",
+          "recipes": ["squirrelwitchery:risunic_foci"],
+          "required_craft": ["squirrelwitchery:risunic_foci"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.2",
+          "recipes": ["squirrelwitchery:witch_staff"],
+          "required_craft": ["squirrelwitchery:witch_staff"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.3",
+          "recipes": ["squirrelwitchery:risunic_foci", "squirrelwitchery:witch_staff"]
+        }
+      ]
     }
   ]
 }

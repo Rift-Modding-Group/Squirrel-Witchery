@@ -4,10 +4,11 @@
   "compatibilityLevel": "JAVA_8",
   "target": "@env(MOD)",
   "client": [
-    "GuiArcaneWorkbenchMixin",
-    "HudHandlerMixin"
+    "GuiArcaneWorkbenchMixin"
   ],
   "mixins": [
+    "FocusEngineMixin",
+    "NodeSettingAccessor",
     "SlotCrystalMixin",
     "ThaumcraftCraftingManagerMixin"
   ],
