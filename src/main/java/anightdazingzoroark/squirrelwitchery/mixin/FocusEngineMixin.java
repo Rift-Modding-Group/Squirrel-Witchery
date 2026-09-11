@@ -51,11 +51,12 @@ public abstract class FocusEngineMixin {
         }
 
         int risunium = staff.getRisuniumAmount(staffStack);
-        for (WitchStaffAttachmentItem.Type type : WitchStaffAttachmentItem.Type.values()) {
-            if (!staff.hasAttachment(staffStack, type) || risunium < WitchStaffItem.ATTACHMENT_RISUNIUM_COST) continue;
-            if (type.applySpellModification(elements, packages)) {
-                risunium -= WitchStaffItem.ATTACHMENT_RISUNIUM_COST;
-            }
+        WitchStaffAttachmentItem.Type attachment = staff.getAttachment(staffStack);
+        if (attachment != null
+                && risunium >= WitchStaffItem.ATTACHMENT_RISUNIUM_COST
+                && attachment.applySpellModification(elements, packages)
+        ) {
+            risunium -= WitchStaffItem.ATTACHMENT_RISUNIUM_COST;
         }
 
         staff.setRisuniumAmount(staffStack, risunium);

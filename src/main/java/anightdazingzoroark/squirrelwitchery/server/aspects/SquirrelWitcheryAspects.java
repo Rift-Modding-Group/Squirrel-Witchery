@@ -20,11 +20,8 @@ import java.util.List;
 public final class SquirrelWitcheryAspects {
     private static final List<AspectAssignment<?>> ASPECT_ASSIGNMENTS = new ArrayList<>();
     public static final Aspect RISUNIUM = new Aspect(
-            "risunium",
-            0xFB8E9A,
-            null,
-            new ResourceLocation(SquirrelWitchery.MODID, "textures/aspects/risunium.png"),
-            1
+            "risunium", 0xFB8E9A, null,
+            new ResourceLocation(SquirrelWitchery.MODID, "textures/aspects/risunium.png"), 1
     );
 
     public static void assignAspects() {

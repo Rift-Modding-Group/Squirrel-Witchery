@@ -74,39 +74,18 @@ public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
         return result;
     }
 
-    public boolean hasAttachment(@NotNull ItemStack stack, WitchStaffAttachmentItem.Type type) {
-        if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("Attachments", 10)) return false;
-        return stack.getTagCompound().getCompoundTag("Attachments").getBoolean(type.name());
+    @Nullable
+    public WitchStaffAttachmentItem.Type getAttachment(@NotNull ItemStack stack) {
+        if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("Attachment", 1)) return null;
+
+        WitchStaffAttachmentItem.Type[] attachmentTypes = WitchStaffAttachmentItem.Type.values();
+        byte ordinal = stack.getTagCompound().getByte("Attachment");
+        return ordinal >= 0 && ordinal < attachmentTypes.length ? attachmentTypes[ordinal] : null;
     }
 
-    public boolean hasAnyAttachment(@NotNull ItemStack stack) {
-        for (WitchStaffAttachmentItem.Type type : WitchStaffAttachmentItem.Type.values()) {
-            if (this.hasAttachment(stack, type)) return true;
-        }
-        return false;
-    }
-
-    public void setAttachment(@NotNull ItemStack stack, WitchStaffAttachmentItem.Type type, boolean attached) {
+    public void setAttachment(@NotNull ItemStack stack, @Nullable WitchStaffAttachmentItem.Type attachment) {
         if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-
-        NBTTagCompound attachments;
-        if (stack.getTagCompound().hasKey("Attachments", 10)) {
-            attachments = stack.getTagCompound().getCompoundTag("Attachments");
-        }
-        else {
-            attachments = new NBTTagCompound();
-            stack.getTagCompound().setTag("Attachments", attachments);
-        }
-
-        if (attached) {
-            for (WitchStaffAttachmentItem.Type attachmentType : WitchStaffAttachmentItem.Type.values()) {
-                attachments.removeTag(attachmentType.name());
-            }
-            attachments.setBoolean(type.name(), true);
-        }
-        else attachments.removeTag(type.name());
-
-        if (!this.hasAnyAttachment(stack)) stack.getTagCompound().removeTag("Attachments");
+        stack.getTagCompound().setByte("Attachment", (byte) (attachment == null ? -1 : attachment.ordinal()));
     }
 
     @Override
@@ -115,12 +94,12 @@ public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
         super.addInformation(stack, world, tooltip, flag);
         tooltip.add(this.stringForDisplayAmount(stack));
 
-        boolean hasAttachments = false;
-        for (WitchStaffAttachmentItem.Type type : WitchStaffAttachmentItem.Type.values()) {
-            if (!this.hasAttachment(stack, type)) continue;
-            if (!hasAttachments) tooltip.add(TextFormatting.GOLD + I18n.format("witch_staff.attachments"));
-            tooltip.add(TextFormatting.GRAY + " - " + I18n.format("witch_staff.attachment." + type.name().toLowerCase(Locale.ROOT)));
-            hasAttachments = true;
+        WitchStaffAttachmentItem.Type attachment = this.getAttachment(stack);
+        if (attachment != null) {
+            tooltip.add(TextFormatting.GOLD + I18n.format("witch_staff.attachments"));
+            tooltip.add(TextFormatting.GRAY + " - " + I18n.format(
+                    "witch_staff.attachment." + attachment.name().toLowerCase(Locale.ROOT)
+            ));
         }
     }
 }

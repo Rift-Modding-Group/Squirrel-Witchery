@@ -29,7 +29,7 @@ broom.go_down=Descend (Witch's Broom)
 
 risunium_consumer.amount=Risunium: %s / %s
 risunium_consumer.cost=Risunium Cost: %s
-witch_staff.attachments=Attachments:
+witch_staff.attachments=Attachment:
 witch_staff.attachment.power_booster=Power Booster (+25%% power)
 witch_staff.attachment.lingerer=Lingerer (+50%% duration)
 witch_staff.attachment.projectile_booster=Projectile Booster (+50%% projectile speed)
@@ -62,7 +62,7 @@ research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.2=The Risunic Foci is stable and re
 research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.3=The Witch's Staff draws vis directly from the surrounding aura to power the spell focus placed within it. The Risunic Foci does not serve as fuel; it anchors a separate framework through which Risunic attachments can modify spells without interfering with their ordinary vis supply.
 research.SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS.title=Risunic Staff Attachments
 research.SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS.stage.1=The framework anchored by the Risunic Foci should accept compact mechanisms capable of altering a spell as it passes through the staff. Applying the principles of artifice may allow me to construct these mechanisms as interchangeable attachments rather than permanent additions.
-research.SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS.stage.2=An alchemical brass plate provides a stable base upon which I can mount a Risunium vis crystal and a component sympathetic to the desired effect. Glowstone dust intensifies a spell's power, redstone prolongs effects capable of lingering, and a rabbit's foot lends greater speed to projectiles. Each attachment draws a small amount of Risunium from the staff whenever it successfully modifies a spell.
+research.SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS.stage.2=An alchemical brass plate provides a stable base upon which I can mount a Risunium vis crystal and a component sympathetic to the desired effect. Glowstone dust intensifies a spell's power, redstone prolongs effects capable of lingering, and a rabbit's foot lends greater speed to projectiles. Squirrel Fur serves as the final binding element to the staff. Each attachment draws a small amount of Risunium from the staff whenever it successfully modifies a spell.
 research.SQUIRREL_WITCHERY_WITCH_COSTUME.title=Witch's Garb
 research.SQUIRREL_WITCHERY_WITCH_COSTUME.stage.1=Squirrel fur is naturally saturated with Risunium, making it unusually receptive to thaumaturgical shaping. I have devised patterns that weave it into a hat, robe, skirt, and boots. Each piece reduces the vis cost of my workings, and wearing the complete ensemble should provide a considerable benefit.
 research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.title=Dark Witch's Garb

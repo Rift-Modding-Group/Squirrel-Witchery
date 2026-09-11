@@ -33,7 +33,7 @@ public class WitchStaffAttachmentRecipe extends IForgeRegistryEntry.Impl<IRecipe
         ItemStack staffStack = this.findStaff(inventory);
         WitchStaffAttachmentItem.Type addedAttachment = this.findAddedAttachment(inventory);
         WitchStaffItem staff = (WitchStaffItem) staffStack.getItem();
-        if (addedAttachment != null) return !staff.hasAnyAttachment(staffStack);
+        if (addedAttachment != null) return staff.getAttachment(staffStack) == null;
         return this.findRemovedAttachment(inventory) != null;
     }
 
@@ -50,7 +50,7 @@ public class WitchStaffAttachmentRecipe extends IForgeRegistryEntry.Impl<IRecipe
                 : this.findRemovedAttachment(inventory);
         if (changedAttachment == null) return ItemStack.EMPTY;
 
-        ((WitchStaffItem) result.getItem()).setAttachment(result, changedAttachment, addedAttachment != null);
+        ((WitchStaffItem) result.getItem()).setAttachment(result, addedAttachment);
         return result;
     }
 
@@ -128,9 +128,6 @@ public class WitchStaffAttachmentRecipe extends IForgeRegistryEntry.Impl<IRecipe
         if (staffStack.isEmpty() || this.findAddedAttachment(inventory) != null) return null;
 
         WitchStaffItem staff = (WitchStaffItem) staffStack.getItem();
-        for (WitchStaffAttachmentItem.Type type : WitchStaffAttachmentItem.Type.values()) {
-            if (staff.hasAttachment(staffStack, type)) return type;
-        }
-        return null;
+        return staff.getAttachment(staffStack);
     }
 }

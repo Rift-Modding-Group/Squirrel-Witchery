@@ -34,10 +34,11 @@ public class SquirrelWitcheryRecipes {
                         25,
                         new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
                         SquirrelWitcheryItems.RISUNIC_FOCAL_POWER_BOOSTER,
-                        " G ",
-                        " P ",
+                        "FG ",
+                        "FP ",
                         'G', new ItemStack(Items.GLOWSTONE_DUST),
-                        'P', new ItemStack(ItemsTC.plate, 1, 0)
+                        'P', new ItemStack(ItemsTC.plate, 1, 0),
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
                 )
         );
         ThaumcraftApi.addArcaneCraftingRecipe(
@@ -48,10 +49,11 @@ public class SquirrelWitcheryRecipes {
                         25,
                         new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
                         SquirrelWitcheryItems.RISUNIC_FOCAL_LINGERER,
-                        " R ",
-                        " P ",
+                        "FR ",
+                        "FP ",
                         'R', new ItemStack(Items.REDSTONE),
-                        'P', new ItemStack(ItemsTC.plate, 1, 0)
+                        'P', new ItemStack(ItemsTC.plate, 1, 0),
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
                 )
         );
         ThaumcraftApi.addArcaneCraftingRecipe(
@@ -62,10 +64,11 @@ public class SquirrelWitcheryRecipes {
                         25,
                         new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
                         SquirrelWitcheryItems.RISUNIC_FOCAL_PROJECTILE_BOOSTER,
-                        " R ",
-                        " P ",
+                        "FR ",
+                        "FP ",
                         'R', new ItemStack(Items.RABBIT_FOOT),
-                        'P', new ItemStack(ItemsTC.plate, 1, 0)
+                        'P', new ItemStack(ItemsTC.plate, 1, 0),
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
                 )
         );
         ThaumcraftApi.addArcaneCraftingRecipe(
