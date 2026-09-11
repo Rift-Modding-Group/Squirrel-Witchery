@@ -34,9 +34,10 @@ public class SquirrelWitcheryItems {
     public static Item RISUNIC_FOCAL_LINGERER;
     public static Item RISUNIC_FOCAL_PROJECTILE_BOOSTER;
     public static WitchShotgunItem WITCH_SHOTGUN;
+    public static NutsaberItem NUTSABER;
+    public static Item NUTSABER_CORE;
     /*
     public static Item NUT_BOMB;
-    public static Item NUTSABER;
      */
 
     public static void registerItems() {
@@ -92,6 +93,8 @@ public class SquirrelWitcheryItems {
                 "risunic_focal_projectile_booster", true
         );
         WITCH_SHOTGUN = registerItem(new WitchShotgunItem(), "witch_shotgun", true);
+        NUTSABER = registerItem(new NutsaberItem(), "nutsaber", true);
+        NUTSABER_CORE = registerItem(new Item(), "nutsaber_core", true);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

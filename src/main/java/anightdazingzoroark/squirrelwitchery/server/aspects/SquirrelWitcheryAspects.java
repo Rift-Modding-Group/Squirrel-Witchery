@@ -93,6 +93,11 @@ public final class SquirrelWitcheryAspects {
                 SquirrelWitcheryItems.RISUNIC_FOCAL_PROJECTILE_BOOSTER, false,
                 new AspectPair(RISUNIUM, 25), new AspectPair(Aspect.MECHANISM, 10), new AspectPair(Aspect.MOTION, 10)
         ));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
+                SquirrelWitcheryItems.WITCH_SHOTGUN, false,
+                new AspectPair(RISUNIUM, 87), new AspectPair(Aspect.MECHANISM, 42), new AspectPair(Aspect.ENTROPY, 39),
+                new AspectPair(Aspect.TOOL, 41)
+        ));
 
         //---block assignments---
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Block>(
