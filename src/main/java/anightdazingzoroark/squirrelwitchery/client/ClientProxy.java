@@ -5,6 +5,7 @@ import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntit
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.WitchBroomEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchBroomItemRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.armor.WitchCostumeRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchShotgunItemRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchStaffItemRenderer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
@@ -35,6 +36,7 @@ public class ClientProxy extends ServerProxy {
         //---item rendering---
         SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());
         SquirrelWitcheryItems.WITCH_STAFF.setTileEntityItemStackRenderer(new WitchStaffItemRenderer());
+        SquirrelWitcheryItems.WITCH_SHOTGUN.setTileEntityItemStackRenderer(new WitchShotgunItemRenderer());
 
         //---crystal risunium---
         ModelResourceLocation crystalModel = new ModelResourceLocation("thaumcraft:crystal_aer", "normal");
@@ -52,6 +54,7 @@ public class ClientProxy extends ServerProxy {
 
         //---events---
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryOverlay());
+        MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
         //---others---
         SquirrelWitcheryControls.init();

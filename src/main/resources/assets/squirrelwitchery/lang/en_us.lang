@@ -18,6 +18,9 @@ item.risunic_foci.name=Risunic Foci
 item.risunic_focal_power_booster.name=Risunic Focal Power Booster
 item.risunic_focal_lingerer.name=Risunic Focal Lingerer
 item.risunic_focal_projectile_booster.name=Risunic Focal Projectile Booster
+item.witch_shotgun.name=Witch's Shotgun
+death.attack.witchShotgun=%1$s was blasted by %2$s
+death.attack.witchShotgun.item=%1$s was blasted by %2$s using %3$s
 
 message.found_nuts=You feel something simultaneously playful and chaotic emanate from within this nut.
 
@@ -56,6 +59,9 @@ research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.2=My calculations show that R
 research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.title=Risunic Artifice
 research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.stage.1=Risunium's affinity for unconventional structures suggests that it may have applications beyond alchemy and spellcraft. If I am to incorporate it into thaumaturgical devices, I must determine how its playful, mutable nature interacts with the ordered principles of artifice.
 research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.stage.2=My studies suggest that Risunium does not replace the mechanisms of conventional artifice. Instead, it forms responsive links between components, allowing a device to alter its behavior without rebuilding its underlying structure. With this foundation established, I can begin developing specialized Risunic mechanisms.
+research.SQUIRREL_WITCHERY_WITCH_SHOTGUN.title=Witch's Shotgun
+research.SQUIRREL_WITCHERY_WITCH_SHOTGUN.stage.1=A compact alchemical brass barrel and a simple mechanism should let me release Risunium as a broad burst. A greatwood stock will keep the device steady while the Risunic crystal splits the discharge into several instantaneous rays.
+research.SQUIRREL_WITCHERY_WITCH_SHOTGUN.stage.2=The Witch's Shotgun releases multiple rays in a wide cone the instant it is fired. It is devastating at close range, while its rapidly spreading discharge can strike several targets farther away. Each shot drains 20 Risunium, and the weapon can be replenished from a Warded Jar in the same manner as my other Risunic implements.
 research.SQUIRREL_WITCHERY_WITCH_STAFF.title=Witch's Staff
 research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.1=A caster's gauntlet leaves little room for the additional structure my design requires. I first need a compact Risunic intermediary. By adapting the recipe for a blank lesser focus and replacing its Ordo crystal with a Risunium vis crystal, I should be able to create a Risunic Foci suited to binding an implement and its attachments together.
 research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.2=The Risunic Foci is stable and receptive, exactly as my calculations predicted. By mounting it atop a long wooden haft and balancing the assembly with each primal aspect, I should be able to create a staff that channels ordinary vis as reliably as a caster's gauntlet while preserving the Foci's attachment framework.

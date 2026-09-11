@@ -207,6 +207,28 @@
           ]
         }
       ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_WITCH_SHOTGUN",
+      "name": "research.SQUIRREL_WITCHERY_WITCH_SHOTGUN.title",
+      "icons": ["squirrelwitchery:witch_shotgun"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE"],
+      "location": [5, 3],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_SHOTGUN.stage.1",
+          "recipes": ["squirrelwitchery:witch_shotgun"],
+          "required_craft": ["squirrelwitchery:witch_shotgun"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_SHOTGUN.stage.2",
+          "recipes": ["squirrelwitchery:witch_shotgun"]
+        }
+      ]
     }
   ]
 }

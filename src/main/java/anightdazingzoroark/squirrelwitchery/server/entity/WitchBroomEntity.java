@@ -30,16 +30,14 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * note to self: use /give @p thaumcraft:jar_normal 1 0 {Aspects:[{key:"risunium",amount:250}],AspectFilter:"risunium"}
- * to get risunium jar for testing
- * */
+
 public class WitchBroomEntity extends EntityLiving implements IAnimatable<AnimationDataEntity> {
     @NotNull
     private final AnimationDataEntity animData = new AnimationDataEntity(this, entity -> 1.25f);
     private static final DataParameter<Boolean> GOING_UP = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> GOING_DOWN = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> RISUNIUM = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.VARINT);
+    public static final int MAX_RISUNIUM = 250;
 
     public WitchBroomEntity(World worldIn) {
         super(worldIn);
@@ -208,7 +206,7 @@ public class WitchBroomEntity extends EntityLiving implements IAnimatable<Animat
     }
 
     public void setRisuniumAmount(int value) {
-        this.dataManager.set(RISUNIUM, Math.clamp(value, 0, WitchBroomItem.MAX_RISUNIUM));
+        this.dataManager.set(RISUNIUM, Math.clamp(value, 0, MAX_RISUNIUM));
     }
 
     //---anim stuff---

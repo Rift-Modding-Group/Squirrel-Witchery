@@ -31,7 +31,7 @@ public class WitchBroomItem extends Item implements IRisuniumConsumer {
         if (!this.isInCreativeTab(tab)) return;
 
         ItemStack stack = new ItemStack(this);
-        this.setRisuniumAmount(stack, MAX_RISUNIUM);
+        this.setRisuniumAmount(stack, this.getMaxRisunium());
         items.add(stack);
     }
 
@@ -83,5 +83,10 @@ public class WitchBroomItem extends Item implements IRisuniumConsumer {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
         tooltip.add(this.stringForDisplayAmount(stack));
+    }
+
+    @Override
+    public int getMaxRisunium() {
+        return 250;
     }
 }

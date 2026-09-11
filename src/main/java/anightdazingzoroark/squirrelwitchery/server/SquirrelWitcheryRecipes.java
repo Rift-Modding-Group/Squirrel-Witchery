@@ -11,12 +11,11 @@ import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.InfusionRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.items.ItemsTC;
-import thaumcraft.api.research.ResearchCategories;
-import thaumcraft.api.research.ResearchEntry;
 
 public class SquirrelWitcheryRecipes {
     private static final ResourceLocation WITCH_COSTUME_RECIPE_GROUP = new ResourceLocation(SquirrelWitchery.MODID, "witch_costume");
@@ -164,6 +163,26 @@ public class SquirrelWitcheryRecipes {
                         "S  ",
                         'F', new ItemStack(SquirrelWitcheryItems.RISUNIC_FOCI),
                         'S', new ItemStack(Items.STICK)
+                )
+        );
+        ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "witch_shotgun"),
+                new ShapedArcaneRecipe(
+                        new ResourceLocation(SquirrelWitchery.MODID, "witch_shotgun"),
+                        SquirrelWitcheryResearch.WITCH_SHOTGUN + "@1",
+                        100,
+                        new AspectList()
+                                .add(SquirrelWitcheryAspects.RISUNIUM, 2)
+                                .add(Aspect.FIRE, 1)
+                                .add(Aspect.ENTROPY, 1),
+                        SquirrelWitcheryItems.WITCH_SHOTGUN,
+                        "PPP",
+                        "CM ",
+                        "  W",
+                        'P', new ItemStack(ItemsTC.plate, 1, 0),
+                        'C', ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        'M', new ItemStack(ItemsTC.mechanismSimple),
+                        'W', new ItemStack(BlocksTC.plankGreatwood)
                 )
         );
 

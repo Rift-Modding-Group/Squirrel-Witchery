@@ -44,7 +44,7 @@ public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
         if (!this.isInCreativeTab(tab)) return;
 
         ItemStack stack = new ItemStack(this);
-        this.setRisuniumAmount(stack, MAX_RISUNIUM);
+        this.setRisuniumAmount(stack, this.getMaxRisunium());
         items.add(stack);
     }
 
@@ -101,5 +101,10 @@ public class WitchStaffItem extends ItemCaster implements IRisuniumConsumer {
                     "witch_staff.attachment." + attachment.name().toLowerCase(Locale.ROOT)
             ));
         }
+    }
+
+    @Override
+    public int getMaxRisunium() {
+        return 250;
     }
 }

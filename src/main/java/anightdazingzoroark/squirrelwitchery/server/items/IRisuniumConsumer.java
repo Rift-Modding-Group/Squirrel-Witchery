@@ -18,10 +18,10 @@ import thaumcraft.common.tiles.essentia.TileJarFillable;
 
 /**
  * implement on any item that requires risunium to function
+ * note to self: use /give @p thaumcraft:jar_normal 1 0 {Aspects:[{key:"risunium",amount:250}],AspectFilter:"risunium"}
+ * to get risunium jar for testing
  * */
 public interface IRisuniumConsumer {
-    int MAX_RISUNIUM = 250;
-
     //helper for getting risunium from jar block in world by interacting w it
     default boolean getRisuniumFromJarBlock(EntityPlayer player, World world, BlockPos pos, EnumHand hand) {
         ItemStack broom = player.getHeldItem(hand);
@@ -31,7 +31,7 @@ public interface IRisuniumConsumer {
         if (!(world.getTileEntity(pos) instanceof TileJarFillable jar)) return false;
 
         int current = this.getRisuniumAmount(broom);
-        int needed = MAX_RISUNIUM - current;
+        int needed = this.getMaxRisunium() - current;
 
         if (needed <= 0) return false;
 
@@ -61,9 +61,9 @@ public interface IRisuniumConsumer {
         if (world.isRemote) return false;
 
         int current = this.getRisuniumAmount(broom);
-        if (current > MAX_RISUNIUM) return false;
+        if (current > this.getMaxRisunium()) return false;
 
-        int needed = MAX_RISUNIUM - current;
+        int needed = this.getMaxRisunium() - current;
         if (needed <= 0) return false;
 
         //search in player inventory for warded jars w risunium inside
@@ -97,7 +97,7 @@ public interface IRisuniumConsumer {
     //helper for showin risunium amount in tooltips
     @NotNull
     default String stringForDisplayAmount(@NotNull ItemStack stack) {
-        return TextFormatting.LIGHT_PURPLE + I18n.format("risunium_consumer.amount", this.getRisuniumAmount(stack), MAX_RISUNIUM);
+        return TextFormatting.LIGHT_PURPLE + I18n.format("risunium_consumer.amount", this.getRisuniumAmount(stack), this.getMaxRisunium());
     }
 
     default int getRisuniumAmount(@NotNull ItemStack stack) {
@@ -112,6 +112,8 @@ public interface IRisuniumConsumer {
             stack.setTagCompound(tag);
         }
 
-        tag.setInteger("Risunium", Math.clamp(amount, 0, MAX_RISUNIUM));
+        tag.setInteger("Risunium", Math.clamp(amount, 0, this.getMaxRisunium()));
     }
+
+    int getMaxRisunium();
 }
