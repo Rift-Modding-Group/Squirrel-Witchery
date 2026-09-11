@@ -71,7 +71,7 @@ public class WitchStaffAttachmentRecipe extends IForgeRegistryEntry.Impl<IRecipe
 
     @Override
     public String getResearch() {
-        return SquirrelWitcheryResearch.WITCH_STAFF;
+        return SquirrelWitcheryResearch.WITCH_STAFF_ATTACHMENTS;
     }
 
     @Override

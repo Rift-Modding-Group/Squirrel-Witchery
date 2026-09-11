@@ -142,7 +142,7 @@
       "icons": ["squirrelwitchery:witch_staff"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_AUROMANCY"],
-      "location": [3, 2],
+      "location": [3, 1],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],
@@ -160,6 +160,51 @@
         {
           "text": "research.SQUIRREL_WITCHERY_WITCH_STAFF.stage.3",
           "recipes": ["squirrelwitchery:risunic_foci", "squirrelwitchery:witch_staff"]
+        }
+      ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_RISUNIC_ARTIFICE",
+      "name": "research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.title",
+      "icons": ["squirrelwitchery:squirrel_fur"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEARTIFICE"],
+      "location": [1, 4],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.stage.1",
+          "required_knowledge": ["THEORY;ARTIFICE;1", "THEORY;SQUIRREL_WITCHERY;2"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.stage.2"
+        }
+      ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS",
+      "name": "research.SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS.title",
+      "icons": ["squirrelwitchery:risunic_focal_power_booster"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE", "SQUIRREL_WITCHERY_WITCH_STAFF"],
+      "location": [3, 3],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS.stage.1",
+          "required_knowledge": ["THEORY;ARTIFICE;1", "THEORY;SQUIRREL_WITCHERY;1"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS.stage.2",
+          "recipes": [
+            "squirrelwitchery:risunic_focal_power_booster",
+            "squirrelwitchery:risunic_focal_lingerer",
+            "squirrelwitchery:risunic_focal_projectile_booster"
+          ]
         }
       ]
     }

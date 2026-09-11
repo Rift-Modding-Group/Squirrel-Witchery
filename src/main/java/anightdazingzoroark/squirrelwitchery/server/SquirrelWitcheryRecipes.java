@@ -20,9 +20,54 @@ import thaumcraft.api.research.ResearchEntry;
 
 public class SquirrelWitcheryRecipes {
     private static final ResourceLocation WITCH_COSTUME_RECIPE_GROUP = new ResourceLocation(SquirrelWitchery.MODID, "witch_costume");
+    private static final ResourceLocation WITCH_STAFF_ATTACHMENT_RECIPE_GROUP = new ResourceLocation(
+            SquirrelWitchery.MODID, "witch_staff_attachments"
+    );
 
     public static void registerRecipes() {
         //---arcane workbench stuff---
+        ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "risunic_focal_power_booster"),
+                new ShapedArcaneRecipe(
+                        WITCH_STAFF_ATTACHMENT_RECIPE_GROUP,
+                        SquirrelWitcheryResearch.WITCH_STAFF_ATTACHMENTS + "@2",
+                        25,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
+                        SquirrelWitcheryItems.RISUNIC_FOCAL_POWER_BOOSTER,
+                        " G ",
+                        " P ",
+                        'G', new ItemStack(Items.GLOWSTONE_DUST),
+                        'P', new ItemStack(ItemsTC.plate, 1, 0)
+                )
+        );
+        ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "risunic_focal_lingerer"),
+                new ShapedArcaneRecipe(
+                        WITCH_STAFF_ATTACHMENT_RECIPE_GROUP,
+                        SquirrelWitcheryResearch.WITCH_STAFF_ATTACHMENTS + "@2",
+                        25,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
+                        SquirrelWitcheryItems.RISUNIC_FOCAL_LINGERER,
+                        " R ",
+                        " P ",
+                        'R', new ItemStack(Items.REDSTONE),
+                        'P', new ItemStack(ItemsTC.plate, 1, 0)
+                )
+        );
+        ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "risunic_focal_projectile_booster"),
+                new ShapedArcaneRecipe(
+                        WITCH_STAFF_ATTACHMENT_RECIPE_GROUP,
+                        SquirrelWitcheryResearch.WITCH_STAFF_ATTACHMENTS + "@2",
+                        25,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
+                        SquirrelWitcheryItems.RISUNIC_FOCAL_PROJECTILE_BOOSTER,
+                        " R ",
+                        " P ",
+                        'R', new ItemStack(Items.RABBIT_FOOT),
+                        'P', new ItemStack(ItemsTC.plate, 1, 0)
+                )
+        );
         ThaumcraftApi.addArcaneCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "witch_staff_attachment"),
                 new WitchStaffAttachmentRecipe()
