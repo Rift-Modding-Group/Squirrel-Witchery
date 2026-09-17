@@ -19,16 +19,19 @@ public class WitchStaffItemRenderer extends GeoItemRenderer<AnimatedItemStackHol
         super(
                 new AnimatedGeoModel<AnimatedItemStackHolder>() {
                     @Override
-                    public @NotNull String getModId() {
+                    @NotNull
+                    public String getModId() {
                         return SquirrelWitchery.MODID;
                     }
 
                     @Override
+                    @NotNull
                     public String getModelIdentifier(AnimatedItemStackHolder animatedItemStackHolder) {
                         return "geometry.witch_staff";
                     }
 
                     @Override
+                    @NotNull
                     public String getTextureLocation(AnimatedItemStackHolder animatedItemStackHolder) {
                         ItemStack stack = animatedItemStackHolder.getStack();
                         if (stack.getItem() instanceof WitchStaffItem staff) {
@@ -42,7 +45,7 @@ public class WitchStaffItemRenderer extends GeoItemRenderer<AnimatedItemStackHol
                 },
                 itemStack -> new AnimatedItemStackHolder(itemStack) {
                     @Override
-                    public void initializeAnimationData(AnimationDataItemStack animationDataItemStack) {}
+                    public void initializeAnimationData(@NotNull AnimationDataItemStack animationDataItemStack) {}
                 }
         );
     }

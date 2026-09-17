@@ -3,6 +3,7 @@ package anightdazingzoroark.squirrelwitchery.client;
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.WitchBroomEntityRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.item.NutsaberItemRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchBroomItemRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.armor.WitchCostumeRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchShotgunItemRenderer;
@@ -37,6 +38,7 @@ public class ClientProxy extends ServerProxy {
         SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());
         SquirrelWitcheryItems.WITCH_STAFF.setTileEntityItemStackRenderer(new WitchStaffItemRenderer());
         SquirrelWitcheryItems.WITCH_SHOTGUN.setTileEntityItemStackRenderer(new WitchShotgunItemRenderer());
+        SquirrelWitcheryItems.NUTSABER.setTileEntityItemStackRenderer(new NutsaberItemRenderer());
 
         //---crystal risunium---
         ModelResourceLocation crystalModel = new ModelResourceLocation("thaumcraft:crystal_aer", "normal");

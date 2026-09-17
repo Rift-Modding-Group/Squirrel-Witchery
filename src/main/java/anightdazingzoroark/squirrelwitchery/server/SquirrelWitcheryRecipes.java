@@ -185,6 +185,23 @@ public class SquirrelWitcheryRecipes {
                         'W', new ItemStack(BlocksTC.plankGreatwood)
                 )
         );
+        ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "nutsaber_core"),
+                new ShapedArcaneRecipe(
+                        new ResourceLocation(SquirrelWitchery.MODID, "nutsaber"),
+                        SquirrelWitcheryResearch.NUTSABER + "@1",
+                        75,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 2).add(Aspect.ORDER, 1),
+                        SquirrelWitcheryItems.NUTSABER_CORE,
+                        "PNP",
+                        "MCM",
+                        "PNP",
+                        'P', new ItemStack(ItemsTC.plate, 1, 0),
+                        'N', new ItemStack(SquirrelWitcheryItems.BIG_NUT),
+                        'C', ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        'M', new ItemStack(ItemsTC.mechanismSimple)
+                )
+        );
 
         //---crucible stuff---
         ThaumcraftApi.addCrucibleRecipe(
@@ -222,6 +239,27 @@ public class SquirrelWitcheryRecipes {
                         ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
                         new ItemStack(Items.WHEAT_SEEDS),
                         new ItemStack(ItemsTC.salisMundus)
+                )
+        );
+        ThaumcraftApi.addInfusionCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "nutsaber"),
+                new InfusionRecipe(
+                        SquirrelWitcheryResearch.NUTSABER + "@2",
+                        new ItemStack(SquirrelWitcheryItems.NUTSABER),
+                        4,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 50)
+                                .add(Aspect.ENERGY, 40)
+                                .add(Aspect.AVERSION, 30)
+                                .add(Aspect.MOTION, 20),
+                        new ItemStack(SquirrelWitcheryItems.NUTSABER_CORE),
+                        new ItemStack(ItemsTC.plate, 1, 0),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        "ingotThaumium",
+                        new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
+                        new ItemStack(ItemsTC.plate, 1, 0),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        "ingotThaumium",
+                        new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR)
                 )
         );
         ThaumcraftApi.addInfusionCraftingRecipe(

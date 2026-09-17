@@ -98,6 +98,15 @@ public final class SquirrelWitcheryAspects {
                 new AspectPair(RISUNIUM, 87), new AspectPair(Aspect.MECHANISM, 42), new AspectPair(Aspect.ENTROPY, 39),
                 new AspectPair(Aspect.TOOL, 41)
         ));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
+                SquirrelWitcheryItems.NUTSABER_CORE, false,
+                new AspectPair(RISUNIUM, 55), new AspectPair(Aspect.MECHANISM, 30), new AspectPair(Aspect.ENERGY, 20)
+        ));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
+                SquirrelWitcheryItems.NUTSABER, false,
+                new AspectPair(RISUNIUM, 105), new AspectPair(Aspect.AVERSION, 50), new AspectPair(Aspect.ENERGY, 45),
+                new AspectPair(Aspect.TOOL, 35), new AspectPair(Aspect.MECHANISM, 25)
+        ));
 
         //---block assignments---
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Block>(

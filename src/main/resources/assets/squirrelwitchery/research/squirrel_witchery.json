@@ -229,6 +229,33 @@
           "recipes": ["squirrelwitchery:witch_shotgun"]
         }
       ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_NUTSABER",
+      "name": "research.SQUIRREL_WITCHERY_NUTSABER.title",
+      "icons": ["squirrelwitchery:nutsaber"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE"],
+      "location": [7, 3],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_NUTSABER.stage.1",
+          "recipes": ["squirrelwitchery:nutsaber_core"],
+          "required_craft": ["squirrelwitchery:nutsaber_core"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_NUTSABER.stage.2",
+          "recipes": ["squirrelwitchery:nutsaber"],
+          "required_craft": ["squirrelwitchery:nutsaber"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_NUTSABER.stage.3",
+          "recipes": ["squirrelwitchery:nutsaber_core", "squirrelwitchery:nutsaber"]
+        }
+      ]
     }
   ]
 }

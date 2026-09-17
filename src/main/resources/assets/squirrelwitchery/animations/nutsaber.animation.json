@@ -1,0 +1,21 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.nutsaber.default": {
+			"loop": true,
+			"bones": {
+				"blade": {
+					"scale": 0
+				}
+			}
+		},
+		"animation.nutsaber.reveal": {
+			"loop": true,
+			"bones": {
+				"blade": {
+					"scale": [1, 1, 1]
+				}
+			}
+		}
+	}
+}

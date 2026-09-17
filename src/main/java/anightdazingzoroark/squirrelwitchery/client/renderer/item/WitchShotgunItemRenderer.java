@@ -12,23 +12,26 @@ public class WitchShotgunItemRenderer extends GeoItemRenderer<AnimatedItemStackH
         super(
                 new AnimatedGeoModel<AnimatedItemStackHolder>() {
                     @Override
-                    public @NotNull String getModId() {
+                    @NotNull
+                    public String getModId() {
                         return SquirrelWitchery.MODID;
                     }
 
                     @Override
+                    @NotNull
                     public String getModelIdentifier(AnimatedItemStackHolder animatedItemStackHolder) {
                         return "geometry.witch_shotgun";
                     }
 
                     @Override
+                    @NotNull
                     public String getTextureLocation(AnimatedItemStackHolder animatedItemStackHolder) {
                         return "items/witch_shotgun.png";
                     }
                 },
                 itemStack -> new AnimatedItemStackHolder(itemStack) {
                     @Override
-                    public void initializeAnimationData(AnimationDataItemStack animationDataItemStack) {}
+                    public void initializeAnimationData(@NotNull AnimationDataItemStack animationDataItemStack) {}
                 }
         );
     }
