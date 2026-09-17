@@ -1,6 +1,8 @@
 package anightdazingzoroark.squirrelwitchery.client;
 
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
+import anightdazingzoroark.riftlib.sounds.RiftLibSoundEffect;
+import anightdazingzoroark.riftlib.sounds.RiftLibSoundEffectRegistry;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.WitchBroomEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.NutsaberItemRenderer;

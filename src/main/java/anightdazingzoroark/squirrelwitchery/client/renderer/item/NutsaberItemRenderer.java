@@ -11,8 +11,11 @@ import anightdazingzoroark.riftlib.renderers.geo.GeoItemRenderer;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.items.NutsaberItem;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import org.jetbrains.annotations.NotNull;
 
 public class NutsaberItemRenderer extends GeoItemRenderer<AnimatedItemStackHolder> {
@@ -53,6 +56,11 @@ public class NutsaberItemRenderer extends GeoItemRenderer<AnimatedItemStackHolde
                                                     || transformType == ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND)
                                                     && !this.isFirstPersonEquipAnimationComplete()) return false;
                                             return SquirrelWitcheryItems.NUTSABER.getRisuniumAmount(this.getStack()) > 0;
+                                        })
+                                        .addExitEffect(animData -> {
+                                            EntityPlayer playerHolder = animData.getPlayerHolder();
+                                            if (playerHolder == null) return;
+                                            playerHolder.playSound(SquirrelWitcherySounds.NUTSABER_ACTIVATE,0.9f, 1f);
                                         }),
                                 new AnimationControllerState<AnimationDataItemStack>("unsheathed", 0.2)
                                         .addAnimation("animation.nutsaber.reveal")
@@ -60,6 +68,11 @@ public class NutsaberItemRenderer extends GeoItemRenderer<AnimatedItemStackHolde
                                             return this.getStack().getItem() != SquirrelWitcheryItems.NUTSABER
                                                     || SquirrelWitcheryItems.NUTSABER.getRisuniumAmount(this.getStack()) <= 0
                                                     || !this.isHeld();
+                                        })
+                                        .addExitEffect(animData -> {
+                                            EntityPlayer playerHolder = animData.getPlayerHolder();
+                                            if (playerHolder == null) return;
+                                            playerHolder.playSound(SquirrelWitcherySounds.NUTSABER_DEACTIVATE,0.9f, 1f);
                                         })
                         ));
                     }

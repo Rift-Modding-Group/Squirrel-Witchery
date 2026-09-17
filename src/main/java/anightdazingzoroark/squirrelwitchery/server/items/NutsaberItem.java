@@ -1,5 +1,6 @@
 package anightdazingzoroark.squirrelwitchery.server.items;
 
+import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -8,14 +9,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -74,6 +72,10 @@ public class NutsaberItem extends Item implements IRisuniumConsumer {
     public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
         if (!entityLiving.world.isRemote && this.getRisuniumAmount(stack) > 0) {
             this.setRisuniumAmount(stack, this.getRisuniumAmount(stack) - RISUNIUM_PER_SWING);
+            entityLiving.world.playSound(
+                    null, entityLiving.posX, entityLiving.posY, entityLiving.posZ,
+                    SquirrelWitcherySounds.NUTSABER_SWING, SoundCategory.PLAYERS, 0.9f, 1f
+            );
         }
         return false;
     }

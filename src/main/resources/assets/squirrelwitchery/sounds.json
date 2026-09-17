@@ -2,22 +2,44 @@
   "squirrel_ambient": {
     "subtitle": "subtitles.squirrelwitchery.squirrel_ambient",
     "sounds": [
-      "squirrelwitchery:squirrel_ambient_0",
-      "squirrelwitchery:squirrel_ambient_1",
-      "squirrelwitchery:squirrel_ambient_2",
-      "squirrelwitchery:squirrel_ambient_3"
+      "squirrelwitchery:entity/squirrel/squirrel_ambient_0",
+      "squirrelwitchery:entity/squirrel/squirrel_ambient_1",
+      "squirrelwitchery:entity/squirrel/squirrel_ambient_2",
+      "squirrelwitchery:entity/squirrel/squirrel_ambient_3"
     ]
   },
   "squirrel_hurt": {
     "subtitle": "subtitles.squirrelwitchery.squirrel_hurt",
     "sounds": [
-      "squirrelwitchery:squirrel_hurt"
+      "squirrelwitchery:entity/squirrel/squirrel_hurt"
     ]
   },
   "squirrel_death": {
     "subtitle": "subtitles.squirrelwitchery.squirrel_death",
     "sounds": [
-      "squirrelwitchery:squirrel_death"
+      "squirrelwitchery:entity/squirrel/squirrel_death"
+    ]
+  },
+  "nutsaber_activate": {
+    "subtitle": "subtitles.squirrelwitchery.nutsaber_activate",
+    "sounds": [
+      "squirrelwitchery:item/nutsaber/nutsaber_activate"
+    ]
+  },
+  "nutsaber_swing": {
+    "subtitle": "subtitles.squirrelwitchery.nutsaber_swing",
+    "sounds": [
+      "squirrelwitchery:item/nutsaber/nutsaber_swing_0",
+      "squirrelwitchery:item/nutsaber/nutsaber_swing_1",
+      "squirrelwitchery:item/nutsaber/nutsaber_swing_2",
+      "squirrelwitchery:item/nutsaber/nutsaber_swing_3",
+      "squirrelwitchery:item/nutsaber/nutsaber_swing_4"
+    ]
+  },
+  "nutsaber_deactivate": {
+    "subtitle": "subtitles.squirrelwitchery.nutsaber_deactivate",
+    "sounds": [
+      "squirrelwitchery:item/nutsaber/nutsaber_deactivate"
     ]
   }
 }
