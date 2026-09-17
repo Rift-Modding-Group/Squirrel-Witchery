@@ -6,6 +6,7 @@ import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
@@ -65,13 +66,21 @@ public class ServerEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onSquirrelScanned(ResearchEvent.Research event) {
-        if (!SquirrelWitcheryResearch.SQUIRREL.equals(event.getResearchKey())
-                || !(event.getPlayer() instanceof EntityPlayerMP player)) return;
-
+    @SubscribeEvent
+    public void onResearch(ResearchEvent.Research event) {
+        if (!(event.getPlayer() instanceof EntityPlayerMP player)) return;
         IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
-        if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.RISUNIUM_DISCOVERED)) {
+        if (knowledge == null) return;
+
+        //add risunium discovery when scanning a squirrel
+        if (event.getResearchKey().equals(SquirrelWitcheryResearch.SQUIRREL) && knowledge.addResearch(SquirrelWitcheryResearch.RISUNIUM_DISCOVERED)) {
+            knowledge.sync(player);
+        }
+
+        //add risunic devices when unlocking a risunic device research tab
+        if (SquirrelWitcheryResearch.RISUNIC_DEVICE_TABS.contains(event.getResearchKey())
+                && ThaumcraftApi.internalMethods.completeResearch(player, SquirrelWitcheryResearch.RISUNIC_DEVICES)
+        ) {
             knowledge.sync(player);
         }
     }

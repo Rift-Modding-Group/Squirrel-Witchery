@@ -11,6 +11,8 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.theorycraft.TheorycraftManager;
 
+import java.util.List;
+
 public final class SquirrelWitcheryResearch {
     public static final String CATEGORY = "SQUIRREL_WITCHERY";
     public static final String SQUIRREL = "!squirrel";
@@ -19,6 +21,7 @@ public final class SquirrelWitcheryResearch {
     public static final String RISUNIC_AUROMANCY = "SQUIRREL_WITCHERY_RISUNIC_AUROMANCY";
     public static final String RISUNIC_ARTIFICE = "SQUIRREL_WITCHERY_RISUNIC_ARTIFICE";
     public static final String RISUNIC_INFUSION = "SQUIRREL_WITCHERY_RISUNIC_INFUSION";
+    public static final String RISUNIC_DEVICES = "SQUIRREL_WITCHERY_RISUNIC_DEVICES";
     public static final String WITCH_STAFF = "SQUIRREL_WITCHERY_WITCH_STAFF";
     public static final String WITCH_STAFF_ATTACHMENTS = "SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS";
     public static final String WITCH_SHOTGUN = "SQUIRREL_WITCHERY_WITCH_SHOTGUN";
@@ -26,6 +29,7 @@ public final class SquirrelWitcheryResearch {
     public static final String WITCH_COSTUME = "SQUIRREL_WITCHERY_WITCH_COSTUME";
     public static final String DARK_WITCH_COSTUME = "SQUIRREL_WITCHERY_DARK_WITCH_COSTUME";
     public static final String WITCH_BROOM = "SQUIRREL_WITCHERY_WITCH_BROOM";
+    public static final List<String> RISUNIC_DEVICE_TABS = List.of(WITCH_BROOM, WITCH_STAFF, WITCH_SHOTGUN, NUTSABER);
 
     public static void registerCategory() {
         ResearchCategories.registerCategory(

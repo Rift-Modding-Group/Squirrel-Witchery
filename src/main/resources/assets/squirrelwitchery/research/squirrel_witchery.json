@@ -31,11 +31,30 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_RISUNIC_DEVICES",
+      "name": "research.SQUIRREL_WITCHERY_RISUNIC_DEVICES.title",
+      "icons": ["squirrelwitchery:nut"],
+      "category": "SQUIRREL_WITCHERY",
+      "location": [-2, 4],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_DEVICES.stage.1",
+          "recipes": [
+            "thaumcraft:WardedJar",
+            "thaumcraft:JarVoid"
+          ]
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_RISUNIC_STUDIES",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.title",
       "icons": ["squirrelwitchery:squirrel_fur"],
       "category": "SQUIRREL_WITCHERY",
-      "parents": ["~SQUIRREL_WITCHERY_RISUNIUM_DISCOVERED", "~BASEALCHEMY"],
+      "parents": ["~SQUIRREL_WITCHERY_RISUNIUM_DISCOVERED", "~BASEALCHEMY", "~ESSENTIASMELTER", "~WARDEDJARS"],
       "location": [0, 0],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
@@ -43,7 +62,7 @@
       "stages": [
         {
           "text": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.1",
-          "required_knowledge": ["OBSERVATION;SQUIRREL_WITCHERY;1", "THEORY;SQUIRREL_WITCHERY;1"]
+          "required_knowledge": ["OBSERVATION;SQUIRREL_WITCHERY;1", "THEORY;SQUIRREL_WITCHERY;1", "THEORY;ALCHEMY;1"]
         },
         {
           "text": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.stage.2",
