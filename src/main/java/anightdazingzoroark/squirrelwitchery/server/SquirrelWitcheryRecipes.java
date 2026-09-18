@@ -241,16 +241,22 @@ public class SquirrelWitcheryRecipes {
                         new ItemStack(ItemsTC.salisMundus)
                 )
         );
-        /*
         ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "witch_pendant"),
                 new InfusionRecipe(
                         SquirrelWitcheryResearch.WITCH_PENDANT,
-                        0,
-                        new As
+                        new ItemStack(SquirrelWitcheryItems.WITCH_PENDANT),
+                        4,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 50)
+                                .add(Aspect.ENERGY, 100)
+                                .add(Aspect.VOID, 50),
+                        new ItemStack(ItemsTC.baubles, 1, 4),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        new ItemStack(Items.GOLD_NUGGET)
                 )
         );
-         */
         ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "nutsaber"),
                 new InfusionRecipe(
