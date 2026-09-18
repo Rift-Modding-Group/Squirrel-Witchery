@@ -1,5 +1,6 @@
 package anightdazingzoroark.squirrelwitchery.client;
 
+import anightdazingzoroark.squirrelwitchery.server.items.IRisuniumConsumer;
 import anightdazingzoroark.squirrelwitchery.server.items.NutsaberItem;
 import anightdazingzoroark.squirrelwitchery.server.items.WitchShotgunItem;
 import net.minecraft.client.Minecraft;
@@ -16,8 +17,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class ClientEvents {
     private int selectedHotbarSlot = -1;
 
-    //make sure that nutsaber name doesn't reappear constantly
-    //when reducing risunium amount
+    //make sure that name of risunium consuming item doesn't reappear constantly
+    //when repeatedly changing risunium amount
     @SubscribeEvent
     public void preventNutsaberRisuniumHighlight(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.START) return;
@@ -36,7 +37,7 @@ public class ClientEvents {
 
         ItemStack currentStack = minecraft.player.inventory.getCurrentItem();
         ItemStack highlightedStack = minecraft.ingameGUI.highlightingItemStack;
-        if (currentStack.getItem() instanceof NutsaberItem && highlightedStack.getItem() instanceof NutsaberItem && currentStack != highlightedStack) {
+        if (currentStack.getItem() instanceof IRisuniumConsumer && highlightedStack.getItem() instanceof IRisuniumConsumer && currentStack != highlightedStack) {
             minecraft.ingameGUI.highlightingItemStack = currentStack;
         }
     }

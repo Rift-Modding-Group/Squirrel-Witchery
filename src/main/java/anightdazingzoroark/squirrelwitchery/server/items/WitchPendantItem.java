@@ -99,12 +99,6 @@ public class WitchPendantItem extends Item implements IBauble {
             aspects.remove(SquirrelWitcheryAspects.RISUNIUM, 1);
             jarItem.setAspects(stack, aspects);
             risuniumGiver.accept(1);
-            player.world.playSound(
-                    null,
-                    player.posX, player.posY, player.posZ,
-                    SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.PLAYERS,
-                    0.7f, 1f
-            );
             player.inventoryContainer.detectAndSendChanges();
             break;
         }
