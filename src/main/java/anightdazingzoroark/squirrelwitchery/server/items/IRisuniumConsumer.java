@@ -76,7 +76,7 @@ public interface IRisuniumConsumer {
             int available = aspects.getAmount(SquirrelWitcheryAspects.RISUNIUM);
             if (available <= 0) continue;
 
-            //transfer total risunium from jars to the broom
+            //transfer total risunium from jars to the item
             int transfer = Math.min(needed, available);
             aspects.remove(SquirrelWitcheryAspects.RISUNIUM, transfer);
             jarItem.setAspects(stack, aspects);

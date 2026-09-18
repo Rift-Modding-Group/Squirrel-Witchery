@@ -254,7 +254,7 @@
       "name": "research.SQUIRREL_WITCHERY_NUTSABER.title",
       "icons": ["squirrelwitchery:nutsaber"],
       "category": "SQUIRREL_WITCHERY",
-      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE"],
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE", "~BASEINFUSION", "~SQUIRREL_WITCHERY_RISUNIC_INFUSION"],
       "location": [7, 3],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
@@ -273,6 +273,64 @@
         {
           "text": "research.SQUIRREL_WITCHERY_NUTSABER.stage.3",
           "recipes": ["squirrelwitchery:nutsaber_core", "squirrelwitchery:nutsaber"]
+        }
+      ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_RISUNIC_INFUSION",
+      "name": "research.SQUIRREL_WITCHERY_RISUNIC_INFUSION.title",
+      "icons": ["squirrelwitchery:squirrel_fur"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEINFUSION"],
+      "location": [1, 6],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_INFUSION.stage.1",
+          "required_knowledge": ["THEORY;INFUSION;1", "THEORY;SQUIRREL_WITCHERY;2"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_INFUSION.stage.2"
+        }
+      ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_DARK_WITCH_COSTUME",
+      "name": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.title",
+      "icons": ["squirrelwitchery:dark_witch_robe"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_INFUSION", "~SQUIRREL_WITCHERY_WITCH_COSTUME", "~UNLOCKELDRITCH"],
+      "location": [5, 5],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.1",
+          "recipes": [
+            "squirrelwitchery:dark_witch_hat",
+            "squirrelwitchery:dark_witch_robe",
+            "squirrelwitchery:dark_witch_skirt",
+            "squirrelwitchery:dark_witch_boots"
+          ],
+          "required_craft": [
+            "squirrelwitchery:dark_witch_hat",
+            "squirrelwitchery:dark_witch_robe",
+            "squirrelwitchery:dark_witch_skirt",
+            "squirrelwitchery:dark_witch_boots"
+          ],
+          "warp": 2
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.2",
+          "recipes": [
+            "squirrelwitchery:dark_witch_hat",
+            "squirrelwitchery:dark_witch_robe",
+            "squirrelwitchery:dark_witch_skirt",
+            "squirrelwitchery:dark_witch_boots"
+          ]
         }
       ]
     }

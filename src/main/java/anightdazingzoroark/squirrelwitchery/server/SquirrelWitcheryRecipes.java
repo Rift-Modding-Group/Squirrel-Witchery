@@ -241,6 +241,16 @@ public class SquirrelWitcheryRecipes {
                         new ItemStack(ItemsTC.salisMundus)
                 )
         );
+        /*
+        ThaumcraftApi.addInfusionCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "witch_pendant"),
+                new InfusionRecipe(
+                        SquirrelWitcheryResearch.WITCH_PENDANT,
+                        0,
+                        new As
+                )
+        );
+         */
         ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "nutsaber"),
                 new InfusionRecipe(

@@ -36,6 +36,7 @@ public class SquirrelWitcheryItems {
     public static WitchShotgunItem WITCH_SHOTGUN;
     public static NutsaberItem NUTSABER;
     public static Item NUTSABER_CORE;
+    public static Item WITCH_PENDANT;
     /*
     public static Item NUT_BOMB;
      */
@@ -95,6 +96,7 @@ public class SquirrelWitcheryItems {
         WITCH_SHOTGUN = registerItem(new WitchShotgunItem(), "witch_shotgun", true);
         NUTSABER = registerItem(new NutsaberItem(), "nutsaber", true);
         NUTSABER_CORE = registerItem(new Item(), "nutsaber_core", true);
+        WITCH_PENDANT = registerItem(new WitchPendantItem(), "witch_pendant", true);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {
