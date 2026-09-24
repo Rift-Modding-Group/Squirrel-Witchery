@@ -4,6 +4,7 @@ import anightdazingzoroark.riftlib.core.IAnimatable;
 import anightdazingzoroark.riftlib.core.controller.AnimationController;
 import anightdazingzoroark.riftlib.core.controller.AnimationControllerState;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataEntity;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraft.entity.EntityAgeable;
@@ -17,6 +18,8 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -25,6 +28,8 @@ import net.minecraftforge.common.IShearable;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import thaumcraft.api.aura.AuraHelper;
+import thaumcraft.common.lib.SoundsTC;
 
 import java.util.List;
 import java.util.Set;
@@ -33,9 +38,14 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
     @NotNull
     private final AnimationDataEntity animData = new AnimationDataEntity(this);
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(SquirrelEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> PERFORM_RITUAL = EntityDataManager.createKey(SquirrelEntity.class, DataSerializers.BOOLEAN);
+    private static final int RITUAL_DURATION = 100; //as good as 5 seconds
+    private static final float RITUAL_VIS_PER_TICK = 0.1f;
 
     //server only
     private int shearCountdown;
+    private int ritualTicksRemaining;
+    private int ritualCooldown;
 
     public SquirrelEntity(World worldIn) {
         super(worldIn);
@@ -46,6 +56,7 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(SHEARED, false);
+        this.dataManager.register(PERFORM_RITUAL, false);
     }
 
     @Override
@@ -76,7 +87,49 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
                 if (this.shearCountdown > 0) this.shearCountdown--;
                 else this.setSheared(false);
             }
+
+            if (this.isPerformingRitual()) {
+                this.getNavigator().clearPath();
+                this.motionX = 0;
+                this.motionZ = 0;
+                AuraHelper.drainVis(this.world, this.getPosition(), RITUAL_VIS_PER_TICK, false);
+                this.ritualTicksRemaining--;
+                if (this.ritualTicksRemaining <= 0) {
+                    this.entityDropItem(new ItemStack(SquirrelWitcheryItems.CRYSTALLIZED_SQUIRREL_HEART), 0.1f);
+                    this.world.playSound(
+                            null, this.posX, this.posY, this.posZ,
+                            SoundsTC.wand, SoundCategory.NEUTRAL, 1f, 1.15f
+                    );
+                    this.setIsPerformingRitual(false);
+                    this.ritualCooldown = 24000; //should correspond to 1 in-game day
+                }
+            }
+
+            if (this.ritualCooldown > 0) this.ritualCooldown--;
         }
+    }
+
+    @Override
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+        ItemStack heldItem = player.getHeldItem(hand);
+        if (SquirrelWitcheryUtils.isRisuniumCrystal(heldItem)) {
+            if (!this.world.isRemote && !this.isPerformingRitual() && this.ritualCooldown <= 0) {
+                float requiredVis = RITUAL_DURATION * RITUAL_VIS_PER_TICK;
+                if (AuraHelper.drainVis(this.world, this.getPosition(), requiredVis, true) < requiredVis) {
+                    this.world.playSound(
+                            null, this.posX, this.posY, this.posZ,
+                            SoundsTC.wandfail, SoundCategory.NEUTRAL, 0.6f, 1.2f
+                    );
+                    return true;
+                }
+
+                this.ritualTicksRemaining = RITUAL_DURATION;
+                this.setIsPerformingRitual(true);
+                if (!player.capabilities.isCreativeMode) heldItem.shrink(1);
+            }
+            return true;
+        }
+        return super.processInteract(player, hand);
     }
 
     @Override
@@ -100,7 +153,7 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
 
     @Override
     public boolean isShearable(@NonNull ItemStack itemStack, IBlockAccess iBlockAccess, BlockPos blockPos) {
-        return !this.isSheared();
+        return !this.isSheared() && !this.isPerformingRitual();
     }
 
     @Override
@@ -111,17 +164,32 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
         return List.of(new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR, this.world.rand.nextInt(1, 4)));
     }
 
+    //---squirrel heart ritual stuff---
+    private boolean isPerformingRitual() {
+        return this.dataManager.get(PERFORM_RITUAL);
+    }
+
+    private void setIsPerformingRitual(boolean value) {
+        this.dataManager.set(PERFORM_RITUAL, value);
+        this.setNoAI(value);
+        this.setEntityInvulnerable(value);
+    }
+
     //---nbt stuff---
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
         compound.setBoolean("Sheared", this.isSheared());
+        compound.setInteger("ShearCooldown", this.shearCountdown);
+        compound.setInteger("RitualCooldown", this.ritualCooldown);
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         if (compound.hasKey("Sheared")) this.setSheared(compound.getBoolean("Sheared"));
+        if (compound.hasKey("ShearCooldown")) this.shearCountdown = compound.getInteger("ShearCooldown");
+        if (compound.hasKey("RitualCooldown")) this.ritualCooldown = compound.getInteger("RitualCooldown");
     }
 
     //---anim stuff---
@@ -149,6 +217,14 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
                 new AnimationControllerState<AnimationDataEntity>("sheared")
                         .addAnimation("animation.squirrel.sheared")
                         .addStateTransition("default", data -> !this.isSheared())
+        ));
+        animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntity>(
+                this, "ritualCont", "default",
+                new AnimationControllerState<AnimationDataEntity>("default")
+                        .addStateTransition("ritual", data -> this.isPerformingRitual()),
+                new AnimationControllerState<AnimationDataEntity>("ritual")
+                        .addStateTransition("default", data -> !this.isPerformingRitual())
+                        .addParticleEffect("squirrelwitchery:risunium_squirrel_orbs", "bodyCenter")
         ));
     }
 

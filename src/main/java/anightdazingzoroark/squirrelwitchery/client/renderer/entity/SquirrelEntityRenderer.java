@@ -17,11 +17,13 @@ public class SquirrelEntityRenderer extends GeoEntityRenderer<SquirrelEntity> {
             }
 
             @Override
+            @NotNull
             public String getModelIdentifier(SquirrelEntity squirrelEntity) {
                 return "geometry.squirrel";
             }
 
             @Override
+            @NotNull
             public String getTextureLocation(SquirrelEntity squirrelEntity) {
                 if (squirrelEntity.isSheared()) return "entity/squirrel_sheared.png";
                 return "entity/squirrel.png";

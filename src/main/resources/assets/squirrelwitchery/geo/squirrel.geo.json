@@ -13,7 +13,10 @@
 			"bones": [
 				{
 					"name": "main",
-					"pivot": [0, 0, 0]
+					"pivot": [0, 0, 0],
+					"locators": {
+						"bodyCenter": [0, 9, -4]
+					}
 				},
 				{
 					"name": "body",
