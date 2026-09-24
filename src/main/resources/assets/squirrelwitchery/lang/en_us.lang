@@ -22,6 +22,7 @@ item.witch_shotgun.name=Witch's Shotgun
 item.nutsaber.name=Nutsaber
 item.nutsaber_core.name=Nutsaber Core
 item.witch_pendant.name=Witch's Pendant
+item.crystallized_squirrel_heart.name=Crystallized Squirrel Heart
 death.attack.witchShotgun=%1$s was blasted by %2$s
 death.attack.witchShotgun.item=%1$s was blasted by %2$s using %3$s
 

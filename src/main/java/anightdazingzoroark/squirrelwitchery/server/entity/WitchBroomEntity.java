@@ -5,7 +5,6 @@ import anightdazingzoroark.riftlib.core.manager.AnimationDataEntity;
 import anightdazingzoroark.squirrelwitchery.client.SquirrelWitcheryControls;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
-import anightdazingzoroark.squirrelwitchery.server.items.WitchBroomItem;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -26,6 +25,7 @@ import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.List;
 
 public class WitchBroomEntity extends EntityLiving implements IAnimatable<AnimationDataEntity> {
     @NotNull
-    private final AnimationDataEntity animData = new AnimationDataEntity(this, entity -> 1.25f);
+    private final AnimationDataEntity animData = new AnimationDataEntity(this);
     private static final DataParameter<Boolean> GOING_UP = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> GOING_DOWN = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> RISUNIUM = EntityDataManager.createKey(WitchBroomEntity.class, DataSerializers.VARINT);
@@ -211,12 +211,15 @@ public class WitchBroomEntity extends EntityLiving implements IAnimatable<Animat
 
     //---anim stuff---
     @Override
+    @NonNull
     public AnimationDataEntity getAnimationData() {
         return this.animData;
     }
 
     @Override
-    public void initializeAnimationData(AnimationDataEntity animationDataEntity) {}
+    public void initializeAnimationData(@NonNull AnimationDataEntity animationData) {
+        animationData.setScale(1.25f);
+    }
 
     //---stuff idc about---
     @Override

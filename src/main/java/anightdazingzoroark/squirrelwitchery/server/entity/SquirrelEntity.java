@@ -31,7 +31,7 @@ import java.util.Set;
 
 public class SquirrelEntity extends EntityAnimal implements IAnimatable<AnimationDataEntity>, IShearable {
     @NotNull
-    private final AnimationDataEntity animData = new AnimationDataEntity(this, entity -> entity.isChild() ? 0.25f : 0.5f);
+    private final AnimationDataEntity animData = new AnimationDataEntity(this);
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(SquirrelEntity.class, DataSerializers.BOOLEAN);
 
     //server only
@@ -126,12 +126,14 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
 
     //---anim stuff---
     @Override
+    @NonNull
     public AnimationDataEntity getAnimationData() {
         return this.animData;
     }
 
     @Override
-    public void initializeAnimationData(AnimationDataEntity animationData) {
+    public void initializeAnimationData(@NonNull AnimationDataEntity animationData) {
+        animationData.setScale(entity -> entity.isChild() ? 0.25f : 0.5f);
         animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntity>(
                 this, "movementCont", "default",
                 new AnimationControllerState<AnimationDataEntity>("default", 0.1)
