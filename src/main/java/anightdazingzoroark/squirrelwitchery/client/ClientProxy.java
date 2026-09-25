@@ -10,6 +10,7 @@ import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchBroomItemR
 import anightdazingzoroark.squirrelwitchery.client.renderer.armor.WitchCostumeRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchShotgunItemRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.WitchStaffItemRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.player.SquirrelAttachmentsLayer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
@@ -19,6 +20,7 @@ import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.client.model.ModelLoader;
@@ -105,6 +107,11 @@ public class ClientProxy extends ServerProxy {
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_ROBE, witchCostumeRenderer);
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_SKIRT, witchCostumeRenderer);
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_BOOTS, witchCostumeRenderer);
+
+        //register player attachments
+        for (RenderPlayer renderPlayer : Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
+            renderPlayer.addLayer(new SquirrelAttachmentsLayer(renderPlayer));
+        }
     }
 
     @Override

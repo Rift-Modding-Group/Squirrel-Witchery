@@ -49,7 +49,7 @@ public class SquirrelWitcheryItems {
         NUT = registerItem(new Item(), "nut", true);
         BIG_NUT = registerItem(new Item(), "big_nut", true);
         SQUIRREL_FUR = registerItem(new Item(), "squirrel_fur", true);
-        CRYSTALLIZED_SQUIRREL_HEART = registerItem(new Item(), "crystallized_squirrel_heart", true);
+        CRYSTALLIZED_SQUIRREL_HEART = registerItem(new CrystallizedSquirrelHeartItem(), "crystallized_squirrel_heart", true);
         WITCH_HAT = registerItem(
                 new WitchCostumeItem(ThaumcraftMaterials.ARMORMAT_SPECIAL, 0, EntityEquipmentSlot.HEAD, 2),
                 "witch_hat", true

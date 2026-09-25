@@ -4,13 +4,16 @@ import anightdazingzoroark.riftlib.RiftLib;
 import anightdazingzoroark.riftlib.message.RiftLibMessage;
 import anightdazingzoroark.riftlib.message.RiftLibMessageSide;
 import anightdazingzoroark.riftlib.message.RiftLibMessageWrapper;
+import anightdazingzoroark.riftlib.nbtStorageUser.propertySystem.registry.PropertyRegistry;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelWitcheryEntities;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
+import anightdazingzoroark.squirrelwitchery.server.player.SquirrelPlayerProperties;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -25,6 +28,10 @@ public class ServerProxy {
         SquirrelWitcheryItems.registerItems();
         SquirrelWitcheryEntities.registerEntities();
         SquirrelWitcheryAspects.assignAspects();
+        PropertyRegistry.register(
+                SquirrelWitchery.MODID + ":player",
+                new PropertyRegistry.ClassPropertyPair<>(EntityPlayer.class, SquirrelPlayerProperties::new)
+        );
 
         //---messages---
         MESSAGE_WRAPPER.registerMessage(MessageControlWitchBroom.class, RiftLibMessageSide.SERVER);
