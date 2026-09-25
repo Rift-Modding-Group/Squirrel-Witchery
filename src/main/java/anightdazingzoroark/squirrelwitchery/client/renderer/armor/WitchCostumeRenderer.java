@@ -25,11 +25,13 @@ public class WitchCostumeRenderer extends GeoArmorRenderer<AnimatedArmorHolder> 
                 }
 
                 @Override
+                @NotNull
                 public String getModelIdentifier(AnimatedArmorHolder witchCostumeHolder) {
                     return "geometry.witch_costume";
                 }
 
                 @Override
+                @NotNull
                 public String getTextureLocation(AnimatedArmorHolder witchCostumeHolder) {
                     Item item = witchCostumeHolder.getAnimationData().getStack().getItem();
                     if (item == SquirrelWitcheryItems.DARK_WITCH_HAT || item == SquirrelWitcheryItems.DARK_WITCH_ROBE
@@ -42,7 +44,7 @@ public class WitchCostumeRenderer extends GeoArmorRenderer<AnimatedArmorHolder> 
             },
             itemStack -> new AnimatedArmorHolder(itemStack) {
                 @Override
-                public void initializeAnimationData(AnimationDataArmor animationDataArmor) {}
+                public void initializeAnimationData(@NotNull AnimationDataArmor animationDataArmor) {}
             }
         );
         this.setHeadBone("hat");
@@ -63,12 +65,12 @@ public class WitchCostumeRenderer extends GeoArmorRenderer<AnimatedArmorHolder> 
             //hide right glove
             ItemStack rightItemStack = wearer.getHeldItem(EnumHand.MAIN_HAND);
             GeoBone rightGloveBone = model.getAllBones().get("rightGlove");
-            if (rightGloveBone != null) rightGloveBone.setHidden(rightItemStack != null && rightItemStack.getItem() instanceof ItemCaster);
+            if (rightGloveBone != null) rightGloveBone.setHidden(rightItemStack != null && isGauntlet(rightItemStack));
 
             //same w left glove
             ItemStack leftItemStack = wearer.getHeldItem(EnumHand.OFF_HAND);
             GeoBone leftGloveBone = model.getAllBones().get("leftGlove");
-            if (leftGloveBone != null) leftGloveBone.setHidden(leftItemStack != null && leftItemStack.getItem() instanceof ItemCaster);
+            if (leftGloveBone != null) leftGloveBone.setHidden(leftItemStack != null && isGauntlet(leftItemStack));
 
             //---sneak adjustments---
             GeoBone skirt = model.getAllBones().get("skirt");
@@ -82,5 +84,9 @@ public class WitchCostumeRenderer extends GeoArmorRenderer<AnimatedArmorHolder> 
         }
 
         super.render(model, animatable, partialTicks, red, green, blue, alpha);
+    }
+
+    private static boolean isGauntlet(@NotNull ItemStack itemStack) {
+        return itemStack.getItem() instanceof ItemCaster && itemStack.getItem() != SquirrelWitcheryItems.WITCH_STAFF;
     }
 }

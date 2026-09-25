@@ -99,6 +99,14 @@ public class SquirrelWitcheryOverlay {
         GlStateManager.color(1f, 1f, 1f, 1f);
         UtilsFX.drawTexturedQuad(-8f, -3f, 72f, 0f, 16f, 42f, -90D);
 
+        //---risunium amount---
+        if (player.isSneaking() && (mainHandStack.getItem() instanceof IRisuniumConsumer || offHandStack.getItem() instanceof IRisuniumConsumer)) {
+            GlStateManager.pushMatrix();
+            GlStateManager.rotate(-90f, 0f, 0f, 1f);
+            minecraft.fontRenderer.drawString(Integer.toString(amount), -32, -4, 0xFFFFFF);
+            GlStateManager.popMatrix();
+        }
+
         GlStateManager.popMatrix();
 
         GlStateManager.color(1f, 1f, 1f, 1f);

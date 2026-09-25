@@ -1,6 +1,7 @@
 package anightdazingzoroark.squirrelwitchery.server.items;
 
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -10,10 +11,13 @@ import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.ThaumcraftMaterials;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SquirrelWitcheryItems {
     public static final List<Item> ITEMS = new ArrayList<>();
+    public static final Map<Block, Item> BLOCK_ITEMS = new HashMap<>();
 
     public static Item NUT;
     public static Item BIG_NUT;
