@@ -28,11 +28,11 @@
       "stages": [
         {
           "text": "research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.stage.1",
-          "required_research": ["m_squirrel_risunium"]
+          "required_research": ["squirrel_risunium"]
         },
         {
           "text": "research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.stage.2",
-          "required_research": ["m_squirrel_heart_used"]
+          "required_research": ["squirrel_heart_used"]
         },
         {
           "text": "research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.stage.3"

@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "target": "@env(MOD)",
   "client": [
-    "GuiArcaneWorkbenchMixin"
+    "GuiArcaneWorkbenchMixin",
+    "GuiResearchPageMixin"
   ],
   "mixins": [
     "FocusEngineMixin",

@@ -5,6 +5,7 @@ import anightdazingzoroark.riftlib.core.controller.AnimationController;
 import anightdazingzoroark.riftlib.core.controller.AnimationControllerState;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataEntity;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
+import anightdazingzoroark.squirrelwitchery.server.SquirrelWitcheryResearch;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraft.entity.EntityAgeable;
@@ -12,6 +13,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -29,6 +31,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import thaumcraft.api.aura.AuraHelper;
+import thaumcraft.api.capabilities.IPlayerKnowledge;
+import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.common.lib.SoundsTC;
 
 import java.util.List;
@@ -112,8 +116,20 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
         ItemStack heldItem = player.getHeldItem(hand);
+        //if given a risunium crystal, perform a ritual
         if (SquirrelWitcheryUtils.isRisuniumCrystal(heldItem)) {
-            if (!this.world.isRemote && !this.isPerformingRitual() && this.ritualCooldown <= 0) {
+            if (!this.world.isRemote) {
+                //block if player is not serverPlayer instance or if its a baby
+                if (!(player instanceof EntityPlayerMP serverPlayer) || this.growingAge < 0) return true;
+
+                //block if no knowledge or if research tab doesn't exist yet
+                IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(serverPlayer);
+                if (knowledge == null || !knowledge.isResearchKnown(SquirrelWitcheryResearch.CRYSTALLIZED_SQUIRREL_HEART + "@1")) return true;
+
+                //block ritual if its bein performed and when coolin down
+                if (this.isPerformingRitual() || this.ritualCooldown > 0) return true;
+
+                //block ritual due to lack of vis
                 float requiredVis = RITUAL_DURATION * RITUAL_VIS_PER_TICK;
                 if (AuraHelper.drainVis(this.world, this.getPosition(), requiredVis, true) < requiredVis) {
                     this.world.playSound(
@@ -123,6 +139,14 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
                     return true;
                 }
 
+                //add knowledge
+                if (!knowledge.isResearchKnown(SquirrelWitcheryResearch.CRYSTALLIZED_SQUIRREL_HEART + "@2")
+                        && knowledge.addResearch(SquirrelWitcheryResearch.SQUIRREL_RISUNIUM_INTERACTION)
+                ) {
+                    knowledge.sync(serverPlayer);
+                }
+
+                //final ritual stuff
                 this.ritualTicksRemaining = RITUAL_DURATION;
                 this.setIsPerformingRitual(true);
                 if (!player.capabilities.isCreativeMode) heldItem.shrink(1);

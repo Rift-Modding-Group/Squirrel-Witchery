@@ -45,12 +45,6 @@ public class CrystallizedSquirrelHeartItem extends Item {
                 IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(serverPlayer);
                 if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.SQUIRREL_HEART_USED)) {
                     knowledge.sync(serverPlayer);
-                    serverPlayer.sendStatusMessage(
-                            new TextComponentTranslation("got.squirrel_heart_used").setStyle(
-                                    new Style().setColor(TextFormatting.DARK_PURPLE)
-                            ),
-                            true
-                    );
                 }
             }
         }

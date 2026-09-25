@@ -1,22 +1,17 @@
 package anightdazingzoroark.squirrelwitchery.server;
 
-import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
-import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -86,24 +81,6 @@ public class ServerEvents {
         ) {
             knowledge.sync(player);
         }
-    }
-
-    @SubscribeEvent
-    public void onSquirrelInteraction(PlayerInteractEvent.EntityInteract event) {
-        if (!(event.getEntityPlayer() instanceof EntityPlayerMP player)
-                || !(event.getTarget() instanceof SquirrelEntity)
-                || !SquirrelWitcheryUtils.isRisuniumCrystal(player.getHeldItem(event.getHand()))) return;
-
-        IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
-        if (knowledge == null
-                || !knowledge.isResearchKnown(SquirrelWitcheryResearch.CRYSTALLIZED_SQUIRREL_HEART + "@1")
-                || knowledge.isResearchKnown(SquirrelWitcheryResearch.CRYSTALLIZED_SQUIRREL_HEART + "@2")
-                || !knowledge.addResearch(SquirrelWitcheryResearch.SQUIRREL_RISUNIUM_INTERACTION)) return;
-
-        knowledge.sync(player);
-        player.sendStatusMessage(new TextComponentString(
-                TextFormatting.DARK_PURPLE + I18n.format("got.squirrel_risunium")
-        ), true);
     }
 
     @SubscribeEvent

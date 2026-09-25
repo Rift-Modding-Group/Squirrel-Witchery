@@ -9,7 +9,7 @@ public class SquirrelWitcheryConfig {
             "1/x chance for which a nut will drop by breaking leaves.",
             "Setting to 0 disables nuts dropping from leaves entirely."
     })
-    public static int nutDropRate = 8;
+    public static int nutDropRate = 16;
 
     @Config.Name("Nut Drop Quantity Range")
     @Config.Comment("Upper and lower limit for amount of nuts that can drop from breaking leaves.")
@@ -20,7 +20,7 @@ public class SquirrelWitcheryConfig {
             "1/x chance for which a big nut will drop by breaking leaves.",
             "Setting to 0 disables big nuts dropping from leaves entirely."
     })
-    public static int bigNutDropRate = 16;
+    public static int bigNutDropRate = 32;
 
     @Config.Name("Big Nut Drop Quantity Range")
     @Config.Comment("Upper and lower limit for amount of nuts that can drop from breaking leaves.")
