@@ -1,0 +1,48 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "squirrelwitchery:risunium_heart_burst",
+      "basic_render_parameters": {
+        "material": "particles_add",
+        "texture": "squirrelwitchery:textures/particle/risunium_mote"
+      }
+    },
+    "components": {
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 24
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.1
+      },
+      "minecraft:emitter_shape_sphere": {
+        "radius": 0.4,
+        "surface_only": true,
+        "direction": "outwards"
+      },
+      "minecraft:particle_initial_speed": "1.9 + variable.particle_random_2 * 0.4",
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": "0.5 + variable.particle_random_1 * 0.08"
+      },
+      "minecraft:particle_motion_dynamic": {
+        "linear_drag_coefficient": 0.1
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "math.max(0, (0.06 + variable.particle_random_3 * 0.1) * (1 - variable.particle_age / variable.particle_lifetime))",
+          "math.max(0, (0.06 + variable.particle_random_3 * 0.1) * (1 - variable.particle_age / variable.particle_lifetime))"
+        ],
+        "facing_camera_mode": "lookat_xyz",
+        "uv": {
+          "texture_width": 16,
+          "texture_height": 16,
+          "uv": [0, 0],
+          "uv_size": [16, 16]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": [1, 1, 1, "math.max(0, 1 - variable.particle_age / variable.particle_lifetime)"]
+      }
+    }
+  }
+}

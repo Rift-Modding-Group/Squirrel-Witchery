@@ -16,6 +16,30 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART",
+      "name": "research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.title",
+      "icons": ["squirrelwitchery:crystallized_squirrel_heart"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["!squirrel", "~SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
+      "location": [-4, 0],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.stage.1",
+          "required_research": ["m_squirrel_risunium"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.stage.2",
+          "required_research": ["m_squirrel_heart_used"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.stage.3"
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_NUTS",
       "name": "research.SQUIRREL_WITCHERY_NUTS.title",
       "icons": ["squirrelwitchery:nut"],

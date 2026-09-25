@@ -32,6 +32,11 @@ public final class SquirrelWitcheryAspects {
                 new AspectPair(RISUNIUM, 10), new AspectPair(Aspect.BEAST, 10)
         ));
         ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
+                SquirrelWitcheryItems.CRYSTALLIZED_SQUIRREL_HEART, false,
+                new AspectPair(RISUNIUM, 30), new AspectPair(Aspect.BEAST, 5), new AspectPair(Aspect.CRYSTAL, 5),
+                new AspectPair(Aspect.MAGIC, 5)
+        ));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
                 SquirrelWitcheryItems.WITCH_HAT, true,
                 new AspectPair(RISUNIUM, 89), new AspectPair(Aspect.CRAFT, 7), new AspectPair(Aspect.MAGIC, 7)
         ));
