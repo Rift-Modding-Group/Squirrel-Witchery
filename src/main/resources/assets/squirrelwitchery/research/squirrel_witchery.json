@@ -349,12 +349,40 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_SQUIRREL_PLUSH",
+      "name": "research.SQUIRREL_WITCHERY_SQUIRREL_PLUSH.title",
+      "icons": ["squirrelwitchery:squirrel_plush"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_INFUSION", "~SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART"],
+      "location": [5, 5],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_SQUIRREL_PLUSH.stage.1",
+          "recipes": [
+            "squirrelwitchery:squirrel_plush"
+          ],
+          "required_craft": [
+            "squirrelwitchery:squirrel_plush"
+          ]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_SQUIRREL_PLUSH.stage.2",
+          "recipes": [
+            "squirrelwitchery:squirrel_plush"
+          ]
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_DARK_WITCH_COSTUME",
       "name": "research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.title",
       "icons": ["squirrelwitchery:dark_witch_robe"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_INFUSION", "~SQUIRREL_WITCHERY_WITCH_COSTUME", "~UNLOCKELDRITCH"],
-      "location": [5, 5],
+      "location": [7, 5],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],

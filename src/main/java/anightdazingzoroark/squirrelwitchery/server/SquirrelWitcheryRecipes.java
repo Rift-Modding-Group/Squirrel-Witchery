@@ -228,25 +228,10 @@ public class SquirrelWitcheryRecipes {
 
         //---infusion stuff---
         ThaumcraftApi.addInfusionCraftingRecipe(
-                new ResourceLocation(SquirrelWitchery.MODID, "crystal_cluster_risunium"),
-                new InfusionRecipe(
-                        "CRYSTALFARMER",
-                        new ItemStack(SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM),
-                        0,
-                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 10)
-                                .add(Aspect.CRYSTAL, 10)
-                                .add(Aspect.TRAP, 5),
-                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
-                        new ItemStack(Items.WHEAT_SEEDS),
-                        new ItemStack(ItemsTC.salisMundus)
-                )
-        );
-        ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "witch_pendant"),
                 new InfusionRecipe(
-                        SquirrelWitcheryResearch.WITCH_PENDANT,
-                        new ItemStack(SquirrelWitcheryItems.WITCH_PENDANT),
-                        4,
+                        SquirrelWitcheryResearch.WITCH_PENDANT + "@1",
+                        new ItemStack(SquirrelWitcheryItems.WITCH_PENDANT), 4,
                         new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 50)
                                 .add(Aspect.ENERGY, 100)
                                 .add(Aspect.VOID, 50),
@@ -255,6 +240,23 @@ public class SquirrelWitcheryRecipes {
                         new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
                         ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
                         new ItemStack(Items.GOLD_NUGGET)
+                )
+        );
+        ThaumcraftApi.addInfusionCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "squirrel_plush"),
+                new InfusionRecipe(
+                        SquirrelWitcheryResearch.SQUIRREL_PLUSH + "@1",
+                        new ItemStack(SquirrelWitcheryBlocks.SQUIRREL_PLUSH), 4,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 160)
+                                .add(Aspect.ENTROPY, 160)
+                                .add(Aspect.MAGIC, 160),
+                        new ItemStack(SquirrelWitcheryItems.CRYSTALLIZED_SQUIRREL_HEART),
+                        new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        new ItemStack(SquirrelWitcheryItems.NUT),
+                        new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        new ItemStack(SquirrelWitcheryItems.NUT)
                 )
         );
         ThaumcraftApi.addInfusionCraftingRecipe(
@@ -281,7 +283,7 @@ public class SquirrelWitcheryRecipes {
         ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "dark_witch_hat"),
                 new InfusionRecipe(
-                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME,
+                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME + "@1",
                         new ItemStack(SquirrelWitcheryItems.DARK_WITCH_HAT),
                         6,
                         new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 25)
@@ -303,7 +305,7 @@ public class SquirrelWitcheryRecipes {
         ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "dark_witch_robe"),
                 new InfusionRecipe(
-                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME,
+                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME + "@1",
                         new ItemStack(SquirrelWitcheryItems.DARK_WITCH_ROBE),
                         6,
                         new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 35)
@@ -324,7 +326,7 @@ public class SquirrelWitcheryRecipes {
         ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "dark_witch_skirt"),
                 new InfusionRecipe(
-                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME,
+                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME + "@1",
                         new ItemStack(SquirrelWitcheryItems.DARK_WITCH_SKIRT),
                         6,
                         new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 30)
@@ -345,7 +347,7 @@ public class SquirrelWitcheryRecipes {
         ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "dark_witch_boots"),
                 new InfusionRecipe(
-                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME,
+                        SquirrelWitcheryResearch.DARK_WITCH_COSTUME + "@1",
                         new ItemStack(SquirrelWitcheryItems.DARK_WITCH_BOOTS),
                         6,
                         new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 20)

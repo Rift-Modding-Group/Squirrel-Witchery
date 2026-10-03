@@ -20,10 +20,14 @@ public class SquirrelPlayerProperties extends AbstractEntityProperties<EntityPla
     }
 
     @Override
-    protected void registerDefaults(EntityPlayer player) {
+    protected void registerDefaults(@NotNull EntityPlayer player) {
         this.register(new BooleanPropertyValue("UsedHeart", false));
     }
 
+    @Override
+    public void onTickProperty() {}
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean hasSquirrelAttachments() {
         return this.get("UsedHeart");
     }

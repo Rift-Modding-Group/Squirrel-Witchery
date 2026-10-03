@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class SquirrelWitcheryItems {
     public static final List<Item> ITEMS = new ArrayList<>();
-    public static final Map<Block, Item> BLOCK_ITEMS = new HashMap<>();
+    public static final Map<Block, ItemBlock> BLOCK_ITEMS = new HashMap<>();
 
     public static Item NUT;
     public static Item BIG_NUT;
@@ -44,6 +45,10 @@ public class SquirrelWitcheryItems {
     /*
     public static Item NUT_BOMB;
      */
+
+    public static ItemBlock getBlockItem(Block block) {
+        return BLOCK_ITEMS.get(block);
+    }
 
     public static void registerItems() {
         NUT = registerItem(new Item(), "nut", true);
@@ -109,6 +114,12 @@ public class SquirrelWitcheryItems {
         item.setTranslationKey(registryName);
         ITEMS.add(item);
         return item;
+    }
+
+    public static void registerBlockItem(Block block, String registryName, boolean canBeInCreative) {
+        ItemBlock blockItem = new ItemBlock(block);
+        registerItem(blockItem, registryName, canBeInCreative);
+        BLOCK_ITEMS.put(block, blockItem);
     }
 
     @SubscribeEvent

@@ -1,7 +1,6 @@
 package anightdazingzoroark.squirrelwitchery.server.aspects;
 
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
-import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -111,11 +110,6 @@ public final class SquirrelWitcheryAspects {
                 SquirrelWitcheryItems.NUTSABER, false,
                 new AspectPair(RISUNIUM, 105), new AspectPair(Aspect.AVERSION, 50), new AspectPair(Aspect.ENERGY, 45),
                 new AspectPair(Aspect.TOOL, 35), new AspectPair(Aspect.MECHANISM, 25)
-        ));
-
-        //---block assignments---
-        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Block>(
-                SquirrelWitcheryBlocks.CRYSTAL_RISUNIUM, true, new AspectPair(RISUNIUM, 15)
         ));
 
         //---entity assignments---
