@@ -57,7 +57,7 @@
     {
       "key": "SQUIRREL_WITCHERY_RISUNIC_DEVICES",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_DEVICES.title",
-      "icons": ["squirrelwitchery:nut"],
+      "icons": ["squirrelwitchery:textures/ui/risunic_devices.png"],
       "category": "SQUIRREL_WITCHERY",
       "location": [-2, 4],
       "meta": ["ROUND", "HIDDEN"],
@@ -76,7 +76,7 @@
     {
       "key": "SQUIRREL_WITCHERY_RISUNIC_STUDIES",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_STUDIES.title",
-      "icons": ["squirrelwitchery:squirrel_fur"],
+      "icons": ["squirrelwitchery:textures/items/witch_hat.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["~SQUIRREL_WITCHERY_RISUNIUM_DISCOVERED", "~BASEALCHEMY", "~ESSENTIASMELTER", "~WARDEDJARS"],
       "location": [0, 0],
@@ -162,7 +162,7 @@
     {
       "key": "SQUIRREL_WITCHERY_RISUNIC_AUROMANCY",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.title",
-      "icons": ["squirrelwitchery:squirrel_fur"],
+      "icons": ["squirrelwitchery:textures/ui/risunic_auromancy.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEAUROMANCY"],
       "location": [1, 2],
@@ -209,7 +209,7 @@
     {
       "key": "SQUIRREL_WITCHERY_RISUNIC_ARTIFICE",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.title",
-      "icons": ["squirrelwitchery:squirrel_fur"],
+      "icons": ["squirrelwitchery:textures/ui/risunic_artifice.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEARTIFICE"],
       "location": [1, 4],
@@ -303,7 +303,7 @@
     {
       "key": "SQUIRREL_WITCHERY_RISUNIC_INFUSION",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_INFUSION.title",
-      "icons": ["squirrelwitchery:squirrel_fur"],
+      "icons": ["squirrelwitchery:textures/ui/risunic_infusion.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEINFUSION"],
       "location": [1, 6],

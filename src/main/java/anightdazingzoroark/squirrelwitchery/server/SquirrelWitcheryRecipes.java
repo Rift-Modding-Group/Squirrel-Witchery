@@ -247,9 +247,9 @@ public class SquirrelWitcheryRecipes {
                 new InfusionRecipe(
                         SquirrelWitcheryResearch.SQUIRREL_PLUSH + "@1",
                         new ItemStack(SquirrelWitcheryBlocks.SQUIRREL_PLUSH), 4,
-                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 160)
-                                .add(Aspect.ENTROPY, 160)
-                                .add(Aspect.MAGIC, 160),
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 50)
+                                .add(Aspect.ENTROPY, 50)
+                                .add(Aspect.MAGIC, 50),
                         new ItemStack(SquirrelWitcheryItems.CRYSTALLIZED_SQUIRREL_HEART),
                         new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
                         ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
