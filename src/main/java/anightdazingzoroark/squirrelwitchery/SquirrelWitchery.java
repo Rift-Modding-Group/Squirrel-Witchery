@@ -23,8 +23,7 @@ import org.apache.logging.log4j.Logger;
         name = SquirrelWitchery.MODNAME,
         version = SquirrelWitchery.MODVERSION,
         dependencies = "required-after:riftlib@[1.0.0,);" +
-                ";required-after:thaumcraft" +
-                ";required-after:thaumicapi"
+                ";required-after:thaumcraft"
 )
 public class SquirrelWitchery {
     public static final String MODID = "squirrelwitchery";

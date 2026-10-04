@@ -32,7 +32,6 @@ dependencies {
     compileOnly files("libs/riftlib-2.0.0-dev.jar")
 
     //thaumcraft and related mods
-    modImplementation 'curse.maven:thaumicapi-1533287:8473028'
     modImplementation 'curse.maven:thaumcraft-223628:2629023'
     modImplementation 'curse.maven:baubles-227083:2518667'
 
