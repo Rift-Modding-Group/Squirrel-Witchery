@@ -5,6 +5,7 @@ import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -12,6 +13,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -23,6 +25,18 @@ import thaumcraft.api.research.ResearchEvent;
 import java.util.Random;
 
 public class ServerEvents {
+    @SubscribeEvent
+    public void enableArmorStandArmsForWitchWeapons(PlayerInteractEvent.EntityInteractSpecific event) {
+        if (event.getWorld().isRemote || !(event.getTarget() instanceof EntityArmorStand armorStand) || armorStand.getShowArms()) return;
+
+        ItemStack stack = event.getItemStack();
+        if (stack.getItem() == SquirrelWitcheryItems.WITCH_STAFF || stack.getItem() == SquirrelWitcheryItems.WITCH_SHOTGUN
+                || stack.getItem() == SquirrelWitcheryItems.NUTSABER
+        ) {
+            armorStand.setShowArms(true);
+        }
+    }
+
     @SubscribeEvent
     public void dropItemEvent(BlockEvent.HarvestDropsEvent event) {
         if (event.getWorld().isRemote || SquirrelWitcheryConfig.nutDropRate <= 0) return;
