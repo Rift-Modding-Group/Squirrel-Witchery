@@ -57,7 +57,8 @@ public abstract class GuiResearchPageMixin {
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/GlStateManager;color(FFFF)V",
-                    ordinal = 2
+                    ordinal = 2,
+                    remap = true
             ),
             require = 1
     )
