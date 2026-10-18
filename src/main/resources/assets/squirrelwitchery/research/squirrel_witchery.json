@@ -160,13 +160,55 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_RISUNIC_ALCHEMY",
+      "name": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.title",
+      "icons": ["squirrelwitchery:textures/ui/risunic_alchemy.png"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": [ "SQUIRREL_WITCHERY_RISUNIC_STUDIES" ],
+      "location": [1, 2],
+      "meta": [ "SPIKY", "REVERSE" ],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_ALCHEMY.stage.1",
+          "required_knowledge": ["THEORY;ALCHEMY;1", "THEORY;SQUIRREL_WITCHERY;2"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_RISUNIC_ALCHEMY.stage.2"
+        }
+      ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_EXPLOSIVE_NUT",
+      "name": "research.SQUIRREL_WITCHERY_EXPLOSIVE_NUT.title",
+      "icons": ["squirrelwitchery:explosive_nut"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ALCHEMY"],
+      "location": [3, 1],
+      "meta": [ "ROUND" ],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_EXPLOSIVE_NUT.stage.1",
+          "recipes": ["squirrelwitchery:explosive_nut"],
+          "required_craft": ["squirrelwitchery:explosive_nut"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_EXPLOSIVE_NUT.stage.2",
+          "recipes": ["squirrelwitchery:explosive_nut"]
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_RISUNIC_AUROMANCY",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.title",
       "icons": ["squirrelwitchery:textures/ui/risunic_auromancy.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEAUROMANCY"],
-      "location": [1, 2],
-      "meta": [ "ROUND", "REVERSE" ],
+      "location": [1, 4],
+      "meta": [ "SPIKY", "REVERSE" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -185,7 +227,7 @@
       "icons": ["squirrelwitchery:witch_staff"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_AUROMANCY"],
-      "location": [3, 1],
+      "location": [3, 3],
       "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
@@ -212,8 +254,8 @@
       "icons": ["squirrelwitchery:textures/ui/risunic_artifice.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEARTIFICE"],
-      "location": [1, 4],
-      "meta": [ "ROUND", "REVERSE" ],
+      "location": [1, 6],
+      "meta": [ "SPIKY", "REVERSE" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -232,7 +274,7 @@
       "icons": ["squirrelwitchery:risunic_focal_power_booster"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE", "SQUIRREL_WITCHERY_WITCH_STAFF"],
-      "location": [3, 3],
+      "location": [3, 5],
       "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
@@ -257,7 +299,7 @@
       "icons": ["squirrelwitchery:witch_shotgun"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE"],
-      "location": [5, 3],
+      "location": [5, 5],
       "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
@@ -279,7 +321,7 @@
       "icons": ["squirrelwitchery:nutsaber"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE", "~SQUIRREL_WITCHERY_RISUNIC_INFUSION"],
-      "location": [7, 3],
+      "location": [7, 5],
       "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
@@ -306,8 +348,8 @@
       "icons": ["squirrelwitchery:textures/ui/risunic_infusion.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~INFUSION"],
-      "location": [1, 6],
-      "meta": ["ROUND", "REVERSE"],
+      "location": [1, 8],
+      "meta": ["SPIKY", "REVERSE"],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -326,7 +368,7 @@
       "icons": ["squirrelwitchery:witch_pendant"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_INFUSION"],
-      "location": [3, 5],
+      "location": [3, 7],
       "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
@@ -354,7 +396,7 @@
       "icons": ["squirrelwitchery:squirrel_plush"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_INFUSION", "~SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART"],
-      "location": [5, 5],
+      "location": [5, 7],
       "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
@@ -382,7 +424,7 @@
       "icons": ["squirrelwitchery:dark_witch_robe"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_INFUSION", "~SQUIRREL_WITCHERY_WITCH_COSTUME", "~UNLOCKELDRITCH"],
-      "location": [7, 5],
+      "location": [7, 7],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],

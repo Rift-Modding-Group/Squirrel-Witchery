@@ -23,6 +23,7 @@ public final class SquirrelWitcheryResearch {
     public static final String RISUNIUM_DISCOVERED = "SQUIRREL_WITCHERY_RISUNIUM_DISCOVERED";
     public static final String RISUNIC_DEVICES = "SQUIRREL_WITCHERY_RISUNIC_DEVICES";
     public static final String WITCH_STAFF = "SQUIRREL_WITCHERY_WITCH_STAFF";
+    public static final String EXPLOSIVE_NUT = "SQUIRREL_WITCHERY_EXPLOSIVE_NUT";
     public static final String WITCH_STAFF_ATTACHMENTS = "SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS";
     public static final String WITCH_SHOTGUN = "SQUIRREL_WITCHERY_WITCH_SHOTGUN";
     public static final String NUTSABER = "SQUIRREL_WITCHERY_NUTSABER";

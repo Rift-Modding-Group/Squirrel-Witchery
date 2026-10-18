@@ -225,6 +225,18 @@ public class SquirrelWitcheryRecipes {
                                 .add(Aspect.AURA, 5)
                 )
         );
+        ThaumcraftApi.addCrucibleRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "explosive_nut"),
+                new CrucibleRecipe(
+                        SquirrelWitcheryResearch.EXPLOSIVE_NUT + "@1",
+                        new ItemStack(SquirrelWitcheryItems.EXPLOSIVE_NUT),
+                        new ItemStack(SquirrelWitcheryItems.BIG_NUT),
+                        new AspectList()
+                                .add(SquirrelWitcheryAspects.RISUNIUM, 30)
+                                .add(Aspect.FIRE, 20)
+                                .add(Aspect.ENTROPY, 20)
+                )
+        );
 
         //---infusion stuff---
         ThaumcraftApi.addInfusionCraftingRecipe(
