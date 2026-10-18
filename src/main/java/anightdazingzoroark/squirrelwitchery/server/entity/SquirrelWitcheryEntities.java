@@ -30,5 +30,15 @@ public class SquirrelWitcheryEntities {
                 .tracker(64, 3, true)
                 .build()
         );
+
+        ResourceLocation explosiveNutRegistryName = new ResourceLocation(SquirrelWitchery.MODID, "explosive_nut");
+        ForgeRegistries.ENTITIES.register(EntityEntryBuilder.<ExplosiveNutProjectileEntity>create()
+                .entity(ExplosiveNutProjectileEntity.class)
+                .factory(ExplosiveNutProjectileEntity::new)
+                .id(explosiveNutRegistryName, 2)
+                .name(explosiveNutRegistryName.getPath())
+                .tracker(64, 3, true)
+                .build()
+        );
     }
 }

@@ -5,6 +5,7 @@ import anightdazingzoroark.riftlib.renderers.geo.GeoBlockRenderer;
 import anightdazingzoroark.riftlib.sounds.RiftLibSoundEffect;
 import anightdazingzoroark.riftlib.sounds.RiftLibSoundEffectRegistry;
 import anightdazingzoroark.squirrelwitchery.client.renderer.block.SquirrelPlushBlockRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.entity.ExplosiveNutEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.WitchBroomEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.*;
@@ -13,6 +14,7 @@ import anightdazingzoroark.squirrelwitchery.client.renderer.player.SquirrelAttac
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
+import anightdazingzoroark.squirrelwitchery.server.entity.ExplosiveNutProjectileEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
@@ -34,6 +36,7 @@ public class ClientProxy extends ServerProxy {
         //---entity rendering---
         RenderingRegistry.registerEntityRenderingHandler(SquirrelEntity.class, SquirrelEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(WitchBroomEntity.class, WitchBroomEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ExplosiveNutProjectileEntity.class, ExplosiveNutEntityRenderer::new);
 
         //---item rendering---
         SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());
