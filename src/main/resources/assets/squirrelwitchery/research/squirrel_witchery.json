@@ -6,7 +6,7 @@
       "icons": ["squirrelwitchery:squirrel_fur"],
       "category": "SQUIRREL_WITCHERY",
       "location": [-2, 0],
-      "meta": ["HEX", "HIDDEN"],
+      "meta": [ "HEX" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -45,7 +45,7 @@
       "icons": ["squirrelwitchery:nut"],
       "category": "SQUIRREL_WITCHERY",
       "location": [-2, 2],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -80,7 +80,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["~SQUIRREL_WITCHERY_RISUNIUM_DISCOVERED", "~BASEALCHEMY", "~ESSENTIASMELTER"],
       "location": [0, 0],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -101,7 +101,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
       "location": [3, -1],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -138,7 +138,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
       "location": [5, -1],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -166,7 +166,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEAUROMANCY"],
       "location": [1, 2],
-      "meta": ["ROUND", "HIDDEN", "REVERSE"],
+      "meta": [ "ROUND", "REVERSE" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -186,7 +186,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_AUROMANCY"],
       "location": [3, 1],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -213,7 +213,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~BASEARTIFICE"],
       "location": [1, 4],
-      "meta": ["ROUND", "HIDDEN", "REVERSE"],
+      "meta": [ "ROUND", "REVERSE" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -233,7 +233,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE", "SQUIRREL_WITCHERY_WITCH_STAFF"],
       "location": [3, 3],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -258,7 +258,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE"],
       "location": [5, 3],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -280,7 +280,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE", "~SQUIRREL_WITCHERY_RISUNIC_INFUSION"],
       "location": [7, 3],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -307,7 +307,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES", "~INFUSION"],
       "location": [1, 6],
-      "meta": ["ROUND", "HIDDEN", "REVERSE"],
+      "meta": ["ROUND", "REVERSE"],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -327,7 +327,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_INFUSION"],
       "location": [3, 5],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -355,7 +355,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_INFUSION", "~SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART"],
       "location": [5, 5],
-      "meta": ["ROUND", "HIDDEN"],
+      "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
