@@ -27,7 +27,7 @@ public class GWSEffect extends Potion {
         return duration % 60 == 1;
     }
 
-    //the gws effect will reduce permanent warp by 1 every 3 seconds
+    //the gws effect will reduce warp by 1 every 3 seconds
     //if gone, all le permanent warp will come back
     @Override
     public void performEffect(EntityLivingBase entityLivingBase, int amplifier) {
@@ -35,11 +35,24 @@ public class GWSEffect extends Potion {
 
         IPlayerWarp warp = ThaumcraftCapabilities.getWarp(player);
         SquirrelPlayerProperties properties = SquirrelPlayerProperties.get(player);
-        if (warp == null || properties == null || warp.get(IPlayerWarp.EnumWarpType.PERMANENT) <= 0) return;
+        if (warp == null || properties == null) return;
 
-        warp.reduce(IPlayerWarp.EnumWarpType.PERMANENT, 1);
-        properties.setGWSSuppressedWarp(properties.getGWSSuppressedWarp() + 1);
-        warp.sync(player);
+        boolean warpChanged = false;
+        if (warp.get(IPlayerWarp.EnumWarpType.PERMANENT) > 0) {
+            warp.reduce(IPlayerWarp.EnumWarpType.PERMANENT, 1);
+            //save suppressed warp for restoration l8r
+            properties.setGWSSuppressedWarp(properties.getGWSSuppressedWarp() + 1);
+            warpChanged = true;
+        }
+        if (warp.get(IPlayerWarp.EnumWarpType.NORMAL) > 0) {
+            warp.reduce(IPlayerWarp.EnumWarpType.NORMAL, 1);
+            warpChanged = true;
+        }
+        if (warp.get(IPlayerWarp.EnumWarpType.TEMPORARY) > 0) {
+            warp.reduce(IPlayerWarp.EnumWarpType.TEMPORARY, 1);
+            warpChanged = true;
+        }
+        if (warpChanged) warp.sync(player);
     }
 
     @Override
