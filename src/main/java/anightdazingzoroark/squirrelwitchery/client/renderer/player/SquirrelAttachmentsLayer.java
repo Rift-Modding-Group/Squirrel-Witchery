@@ -58,7 +58,7 @@ public class SquirrelAttachmentsLayer implements LayerRenderer<AbstractClientPla
             float ageInTicks, float netHeadYaw, float headPitch, float scale
     ) {
         SquirrelPlayerProperties properties = SquirrelPlayerProperties.get(player);
-        if (properties == null || !properties.hasSquirrelAttachments() || player.isInvisible()) return;
+        if (properties == null || !properties.getUsedHeart() || player.isInvisible()) return;
 
         GeoModel currentSourceModel = this.modelProvider.getModel(this.modelProvider.getModelIdentifier(player));
         if (currentSourceModel != this.sourceModel) {

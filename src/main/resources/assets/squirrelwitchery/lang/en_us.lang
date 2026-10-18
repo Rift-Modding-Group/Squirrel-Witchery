@@ -1,6 +1,8 @@
 entity.squirrel.name=Squirrel
 subtitles.squirrelwitchery.squirrel_ambient=Squirrel chirps
 
+effect.gws.name=Get Well Soon!
+
 item.nut.name=Nut
 item.big_nut.name=Big Nut
 item.squirrel_fur.name=Squirrel Fur
@@ -24,6 +26,7 @@ item.nutsaber_core.name=Nutsaber Core
 item.witch_pendant.name=Witch's Pendant
 item.crystallized_squirrel_heart.name=Crystallized Squirrel Heart
 item.explosive_nut.name=Explosive Nut
+item.gws_pill.name=GWS Pill
 
 tile.squirrel_plush.name=Squirrel Plush
 

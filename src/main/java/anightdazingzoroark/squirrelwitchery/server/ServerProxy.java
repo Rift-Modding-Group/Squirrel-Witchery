@@ -9,6 +9,7 @@ import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelWitcheryEntities;
+import anightdazingzoroark.squirrelwitchery.server.effect.SquirrelWitcheryEffects;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
 import anightdazingzoroark.squirrelwitchery.server.player.SquirrelPlayerProperties;
@@ -26,6 +27,7 @@ public class ServerProxy {
         //---registries---
         SquirrelWitcheryBlocks.registerBlocks();
         SquirrelWitcheryItems.registerItems();
+        SquirrelWitcheryEffects.registerEffects();
         SquirrelWitcheryEntities.registerEntities();
         SquirrelWitcheryAspects.assignAspects();
         PropertyRegistry.register(
@@ -39,6 +41,7 @@ public class ServerProxy {
         //---events---
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryBlocks());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryItems());
+        MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryEffects());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryAspects());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcherySounds());
         MinecraftForge.EVENT_BUS.register(new ServerEvents());

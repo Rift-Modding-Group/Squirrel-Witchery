@@ -31,7 +31,7 @@ public class CrystallizedSquirrelHeartItem extends Item {
             SquirrelPlayerProperties properties = SquirrelPlayerProperties.get(player);
             if (properties == null) return new ActionResult<>(EnumActionResult.PASS, itemStack);
 
-            properties.set("UsedHeart", !properties.hasSquirrelAttachments());
+            properties.setUsedHeart(!properties.getUsedHeart());
             RiftLibParticleHelper.createParticle(
                     "squirrelwitchery:risunium_heart_burst",
                     player.posX, player.posY + player.height * 0.5, player.posZ

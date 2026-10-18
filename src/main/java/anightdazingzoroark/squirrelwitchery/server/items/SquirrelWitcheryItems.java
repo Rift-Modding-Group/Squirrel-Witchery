@@ -43,6 +43,7 @@ public class SquirrelWitcheryItems {
     public static Item NUTSABER_CORE;
     public static Item WITCH_PENDANT;
     public static Item EXPLOSIVE_NUT;
+    public static Item GWS_PILL;
 
     public static ItemBlock getBlockItem(Block block) {
         return BLOCK_ITEMS.get(block);
@@ -105,6 +106,7 @@ public class SquirrelWitcheryItems {
         NUTSABER_CORE = registerItem(new Item(), "nutsaber_core", true);
         WITCH_PENDANT = registerItem(new WitchPendantItem(), "witch_pendant", true);
         EXPLOSIVE_NUT = registerItem(new ExplosiveNutItem(), "explosive_nut", true);
+        GWS_PILL = registerItem(new GWSPillItem(), "gws_pill", true);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {
