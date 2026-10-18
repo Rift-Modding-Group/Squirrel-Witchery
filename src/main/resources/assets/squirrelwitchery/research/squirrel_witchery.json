@@ -80,7 +80,7 @@
       "category": "SQUIRREL_WITCHERY",
       "parents": ["~SQUIRREL_WITCHERY_RISUNIUM_DISCOVERED", "~BASEALCHEMY", "~ESSENTIASMELTER"],
       "location": [0, 0],
-      "meta": [ "ROUND" ],
+      "meta": [ "SPIKY" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -161,7 +161,7 @@
     },
     {
       "key": "SQUIRREL_WITCHERY_RISUNIC_ALCHEMY",
-      "name": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.title",
+      "name": "research.SQUIRREL_WITCHERY_RISUNIC_ALCHEMY.title",
       "icons": ["squirrelwitchery:textures/ui/risunic_alchemy.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": [ "SQUIRREL_WITCHERY_RISUNIC_STUDIES" ],
@@ -198,6 +198,28 @@
         {
           "text": "research.SQUIRREL_WITCHERY_EXPLOSIVE_NUT.stage.2",
           "recipes": ["squirrelwitchery:explosive_nut"]
+        }
+      ]
+    },
+    {
+      "key": "SQUIRREL_WITCHERY_GWS_PILL",
+      "name": "research.SQUIRREL_WITCHERY_GWS_PILL.title",
+      "icons": ["squirrelwitchery:gws_pill"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ALCHEMY", "~SANESOAP"],
+      "location": [5, 1],
+      "meta": [ "ROUND" ],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_GWS_PILL.stage.1",
+          "recipes": ["squirrelwitchery:gws_pill"],
+          "required_craft": ["squirrelwitchery:gws_pill"]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_GWS_PILL.stage.2",
+          "recipes": ["squirrelwitchery:gws_pill"]
         }
       ]
     },

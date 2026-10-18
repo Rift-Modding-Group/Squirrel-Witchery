@@ -237,6 +237,20 @@ public class SquirrelWitcheryRecipes {
                                 .add(Aspect.ENTROPY, 20)
                 )
         );
+        ThaumcraftApi.addCrucibleRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "gws_pill"),
+                new CrucibleRecipe(
+                        SquirrelWitcheryResearch.GWS_PILL + "@1",
+                        new ItemStack(SquirrelWitcheryItems.GWS_PILL),
+                        new ItemStack(SquirrelWitcheryItems.BIG_NUT),
+                        new AspectList()
+                                .add(SquirrelWitcheryAspects.RISUNIUM, 150)
+                                .add(Aspect.MIND, 100)
+                                .add(Aspect.ORDER, 100)
+                                .add(Aspect.ELDRITCH, 75)
+                                .add(Aspect.LIFE, 75)
+                )
+        );
 
         //---infusion stuff---
         ThaumcraftApi.addInfusionCraftingRecipe(
