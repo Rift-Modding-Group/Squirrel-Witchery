@@ -27,6 +27,7 @@ item.witch_pendant.name=Witch's Pendant
 item.crystallized_squirrel_heart.name=Crystallized Squirrel Heart
 item.explosive_nut.name=Explosive Nut
 item.gws_pill.name=GWS Pill
+item.squirrel_tail_hammer.name=Squirrel Tail Hammer
 
 tile.squirrel_plush.name=Squirrel Plush
 
@@ -86,7 +87,7 @@ research.SQUIRREL_WITCHERY_EXPLOSIVE_NUT.title=Explosive Nut
 research.SQUIRREL_WITCHERY_EXPLOSIVE_NUT.stage.1=The size of a Big Nut could allow it to be used as some kind of container, either for solid items or essential. Either way, a mixture of Risunium, Ignis, and Perditio could be placed inside for an explosive effect...
 research.SQUIRREL_WITCHERY_EXPLOSIVE_NUT.stage.2=The Explosive Nut is just as explosive as I have presumed. It can be thrown to cause mayhem and destruction!
 research.SQUIRREL_WITCHERY_GWS_PILL.title=GWS Pill
-research.SQUIRREL_WITCHERY_GWS_PILL.stage.1=The playful nature of Risunium suggests that it is capable of combating the horrible effects of warp. I will need considerable work into concocting a consumable item that can perform such an action. The same types of essentia needed for the Sanitizing Soap combined with Risunium should do the trick.
+research.SQUIRREL_WITCHERY_GWS_PILL.stage.1=The playful nature of Risunium suggests that it is capable of combating the horrible effects of warp. I will need considerable work into concocting a consumable item that can perform such an action. The same types of essentia needed for the Sanitizing Soap combined with Risunium stuffed in a Big Nut should do the trick.
 research.SQUIRREL_WITCHERY_GWS_PILL.stage.2=The GWS (Get Well Soon) Pill is a consumable that gives me immense clairvoyance, cleaning up the harmful effects of warp from both my body and mind over time. I cannot digest these pills consecutively within short intervals without risking hurting my throat. The pill is even capable of cleaning up permanent warp, but it will come back once its effects run out.
 research.SQUIRREL_WITCHERY_NUTSABER.title=Nutsaber
 research.SQUIRREL_WITCHERY_NUTSABER.stage.1=The principles of Risunic Artifice suggest a weapon unlike any conventional blade. Before I can shape such an object, I need a core capable of regulating a strong and continuous Risunium flow without tearing itself apart. Alchemical brass should contain the mechanism while a Risunium crystal and big nuts provide the necessary resonance.
@@ -116,6 +117,9 @@ research.SQUIRREL_WITCHERY_SQUIRREL_PLUSH.stage.2=The infusion process ended up 
 research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.title=Dark Witch's Garb
 research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.1=My studies of the eldritch have revealed how void metal can be worked into thaumaturgical attire. The cheerful garb I devised before could serve as a foundation for something darker, but shaping so much hungry metal around Risunium will be a dangerous undertaking.
 research.SQUIRREL_WITCHERY_DARK_WITCH_COSTUME.stage.2=By fusing each piece of my witch's garb with its void metal counterpart, I can create a complete set of dark witch's garb. It offers a far greater vis discount and the protection of void metal, though wearing it will expose me to the same warping influence as my other eldritch creations.
+research.SQUIRREL_WITCHERY_SQUIRREL_TAIL_HAMMER.title=Squirrel Tail Hammer
+research.SQUIRREL_WITCHERY_SQUIRREL_TAIL_HAMMER.stage.1=It turns out that squirrel fur is extremely dense. Misplacing squirrel fur and letting it pile up resulted in a heavy mass that took time to sort through. I think I can make a deadly weapon out of this with the help of some Risunium.
+research.SQUIRREL_WITCHERY_SQUIRREL_TAIL_HAMMER.stage.2=The Squirrel Tail Hammer is a heavy but fragile weapon whose head is entirely made of squirrel fur. It deals massive amounts of damage but does not last long.
 
 card.squirrel_field_notes.name=Squirrel Field Notes
 card.squirrel_field_notes.text=You organize your scattered observations about nuts, squirrels, and Risunium into a more useful form. Gain 20 Squirrel Witchery.

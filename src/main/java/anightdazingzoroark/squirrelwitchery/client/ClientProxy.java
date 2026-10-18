@@ -4,6 +4,7 @@ import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.riftlib.renderers.geo.GeoBlockRenderer;
 import anightdazingzoroark.riftlib.sounds.RiftLibSoundEffect;
 import anightdazingzoroark.riftlib.sounds.RiftLibSoundEffectRegistry;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.client.renderer.block.SquirrelPlushBlockRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.ExplosiveNutEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntityRenderer;
@@ -43,6 +44,7 @@ public class ClientProxy extends ServerProxy {
         SquirrelWitcheryItems.WITCH_STAFF.setTileEntityItemStackRenderer(new WitchStaffItemRenderer());
         SquirrelWitcheryItems.WITCH_SHOTGUN.setTileEntityItemStackRenderer(new WitchShotgunItemRenderer());
         SquirrelWitcheryItems.NUTSABER.setTileEntityItemStackRenderer(new NutsaberItemRenderer());
+        SquirrelWitcheryItems.SQUIRREL_TAIL_HAMMER.setTileEntityItemStackRenderer(new SquirrelTailHammerItemRenderer());
         SquirrelWitcheryItems.getBlockItem(SquirrelWitcheryBlocks.SQUIRREL_PLUSH).setTileEntityItemStackRenderer(new SquirrelPlushItemRenderer());
 
         //---block rendering---

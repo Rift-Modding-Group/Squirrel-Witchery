@@ -202,6 +202,21 @@ public class SquirrelWitcheryRecipes {
                         'M', new ItemStack(ItemsTC.mechanismSimple)
                 )
         );
+        ThaumcraftApi.addArcaneCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "squirrel_tail_hammer"),
+                new ShapedArcaneRecipe(
+                        new ResourceLocation(SquirrelWitchery.MODID, "squirrel_tail_hammer"),
+                        SquirrelWitcheryResearch.SQUIRREL_TAIL_HAMMER + "@1",
+                        75,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1),
+                        SquirrelWitcheryItems.SQUIRREL_TAIL_HAMMER,
+                        "FFF",
+                        "FFF",
+                        "S  ",
+                        'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR, 1, 0),
+                        'S', new ItemStack(Items.STICK)
+                )
+        );
 
         //---crucible stuff---
         ThaumcraftApi.addCrucibleRecipe(

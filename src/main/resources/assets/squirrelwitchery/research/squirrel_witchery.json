@@ -95,12 +95,40 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_SQUIRREL_TAIL_HAMMER",
+      "name": "research.SQUIRREL_WITCHERY_SQUIRREL_TAIL_HAMMER.title",
+      "icons": ["squirrelwitchery:squirrel_tail_hammer"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
+      "location": [3, -1],
+      "meta": [ "ROUND" ],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_SQUIRREL_TAIL_HAMMER.stage.1",
+          "recipes": [
+            "squirrelwitchery:squirrel_tail_hammer"
+          ],
+          "required_craft": [
+            "squirrelwitchery:squirrel_tail_hammer"
+          ]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_SQUIRREL_TAIL_HAMMER.stage.1",
+          "recipes": [
+            "squirrelwitchery:squirrel_tail_hammer"
+          ]
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_WITCH_COSTUME",
       "name": "research.SQUIRREL_WITCHERY_WITCH_COSTUME.title",
       "icons": ["squirrelwitchery:witch_robe"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
-      "location": [3, -1],
+      "location": [5, -1],
       "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
@@ -137,7 +165,7 @@
       "icons": ["squirrelwitchery:witch_broom"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
-      "location": [5, -1],
+      "location": [7, -1],
       "meta": [ "ROUND" ],
       "reward_item": [],
       "reward_knowledge": [],
