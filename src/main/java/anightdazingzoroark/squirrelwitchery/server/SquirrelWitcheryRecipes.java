@@ -212,7 +212,7 @@ public class SquirrelWitcheryRecipes {
                         SquirrelWitcheryItems.SQUIRREL_TAIL_HAMMER,
                         "FFF",
                         "FFF",
-                        "S  ",
+                        " S ",
                         'F', new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR, 1, 0),
                         'S', new ItemStack(Items.STICK)
                 )

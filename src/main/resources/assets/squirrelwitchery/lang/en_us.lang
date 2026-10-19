@@ -28,6 +28,10 @@ item.crystallized_squirrel_heart.name=Crystallized Squirrel Heart
 item.explosive_nut.name=Explosive Nut
 item.gws_pill.name=GWS Pill
 item.squirrel_tail_hammer.name=Squirrel Tail Hammer
+item.squirrel_fur_hat.name=Squirrel Fur Hat
+item.squirrel_fur_jacket.name=Squirrel Fur Jacket
+item.squirrel_fur_skirt.name=Squirrel Fur Skirt
+item.squirrel_fur_shoes.name=Squirrel Fur Shoes
 
 tile.squirrel_plush.name=Squirrel Plush
 

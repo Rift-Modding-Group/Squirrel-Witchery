@@ -113,6 +113,22 @@ public class SquirrelWitcheryItems {
         EXPLOSIVE_NUT = registerItem(new ExplosiveNutItem(), "explosive_nut", true);
         GWS_PILL = registerItem(new GWSPillItem(), "gws_pill", true);
         SQUIRREL_TAIL_HAMMER = registerItem(new SquirrelTailHammerItem(), "squirrel_tail_hammer", true);
+        SQUIRREL_FUR_HAT = registerItem(
+                new ItemArmor(ItemArmor.ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.HEAD),
+                "squirrel_fur_hat", true
+        );
+        SQUIRREL_FUR_JACKET = registerItem(
+                new ItemArmor(ItemArmor.ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.CHEST),
+                "squirrel_fur_jacket", true
+        );
+        SQUIRREL_FUR_SKIRT = registerItem(
+                new ItemArmor(ItemArmor.ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.LEGS),
+                "squirrel_fur_skirt", true
+        );
+        SQUIRREL_FUR_SHOES = registerItem(
+                new ItemArmor(ItemArmor.ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.FEET),
+                "squirrel_fur_shoes", true
+        );
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

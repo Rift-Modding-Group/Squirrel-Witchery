@@ -9,6 +9,7 @@ import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -47,13 +48,21 @@ public class WitchCostumeRenderer extends GeoArmorRenderer<AnimatedArmorHolder> 
                 public void initializeAnimationData(@NotNull AnimationDataArmor animationDataArmor) {}
             }
         );
-        this.setHeadBone("hat");
-        this.setBodyBone("robe");
-        this.setRightArmBone("rightArm");
-        this.setLeftArmBone("leftArm");
-        this.setHipsBone("skirt");
-        this.setRightBootBone("rightFoot");
-        this.setLeftBootBone("leftFoot");
+
+        this.bindBoneToBodyPart(ArmorBodyPart.HEAD, "hat");
+        this.bindBoneToEquipmentSlot(EntityEquipmentSlot.HEAD, "hat");
+        this.bindBoneToBodyPart(ArmorBodyPart.BODY, "robe");
+        this.bindBoneToEquipmentSlot(EntityEquipmentSlot.CHEST, "robe");
+        this.bindBoneToBodyPart(ArmorBodyPart.RIGHT_ARM, "rightArm");
+        this.bindBoneToEquipmentSlot(EntityEquipmentSlot.CHEST, "rightArm");
+        this.bindBoneToBodyPart(ArmorBodyPart.LEFT_ARM, "leftArm");
+        this.bindBoneToEquipmentSlot(EntityEquipmentSlot.CHEST, "leftArm");
+        this.bindBoneToBodyPart(ArmorBodyPart.HIPS, "skirt");
+        this.bindBoneToEquipmentSlot(EntityEquipmentSlot.LEGS, "skirt");
+        this.bindBoneToBodyPart(ArmorBodyPart.RIGHT_FOOT, "rightFoot");
+        this.bindBoneToEquipmentSlot(EntityEquipmentSlot.FEET, "rightFoot");
+        this.bindBoneToBodyPart(ArmorBodyPart.LEFT_FOOT, "leftFoot");
+        this.bindBoneToEquipmentSlot(EntityEquipmentSlot.FEET, "leftFoot");
     }
 
     @Override

@@ -2,9 +2,7 @@ package anightdazingzoroark.squirrelwitchery.client;
 
 import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.riftlib.renderers.geo.GeoBlockRenderer;
-import anightdazingzoroark.riftlib.sounds.RiftLibSoundEffect;
-import anightdazingzoroark.riftlib.sounds.RiftLibSoundEffectRegistry;
-import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
+import anightdazingzoroark.squirrelwitchery.client.renderer.armor.SquirrelFurDressRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.block.SquirrelPlushBlockRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.ExplosiveNutEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntityRenderer;
@@ -85,6 +83,12 @@ public class ClientProxy extends ServerProxy {
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_ROBE, witchCostumeRenderer);
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_SKIRT, witchCostumeRenderer);
         GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.DARK_WITCH_BOOTS, witchCostumeRenderer);
+
+        SquirrelFurDressRenderer squirrelFurDressRenderer = new SquirrelFurDressRenderer();
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.SQUIRREL_FUR_HAT, squirrelFurDressRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.SQUIRREL_FUR_JACKET, squirrelFurDressRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.SQUIRREL_FUR_SKIRT, squirrelFurDressRenderer);
+        GeoArmorRenderer.registerArmorRenderer(SquirrelWitcheryItems.SQUIRREL_FUR_SHOES, squirrelFurDressRenderer);
 
         //register player attachments
         for (RenderPlayer renderPlayer : Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {

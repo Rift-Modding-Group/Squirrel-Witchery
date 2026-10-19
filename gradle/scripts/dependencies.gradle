@@ -29,7 +29,7 @@ dependencies {
     //compileOnly 'curse.maven:just-enough-magiculture-940521:5796192'
 
     //riftlibrary
-    compileOnly files("libs/riftlib-2.0.0-dev.jar")
+    compileOnly files("libs/riftlib-2.1.0-dev.jar")
 
     //thaumcraft and related mods
     modImplementation 'curse.maven:thaumcraft-223628:2629023'
