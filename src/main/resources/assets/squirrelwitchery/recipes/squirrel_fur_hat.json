@@ -1,0 +1,15 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "FFF",
+        "F F"
+    ],
+    "key": {
+        "F": {
+            "item": "squirrelwitchery:squirrel_fur"
+        }
+    },
+    "result": {
+        "item": "squirrelwitchery:squirrel_fur_hat"
+    }
+}
