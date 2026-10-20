@@ -1,14 +1,14 @@
 package anightdazingzoroark.squirrelwitchery.client.renderer.entity;
 
 import anightdazingzoroark.riftlib.model.AnimatedGeoModel;
-import anightdazingzoroark.riftlib.renderers.geo.GeoEntityRenderer;
+import anightdazingzoroark.riftlib.renderers.geo.GeoEntityNonLivingRenderer;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import net.minecraft.client.renderer.entity.RenderManager;
 import org.jetbrains.annotations.NotNull;
 
-public class WitchBroomEntityRenderer extends GeoEntityRenderer<WitchBroomEntity> {
-    public WitchBroomEntityRenderer(RenderManager renderManager) {
+public class WitchBroomEntityRenderer extends GeoEntityNonLivingRenderer<WitchBroomEntity> {
+    public WitchBroomEntityRenderer(@NotNull RenderManager renderManager) {
         super(renderManager, new AnimatedGeoModel<WitchBroomEntity>() {
             @Override
             @NotNull
@@ -17,11 +17,13 @@ public class WitchBroomEntityRenderer extends GeoEntityRenderer<WitchBroomEntity
             }
 
             @Override
+            @NotNull
             public String getModelIdentifier(WitchBroomEntity witchBroomEntity) {
                 return "geometry.witch_broom";
             }
 
             @Override
+            @NotNull
             public String getTextureLocation(WitchBroomEntity witchBroomEntity) {
                 return "entity/witch_broom.png";
             }

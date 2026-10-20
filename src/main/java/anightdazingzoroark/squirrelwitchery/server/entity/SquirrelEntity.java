@@ -3,7 +3,7 @@ package anightdazingzoroark.squirrelwitchery.server.entity;
 import anightdazingzoroark.riftlib.core.IAnimatable;
 import anightdazingzoroark.riftlib.core.controller.AnimationController;
 import anightdazingzoroark.riftlib.core.controller.AnimationControllerState;
-import anightdazingzoroark.riftlib.core.manager.AnimationDataEntity;
+import anightdazingzoroark.riftlib.core.manager.AnimationDataEntityLiving;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.server.SquirrelWitcheryResearch;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
@@ -38,9 +38,9 @@ import thaumcraft.common.lib.SoundsTC;
 import java.util.List;
 import java.util.Set;
 
-public class SquirrelEntity extends EntityAnimal implements IAnimatable<AnimationDataEntity>, IShearable {
+public class SquirrelEntity extends EntityAnimal implements IAnimatable<AnimationDataEntityLiving>, IShearable {
     @NotNull
-    private final AnimationDataEntity animData = new AnimationDataEntity(this);
+    private final AnimationDataEntityLiving animData = new AnimationDataEntityLiving(this);
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.createKey(SquirrelEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> PERFORM_RITUAL = EntityDataManager.createKey(SquirrelEntity.class, DataSerializers.BOOLEAN);
     private static final int RITUAL_DURATION = 100; //as good as 5 seconds
@@ -219,34 +219,34 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
     //---anim stuff---
     @Override
     @NonNull
-    public AnimationDataEntity getAnimationData() {
+    public AnimationDataEntityLiving getAnimationData() {
         return this.animData;
     }
 
     @Override
-    public void initializeAnimationData(@NonNull AnimationDataEntity animationData) {
+    public void initializeAnimationData(@NonNull AnimationDataEntityLiving animationData) {
         animationData.setScale(entity -> entity.isChild() ? 0.25f : 0.5f);
-        animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntity>(
+        animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntityLiving>(
                 this, "movementCont", "default",
-                new AnimationControllerState<AnimationDataEntity>("default", 0.1)
-                        .addStateTransition("walk", AnimationDataEntity::isMoving),
-                new AnimationControllerState<AnimationDataEntity>("walk", 0.1)
+                new AnimationControllerState<AnimationDataEntityLiving>("default", 0.1)
+                        .addStateTransition("walk", AnimationDataEntityLiving::isMoving),
+                new AnimationControllerState<AnimationDataEntityLiving>("walk", 0.1)
                         .addAnimation("animation.squirrel.walk")
                         .addStateTransition("default", data -> !data.isMoving())
         ));
-        animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntity>(
+        animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntityLiving>(
                 this, "shearedCont", "default",
-                new AnimationControllerState<AnimationDataEntity>("default")
+                new AnimationControllerState<AnimationDataEntityLiving>("default")
                         .addStateTransition("sheared", data -> this.isSheared()),
-                new AnimationControllerState<AnimationDataEntity>("sheared")
+                new AnimationControllerState<AnimationDataEntityLiving>("sheared")
                         .addAnimation("animation.squirrel.sheared")
                         .addStateTransition("default", data -> !this.isSheared())
         ));
-        animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntity>(
+        animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntityLiving>(
                 this, "ritualCont", "default",
-                new AnimationControllerState<AnimationDataEntity>("default")
+                new AnimationControllerState<AnimationDataEntityLiving>("default")
                         .addStateTransition("ritual", data -> this.isPerformingRitual()),
-                new AnimationControllerState<AnimationDataEntity>("ritual")
+                new AnimationControllerState<AnimationDataEntityLiving>("ritual")
                         .addStateTransition("default", data -> !this.isPerformingRitual())
                         .addParticleEffect("squirrelwitchery:risunium_squirrel_orbs", "bodyCenter")
         ));

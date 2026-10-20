@@ -1,13 +1,13 @@
 package anightdazingzoroark.squirrelwitchery.client.renderer.entity;
 
 import anightdazingzoroark.riftlib.model.AnimatedGeoModel;
-import anightdazingzoroark.riftlib.renderers.geo.GeoEntityRenderer;
+import anightdazingzoroark.riftlib.renderers.geo.GeoEntityLivingRenderer;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
 import net.minecraft.client.renderer.entity.RenderManager;
 import org.jetbrains.annotations.NotNull;
 
-public class SquirrelEntityRenderer extends GeoEntityRenderer<SquirrelEntity> {
+public class SquirrelEntityRenderer extends GeoEntityLivingRenderer<SquirrelEntity> {
     public SquirrelEntityRenderer(RenderManager renderManager) {
         super(renderManager, new AnimatedGeoModel<SquirrelEntity>() {
             @Override
