@@ -121,6 +121,10 @@ public final class SquirrelWitcheryAspects {
                 "squirrel",
                 new AspectList().add(RISUNIUM, 15).add(Aspect.BEAST, 10)
         );
+        ThaumcraftApi.registerEntityTag(
+                "squirrel_with_gun",
+                new AspectList().add(RISUNIUM, 15).add(Aspect.BEAST, 10).add(Aspect.AVERSION, 10)
+        );
     }
 
     @SubscribeEvent

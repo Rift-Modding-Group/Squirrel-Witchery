@@ -6,6 +6,7 @@ import anightdazingzoroark.squirrelwitchery.client.renderer.armor.SquirrelFurDre
 import anightdazingzoroark.squirrelwitchery.client.renderer.block.SquirrelPlushBlockRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.ExplosiveNutEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntityRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelGunEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.entity.WitchBroomEntityRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.*;
 import anightdazingzoroark.squirrelwitchery.client.renderer.armor.WitchCostumeRenderer;
@@ -16,6 +17,7 @@ import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelPlushBlock;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.entity.ExplosiveNutProjectileEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
+import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelGunEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.client.Minecraft;
@@ -37,6 +39,7 @@ public class ClientProxy extends ServerProxy {
         RenderingRegistry.registerEntityRenderingHandler(SquirrelEntity.class, SquirrelEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(WitchBroomEntity.class, WitchBroomEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ExplosiveNutProjectileEntity.class, ExplosiveNutEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(SquirrelGunEntity.class, SquirrelGunEntityRenderer::new);
 
         //---item rendering---
         SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());

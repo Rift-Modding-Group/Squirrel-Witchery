@@ -1,6 +1,8 @@
 package anightdazingzoroark.squirrelwitchery.server.entity;
 
+import anightdazingzoroark.riftlib.model.ServerModelRegistry;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
+import anightdazingzoroark.squirrelwitchery.server.entity.model.SquirrelGunModel;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.BiomeDictionary;
@@ -38,6 +40,19 @@ public class SquirrelWitcheryEntities {
                 .id(explosiveNutRegistryName, 2)
                 .name(explosiveNutRegistryName.getPath())
                 .tracker(64, 3, true)
+                .build()
+        );
+
+        ResourceLocation squirrelGunRegistryName = new ResourceLocation(SquirrelWitchery.MODID, "squirrel_with_gun");
+        ServerModelRegistry.registerServerModel(SquirrelGunEntity.class, SquirrelGunModel::new);
+        ForgeRegistries.ENTITIES.register(EntityEntryBuilder.<SquirrelGunEntity>create()
+                .entity(SquirrelGunEntity.class)
+                .factory(SquirrelGunEntity::new)
+                .id(squirrelGunRegistryName, 3)
+                .name(squirrelGunRegistryName.getPath())
+                .tracker(64, 3, true)
+                .spawn(EnumCreatureType.MONSTER, 2, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST))
+                .egg(0x6A4932, 0xC5AD91)
                 .build()
         );
     }

@@ -1,4 +1,5 @@
 entity.squirrel.name=Squirrel
+entity.squirrel_with_gun.name=Squirrel with a Gun
 subtitles.squirrelwitchery.squirrel_ambient=Squirrel chirps
 
 effect.gws.name=Get Well Soon!
@@ -63,6 +64,8 @@ tc.aspect.risunium=Risunium, Squirrels
 tc.research_category.SQUIRREL_WITCHERY=Squirrel Witchery
 research.SQUIRREL_WITCHERY_SQUIRREL.title=Squirrels
 research.SQUIRREL_WITCHERY_SQUIRREL.stage.1=These small, lively beasts can be found in forests of every description. From familiar woodlands to the strangest distant groves, squirrels appear wherever trees gather thickly enough to offer them shelter.<IMG>squirrelwitchery:textures/ui/squirrel_bestiary.png:0:0:256:150:0.5</IMG>Their fondness for nuts is extraordinary. Merely holding one is often enough to lure a nearby squirrel closer, and the creatures seem quite content to make nuts the center of their diet. The thick fur they possess on their tails can be sheared too.<BR>Thaumic examination reveals the Bestia expected of an animal, but also a surprisingly strong concentration of Risunium. Perhaps their playful nature and peculiar appetite offer some clue as to why this aspect gathers within them.
+research.SQUIRREL_WITCHERY_SQUIRREL_WITH_GUN.title=Squirrel with a Gun
+research.SQUIRREL_WITCHERY_SQUIRREL_WITH_GUN.stage.1=<IMG>squirrelwitchery:textures/ui/squirrel_with_a_gun_bestiary.png:0:0:256:150:0.5</IMG>This hostile squirrel variant, that can be found in the same forests of its bretheren, somehow got ahold of a gun and is extremely aggressive, and will shoot me down on sight.<BR>I have no idea where they would get such a weapon, and how they learnt to use it and why they like shooting at anything they deem fit as target practice is a mystery.<BR>The gun appears to be quite fragile, and killing them immediately destroys it. They also can't be appeased with nuts, so retaliating against them is be the only option.
 research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.title=Crystallized Squirrel Heart
 research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.stage.1=Squirrels possess a surprising natural affinity for Risunium. What would happen if a squirrel were exposed to a Risunium vis crystal?<BR>I should approach a squirrel while holding one and observe the result.
 research.SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART.stage.2=The squirrel absorbed the crystal and went into a harmless trance as it drew vis from the surrounding aura. At the ritual's conclusion, it dropped a strange crystalline heart suffused with concentrated Risunium. What would happen if I were to apply it to myself?
