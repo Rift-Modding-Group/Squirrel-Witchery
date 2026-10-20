@@ -12,9 +12,12 @@ import java.util.List;
 public class SquirrelWitcheryBlocks {
     private static final List<Block> BLOCKS = new ArrayList<>();
     public static Block SQUIRREL_PLUSH;
+    public static Block WITCH_SQUIRREL_PLUSH;
+    public static Block ELEGANT_SQUIRREL_PLUSH;
 
     public static void registerBlocks() {
         SQUIRREL_PLUSH = registerBlock(new SquirrelPlushBlock(), "squirrel_plush", true, true);
+        WITCH_SQUIRREL_PLUSH = registerBlock(new SquirrelPlushBlock(), "witch_squirrel_plush", true, true);
     }
 
     private static <T extends Block> T registerBlock(T block, String registryName, boolean hasItem, boolean canBeInCreative) {

@@ -12,6 +12,7 @@ import anightdazingzoroark.squirrelwitchery.client.renderer.armor.WitchCostumeRe
 import anightdazingzoroark.squirrelwitchery.client.renderer.player.SquirrelAttachmentsLayer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
+import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelPlushBlock;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.entity.ExplosiveNutProjectileEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
@@ -43,10 +44,14 @@ public class ClientProxy extends ServerProxy {
         SquirrelWitcheryItems.WITCH_SHOTGUN.setTileEntityItemStackRenderer(new WitchShotgunItemRenderer());
         SquirrelWitcheryItems.NUTSABER.setTileEntityItemStackRenderer(new NutsaberItemRenderer());
         SquirrelWitcheryItems.SQUIRREL_TAIL_HAMMER.setTileEntityItemStackRenderer(new SquirrelTailHammerItemRenderer());
-        SquirrelWitcheryItems.getBlockItem(SquirrelWitcheryBlocks.SQUIRREL_PLUSH).setTileEntityItemStackRenderer(new SquirrelPlushItemRenderer());
+        SquirrelPlushItemRenderer squirrelPlushItemRenderer = new SquirrelPlushItemRenderer();
+        SquirrelWitcheryItems.getBlockItem(SquirrelWitcheryBlocks.SQUIRREL_PLUSH).setTileEntityItemStackRenderer(squirrelPlushItemRenderer);
+        SquirrelWitcheryItems.getBlockItem(SquirrelWitcheryBlocks.WITCH_SQUIRREL_PLUSH).setTileEntityItemStackRenderer(squirrelPlushItemRenderer);
 
         //---block rendering---
-        GeoBlockRenderer.registerBlockRenderer(SquirrelWitcheryBlocks.SQUIRREL_PLUSH, new SquirrelPlushBlockRenderer());
+        SquirrelPlushBlockRenderer squirrelPlushBlockRenderer = new SquirrelPlushBlockRenderer();
+        GeoBlockRenderer.registerBlockRenderer(SquirrelWitcheryBlocks.SQUIRREL_PLUSH, squirrelPlushBlockRenderer);
+        GeoBlockRenderer.registerBlockRenderer(SquirrelWitcheryBlocks.WITCH_SQUIRREL_PLUSH, squirrelPlushBlockRenderer);
 
         //---events---
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryOverlay());
