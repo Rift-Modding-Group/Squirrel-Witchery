@@ -4,10 +4,7 @@ import anightdazingzoroark.riftlib.renderers.geo.GeoArmorRenderer;
 import anightdazingzoroark.riftlib.renderers.geo.GeoBlockRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.armor.SquirrelFurDressRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.block.SquirrelPlushBlockRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.entity.ExplosiveNutEntityRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelEntityRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.entity.SquirrelGunEntityRenderer;
-import anightdazingzoroark.squirrelwitchery.client.renderer.entity.WitchBroomEntityRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.entity.*;
 import anightdazingzoroark.squirrelwitchery.client.renderer.item.*;
 import anightdazingzoroark.squirrelwitchery.client.renderer.armor.WitchCostumeRenderer;
 import anightdazingzoroark.squirrelwitchery.client.renderer.player.SquirrelAttachmentsLayer;
@@ -15,10 +12,7 @@ import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelPlushBlock;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
-import anightdazingzoroark.squirrelwitchery.server.entity.ExplosiveNutProjectileEntity;
-import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelEntity;
-import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelGunEntity;
-import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
+import anightdazingzoroark.squirrelwitchery.server.entity.*;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -40,6 +34,7 @@ public class ClientProxy extends ServerProxy {
         RenderingRegistry.registerEntityRenderingHandler(WitchBroomEntity.class, WitchBroomEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ExplosiveNutProjectileEntity.class, ExplosiveNutEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(SquirrelGunEntity.class, SquirrelGunEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(MagicalSquirrelEntity.class, MagicalSquirrelEntityRenderer::new);
 
         //---item rendering---
         SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());

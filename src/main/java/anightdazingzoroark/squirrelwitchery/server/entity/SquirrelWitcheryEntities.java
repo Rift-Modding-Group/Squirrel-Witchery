@@ -55,5 +55,17 @@ public class SquirrelWitcheryEntities {
                 .egg(0x6A4932, 0xC5AD91)
                 .build()
         );
+
+        ResourceLocation magicalSquirrelRegistryName = new ResourceLocation(SquirrelWitchery.MODID, "magical_squirrel");
+        ForgeRegistries.ENTITIES.register(EntityEntryBuilder.<MagicalSquirrelEntity>create()
+                .entity(MagicalSquirrelEntity.class)
+                .factory(MagicalSquirrelEntity::new)
+                .id(magicalSquirrelRegistryName, 4)
+                .name(magicalSquirrelRegistryName.getPath())
+                .tracker(64, 3, true)
+                //.spawn(EnumCreatureType.MONSTER, 2, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST))
+                .egg(0xF0B2B9, 0xF19AA4)
+                .build()
+        );
     }
 }

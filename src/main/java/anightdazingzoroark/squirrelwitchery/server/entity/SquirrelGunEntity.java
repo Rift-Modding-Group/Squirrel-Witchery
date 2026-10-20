@@ -84,6 +84,7 @@ public class SquirrelGunEntity extends EntityMob implements IAnimatable<Animatio
         return ground == Blocks.DIRT || ground == Blocks.GRASS;
     }
 
+    //-----shooting stuff-----
     @Override
     public void attackEntityWithRangedAttack(@NotNull EntityLivingBase target, float distanceFactor) {
         if (this.world.isRemote || !this.isEntityAlive() || !target.isEntityAlive()) return;
@@ -106,6 +107,7 @@ public class SquirrelGunEntity extends EntityMob implements IAnimatable<Animatio
         this.dataManager.set(SHOOTING, value);
     }
 
+    //-----animation stuff-----
     @Override
     @NonNull
     public AnimationDataEntityLiving getAnimationData() {
