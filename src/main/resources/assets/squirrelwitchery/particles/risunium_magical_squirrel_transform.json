@@ -1,0 +1,64 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "squirrelwitchery:risunium_magical_squirrel_transform",
+      "basic_render_parameters": {
+        "material": "particles_add",
+        "texture": "squirrelwitchery:textures/particle/risunium_mote"
+      }
+    },
+    "components": {
+      "minecraft:emitter_initialization": {
+        "creation_expression": "variable.radius = 0.75; variable.rise_speed = 0.25; variable.travel_speed = 1.5; variable.phase = variable.emitter_random_1 * 360; variable.strand_index = -1;"
+      },
+      "minecraft:emitter_rate_steady": {
+        "spawn_rate": 40,
+        "max_particles": 256
+      },
+      "minecraft:emitter_lifetime_looping": {
+        "active_time": 2,
+        "sleep_time": 0
+      },
+      "minecraft:emitter_shape_point": {
+        "offset": [
+          "variable.strand_index = math.mod(variable.strand_index + 1, 2); variable.spawn_phase = variable.phase + variable.strand_index * 180; variable.spawn_direction = 1 - 2 * variable.strand_index; return variable.radius * math.cos(variable.spawn_phase);",
+          0,
+          "variable.radius * math.sin(variable.spawn_phase)"
+        ],
+        "direction": [
+          "-40 * variable.radius * math.sin(4.5 * variable.travel_speed * variable.spawn_direction) * math.sin(variable.spawn_phase + 4.5 * variable.travel_speed * variable.spawn_direction)",
+          "variable.rise_speed * variable.travel_speed",
+          "40 * variable.radius * math.sin(4.5 * variable.travel_speed * variable.spawn_direction) * math.cos(variable.spawn_phase + 4.5 * variable.travel_speed * variable.spawn_direction)"
+        ]
+      },
+      "minecraft:particle_initial_speed": "variable.particle_phase = variable.spawn_phase; variable.particle_direction = variable.spawn_direction; return math.sqrt(1600 * variable.radius * variable.radius * math.sin(4.5 * variable.travel_speed) * math.sin(4.5 * variable.travel_speed) + variable.rise_speed * variable.rise_speed * variable.travel_speed * variable.travel_speed);",
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": 2.25
+      },
+      "minecraft:particle_motion_dynamic": {
+        "linear_acceleration": [
+          "-1600 * variable.radius * math.sin(4.5 * variable.travel_speed) * math.sin(4.5 * variable.travel_speed) * math.cos(variable.particle_phase + variable.particle_age * 180 * variable.travel_speed * variable.particle_direction)",
+          0,
+          "-1600 * variable.radius * math.sin(4.5 * variable.travel_speed) * math.sin(4.5 * variable.travel_speed) * math.sin(variable.particle_phase + variable.particle_age * 180 * variable.travel_speed * variable.particle_direction)"
+        ]
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "(0.09 + variable.particle_random_3 * 0.05) * math.min(1, variable.particle_age * 10) * math.min(1, math.max(0, (variable.particle_lifetime - variable.particle_age) * 2))",
+          "(0.09 + variable.particle_random_3 * 0.05) * math.min(1, variable.particle_age * 10) * math.min(1, math.max(0, (variable.particle_lifetime - variable.particle_age) * 2))"
+        ],
+        "facing_camera_mode": "lookat_xyz",
+        "uv": {
+          "texture_width": 16,
+          "texture_height": 16,
+          "uv": [0, 0],
+          "uv_size": [16, 16]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": [1, 1, 1, "0.8 * math.min(1, variable.particle_age * 10) * math.min(1, math.max(0, (variable.particle_lifetime - variable.particle_age) * 2))"]
+      }
+    }
+  }
+}
