@@ -111,6 +111,10 @@ public final class SquirrelWitcheryAspects {
                 new AspectPair(RISUNIUM, 105), new AspectPair(Aspect.AVERSION, 50), new AspectPair(Aspect.ENERGY, 45),
                 new AspectPair(Aspect.TOOL, 35), new AspectPair(Aspect.MECHANISM, 25)
         ));
+        ASPECT_ASSIGNMENTS.add(new AspectAssignment<Item>(
+                SquirrelWitcheryItems.SQUIRREL_TAIL_HAMMER, false,
+                new AspectPair(Aspect.AVERSION, 12)
+        ));
 
         //---entity assignments---
         ThaumcraftApi.registerEntityTag(

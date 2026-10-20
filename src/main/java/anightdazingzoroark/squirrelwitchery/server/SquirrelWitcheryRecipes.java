@@ -301,6 +301,23 @@ public class SquirrelWitcheryRecipes {
                 )
         );
         ThaumcraftApi.addInfusionCraftingRecipe(
+                new ResourceLocation(SquirrelWitchery.MODID, "witch_squirrel_plush"),
+                new InfusionRecipe(
+                        SquirrelWitcheryResearch.SQUIRREL_PLUSH,
+                        new ItemStack(SquirrelWitcheryBlocks.WITCH_SQUIRREL_PLUSH), 4,
+                        new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 50)
+                                .add(Aspect.ENTROPY, 50)
+                                .add(Aspect.MAGIC, 50),
+                        new ItemStack(SquirrelWitcheryItems.CRYSTALLIZED_SQUIRREL_HEART),
+                        new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        new ItemStack(SquirrelWitcheryItems.WITCH_HAT),
+                        new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
+                        ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
+                        new ItemStack(SquirrelWitcheryItems.NUT)
+                )
+        );
+        ThaumcraftApi.addInfusionCraftingRecipe(
                 new ResourceLocation(SquirrelWitchery.MODID, "nutsaber"),
                 new InfusionRecipe(
                         SquirrelWitcheryResearch.NUTSABER + "@2",

@@ -463,7 +463,8 @@
         {
           "text": "research.SQUIRREL_WITCHERY_SQUIRREL_PLUSH.stage.2",
           "recipes": [
-            "squirrelwitchery:squirrel_plush"
+            "squirrelwitchery:squirrel_plush",
+            "squirrelwitchery:witch_squirrel_plush"
           ]
         }
       ]
