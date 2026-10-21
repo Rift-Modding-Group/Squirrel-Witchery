@@ -21,12 +21,18 @@ public class MagicalSquirrelEntityRenderer extends GeoEntityLivingRenderer<Magic
                     @Override
                     @NotNull
                     public String getModelIdentifier(MagicalSquirrelEntity magicalSquirrelEntity) {
+                        if (magicalSquirrelEntity.isTamed() && magicalSquirrelEntity.getTransformed()) {
+                            return "geometry.ayunda_risu";
+                        }
                         return "geometry.magical_squirrel";
                     }
 
                     @Override
                     @NotNull
                     public String getTextureLocation(MagicalSquirrelEntity magicalSquirrelEntity) {
+                        if (magicalSquirrelEntity.isTamed() && magicalSquirrelEntity.getTransformed()) {
+                            return "entity/ayunda_risu.png";
+                        }
                         return "entity/magical_squirrel.png";
                     }
                 }

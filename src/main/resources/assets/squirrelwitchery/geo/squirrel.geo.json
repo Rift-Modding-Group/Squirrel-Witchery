@@ -308,7 +308,15 @@
 			},
 			"bones": [
 				{
+					"name": "root",
+					"pivot": [0, 0, 0],
+					"locators": {
+						"bottomCenter": [0, 0, -4]
+					}
+				},
+				{
 					"name": "main",
+					"parent": "root",
 					"pivot": [0, 0, 0],
 					"locators": {
 						"bodyCenter": [0, 9, -4]
