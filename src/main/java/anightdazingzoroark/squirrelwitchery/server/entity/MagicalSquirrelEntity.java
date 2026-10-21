@@ -149,6 +149,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     @Override
     public void initializeAnimationData(@NonNull AnimationDataEntityLiving animationDataEntityLiving) {
         animationDataEntityLiving.setScale(entity -> this.getTransformed() ? 1f : 0.5f);
+
+        //normal form anims
+        animationDataEntityLiving.addAnimation("animation.squirrel.look", data -> !this.getTransformed());
         animationDataEntityLiving.addAnimationController(new AnimationController<MagicalSquirrelEntity, AnimationDataEntityLiving>(
                 this, "movementCont", "default",
                 new AnimationControllerState<AnimationDataEntityLiving>("default", 0.1)
@@ -165,6 +168,10 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                         .addAnimation("animation.magical_squirrel.transform")
                         .addStateTransition("default", data -> this.getTransformed())
         ));
+
+        //transformed form anims
+        animationDataEntityLiving.addAnimation("animation.magical_squirrel.look", data -> this.getTransformed());
+        animationDataEntityLiving.addAnimation("animation.magical_squirrel.walk", data -> this.getTransformed());
     }
 
     //-----stuff i dont care about-----

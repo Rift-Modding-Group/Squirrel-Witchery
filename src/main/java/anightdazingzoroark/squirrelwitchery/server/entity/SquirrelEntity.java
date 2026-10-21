@@ -226,6 +226,7 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
     @Override
     public void initializeAnimationData(@NonNull AnimationDataEntityLiving animationData) {
         animationData.setScale(entity -> entity.isChild() ? 0.25f : 0.5f);
+        animationData.addAnimation("animation.squirrel.look");
         animationData.addAnimationController(new AnimationController<SquirrelEntity, AnimationDataEntityLiving>(
                 this, "movementCont", "default",
                 new AnimationControllerState<AnimationDataEntityLiving>("default", 0.1)

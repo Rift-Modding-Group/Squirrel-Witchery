@@ -23,11 +23,11 @@
 				},
 				"tail": {
 					"rotation": [-45, 0, 0],
-					"position": [0, 0, -1]
+					"position": [0, -0.70711, -0.70711]
 				},
 				"head": {
 					"rotation": [-45, 0, 0],
-					"position": [0, 1, 0]
+					"position": [0, 0.70711, -0.70711]
 				}
 			}
 		},
@@ -35,8 +35,16 @@
 			"loop": true,
 			"bones": {
 				"tail": {
-					"position": [0, 0, -1],
+					"position": [0, -0.70711, -0.70711],
 					"scale": 0.7
+				}
+			}
+		},
+		"animation.squirrel.look": {
+			"loop": true,
+			"bones": {
+				"head": {
+					"rotation": ["math.clamp(query.head_x_rotation, -30, 30)", "math.clamp(query.head_y_rotation, -30, 30)", 0]
 				}
 			}
 		},
@@ -48,18 +56,18 @@
 					"rotation": [-17.5, 0, 0]
 				},
 				"leftArm": {
-					"rotation": [25, 0, 0]
+					"rotation": [22.31472, -5.04472, 9.21671]
 				},
 				"rightArm": {
-					"rotation": [25, 0, 0]
+					"rotation": [22.31472, 5.04472, -9.21671]
 				},
 				"head": {
 					"rotation": [17.5, 0, 0],
-					"position": [0, 1, -1]
+					"position": [0, 0.65301, -1.25442]
 				},
 				"gun": {
 					"rotation": [25, 0, 0],
-					"position": [0, -5, 1]
+					"position": [0, -4.46788, 2.45725]
 				},
 				"leftLeg": {
 					"rotation": ["-math.sin(query.anim_time * 30) * -15", 0, 0]
@@ -153,6 +161,32 @@
 				"0.0": {
 					"effect": "squirrelwitchery:risunium_magical_squirrel_transform",
 					"locator": "bottomCenter"
+				}
+			}
+		},
+		"animation.magical_squirrel.walk": {
+			"loop": true,
+			"anim_time_update": "query.walk_distance * 4",
+			"bones": {
+				"leftArm": {
+					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * 57.29577951", 0, 0]
+				},
+				"leftLeg": {
+					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * -80.21409132", 0, 0]
+				},
+				"rightArm": {
+					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * -57.29577951", 0, 0]
+				},
+				"rightLeg": {
+					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * 80.21409132", 0, 0]
+				}
+			}
+		},
+		"animation.magical_squirrel.look": {
+			"loop": true,
+			"bones": {
+				"head": {
+					"rotation": ["query.head_x_rotation", "query.head_y_rotation", 0]
 				}
 			}
 		}

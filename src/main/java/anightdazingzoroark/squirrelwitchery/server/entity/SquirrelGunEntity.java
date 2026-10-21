@@ -117,7 +117,7 @@ public class SquirrelGunEntity extends EntityMob implements IAnimatable<Animatio
     @Override
     public void initializeAnimationData(@NonNull AnimationDataEntityLiving animationDataEntityLiving) {
         animationDataEntityLiving.setScale(0.5f);
-        animationDataEntityLiving.addInitAnimationValue("shooting", 0D);
+        animationDataEntityLiving.addAnimation("animation.squirrel.look");
         animationDataEntityLiving.addAnimationController(new AnimationController<SquirrelGunEntity, AnimationDataEntityLiving>(
                 this, "movementCont", "default",
                 new AnimationControllerState<AnimationDataEntityLiving>("default", 0.1)

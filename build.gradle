@@ -115,6 +115,10 @@ processResources {
 }
 
 sourceSets {
+    test {
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.compileClasspath
+    }
     main {
         blossom {
             javaSources {
