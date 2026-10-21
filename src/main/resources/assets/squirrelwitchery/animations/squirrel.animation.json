@@ -182,6 +182,27 @@
 				}
 			}
 		},
+		"animation.magical_squirrel.attack": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [0, "variable.attack_body_yaw", 0]
+				},
+				"head": {
+					"rotation": [0, "-variable.attack_body_yaw", 0]
+				},
+				"leftArm": {
+					"rotation": ["variable.attack_body_yaw", 0, 0]
+				},
+				"rightArm": {
+					"rotation": [
+						"-math.sin((1 - math.pow(1 - variable.attack_progress, 4)) * 180) * 68.75493542 - math.sin(variable.attack_progress * 180) * (0.7 - query.head_x_rotation * 0.01745329252) * 42.97183463",
+						"variable.attack_body_yaw * 2",
+						"-math.sin(variable.attack_progress * 180) * 22.91831181"
+					]
+				}
+			}
+		},
 		"animation.magical_squirrel.look": {
 			"loop": true,
 			"bones": {

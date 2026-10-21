@@ -74,6 +74,9 @@
 					"name": "rightArm",
 					"parent": "body",
 					"pivot": [-5, 22, 0],
+					"locators": {
+						"right_hand_item": [-5, 22, 0]
+					},
 					"cubes": [
 						{"origin": [-8, 11.9, -2], "size": [4, 12, 4], "inflate": -0.2, "uv": [40, 16]}
 					]

@@ -136,3 +136,9 @@ card.nut_research.name=Nut Research
 card.nut_research.text=Sometimes the best way to understand a nut is to take it apart. Consume a nut to gain 25 Squirrel Witchery.
 card.risunic_resonance.name=Risunic Resonance
 card.risunic_resonance.text=You test a Risunium vis crystal against a series of increasingly unlikely stimuli. Consume the crystal to gain 30 Squirrel Witchery and one bonus draw.
+
+warning.squirrelwitchery.set_behavior=Behavior set to %s!
+
+behavior.squirrelwitchery.follow.name=Follow
+behavior.squirrelwitchery.sit.name=Sit
+behavior.squirrelwitchery.wander.name=Wander

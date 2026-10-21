@@ -5,6 +5,7 @@ import anightdazingzoroark.riftlib.renderers.geo.GeoEntityLivingRenderer;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class MagicalSquirrelEntityRenderer extends GeoEntityLivingRenderer<MagicalSquirrelEntity> {
@@ -37,5 +38,12 @@ public class MagicalSquirrelEntityRenderer extends GeoEntityLivingRenderer<Magic
                     }
                 }
         );
+    }
+
+    @Override
+    @NotNull
+    public ItemStack getItemForLocator(@NotNull MagicalSquirrelEntity entity, @NotNull String locatorName, float partialTicks) {
+        if (locatorName.equals("right_hand_item")) return entity.getHeldItemMainhand();
+        return ItemStack.EMPTY;
     }
 }

@@ -11,7 +11,9 @@ import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelWitcheryEntities;
 import anightdazingzoroark.squirrelwitchery.server.effect.SquirrelWitcheryEffects;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import anightdazingzoroark.squirrelwitchery.server.gui.SquirrelWitcheryGuiHandler;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
+import anightdazingzoroark.squirrelwitchery.server.message.MessageOpenMagicalSquirrelInventory;
 import anightdazingzoroark.squirrelwitchery.server.player.SquirrelPlayerProperties;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class ServerProxy {
     public static RiftLibMessageWrapper<RiftLibMessage, RiftLibMessage> MESSAGE_WRAPPER = new RiftLibMessageWrapper<>(SquirrelWitchery.MODID);
@@ -37,6 +40,9 @@ public class ServerProxy {
 
         //---messages---
         MESSAGE_WRAPPER.registerMessage(MessageControlWitchBroom.class, RiftLibMessageSide.SERVER);
+        MESSAGE_WRAPPER.registerMessage(MessageOpenMagicalSquirrelInventory.class, RiftLibMessageSide.SERVER);
+
+        NetworkRegistry.INSTANCE.registerGuiHandler(SquirrelWitchery.instance, new SquirrelWitcheryGuiHandler());
 
         //---events---
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryBlocks());
