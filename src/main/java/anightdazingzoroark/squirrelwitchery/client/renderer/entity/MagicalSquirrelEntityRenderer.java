@@ -2,6 +2,7 @@ package anightdazingzoroark.squirrelwitchery.client.renderer.entity;
 
 import anightdazingzoroark.riftlib.model.AnimatedGeoModel;
 import anightdazingzoroark.riftlib.renderers.geo.GeoEntityLivingRenderer;
+import anightdazingzoroark.squirrelwitchery.client.renderer.entity.layer.MagicalSquirrelArmorLayer;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -38,6 +39,7 @@ public class MagicalSquirrelEntityRenderer extends GeoEntityLivingRenderer<Magic
                     }
                 }
         );
+        this.addLayer(new MagicalSquirrelArmorLayer(this));
     }
 
     @Override

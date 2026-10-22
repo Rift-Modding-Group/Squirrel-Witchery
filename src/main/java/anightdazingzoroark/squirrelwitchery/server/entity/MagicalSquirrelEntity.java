@@ -21,6 +21,8 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -87,14 +89,21 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this) {
             @Override
             public boolean shouldExecute() {
-                if (!MagicalSquirrelEntity.this.getTransformed()) return false;
+                if (!MagicalSquirrelEntity.this.getTransformed() || MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
                 return super.shouldExecute();
             }
         });
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this) {
             @Override
             public boolean shouldExecute() {
-                if (!MagicalSquirrelEntity.this.getTransformed()) return false;
+                if (!MagicalSquirrelEntity.this.getTransformed() || MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
+                return super.shouldExecute();
+            }
+        });
+        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true) {
+            @Override
+            public boolean shouldExecute() {
+                if (!MagicalSquirrelEntity.this.getTransformed() || MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
                 return super.shouldExecute();
             }
         });
@@ -187,6 +196,19 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 heldItem = result.foundStack();
             }
             this.setHeldItem(EnumHand.MAIN_HAND, heldItem);
+
+            //equip last usable armor slots
+            for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR) continue;
+                ItemStack armor = ItemStack.EMPTY;
+                if (this.isEntityAlive() && this.isTamed()) {
+                    armor = this.inventoryHandler.findItem(
+                            RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
+                            stack -> !stack.isEmpty() && stack.getItem() instanceof ItemArmor item && item.getEquipmentSlot() == slot
+                    ).foundStack();
+                }
+                this.setItemStackToSlot(slot, armor);
+            }
         }
     }
 
@@ -268,18 +290,37 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     }
 
     @Override
+    protected void damageArmor(float damage) {
+        if (damage <= 0f) return;
+        int durabilityDamage = Math.max(1, (int) (damage / 4f));
+        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+            if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR) continue;
+            ItemStack armor = this.getItemStackFromSlot(slot);
+            if (armor.isEmpty() || !(armor.getItem() instanceof ItemArmor)) continue;
+            armor.damageItem(durabilityDamage, this);
+            if (armor.isEmpty()) this.setItemStackToSlot(slot, ItemStack.EMPTY);
+        }
+    }
+
+    @Override
     public void onDeath(@NonNull DamageSource cause) {
         super.onDeath(cause);
         if (!this.world.isRemote && this.dead) {
             this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+            for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                if (slot.getSlotType() == EntityEquipmentSlot.Type.ARMOR) this.setItemStackToSlot(slot, ItemStack.EMPTY);
+            }
             this.inventoryHandler.dropAllItems(this.world, this.getPosition());
         }
     }
 
     @Override
     protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
-        //the held sword belongs to the inventory, which drops separately on death.
+        //equipped items belong to the inventory, which drops separately on death
         this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+            if (slot.getSlotType() == EntityEquipmentSlot.Type.ARMOR) this.setItemStackToSlot(slot, ItemStack.EMPTY);
+        }
         super.dropEquipment(wasRecentlyHit, lootingModifier);
     }
 
