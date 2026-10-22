@@ -5,6 +5,8 @@ import anightdazingzoroark.riftlib.core.controller.AnimationController;
 import anightdazingzoroark.riftlib.core.controller.AnimationControllerState;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataEntityLiving;
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.inventory.MagicalSquirrelInventory;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
@@ -13,11 +15,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -49,6 +52,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     @Nullable
     private EntityAITempt aiTempt;
     private int transformTicks;
+    private int eatingCooldown;
 
     public MagicalSquirrelEntity(World worldIn) {
         super(worldIn);
@@ -96,7 +100,13 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         });
 
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
+        this.tasks.addTask(1, new EntityAIPanic(this, 1.25D) {
+            @Override
+            public boolean shouldExecute() {
+                if (MagicalSquirrelEntity.this.isTamed()) return false;
+                return super.shouldExecute();
+            }
+        });
         this.tasks.addTask(2, this.aiTempt);
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, player -> !this.isTamed(), 16f, 0.8D, 1.33D));
         this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0, true));
@@ -126,6 +136,22 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         super.onLivingUpdate();
 
         if (!this.world.isRemote) {
+            if (this.eatingCooldown > 0) this.eatingCooldown--;
+
+            //eat from inventory
+            if (this.isEntityAlive() && this.isTamed() && this.getHealth() < this.getMaxHealth() && this.eatingCooldown == 0) {
+                RiftLibInventoryHandler.ItemSearchResult food = this.inventoryHandler.findItem(
+                        RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
+                        itemStack -> {
+                            return itemStack.getItem() == SquirrelWitcheryItems.NUT || itemStack.getItem() == SquirrelWitcheryItems.BIG_NUT;
+                        }
+                );
+                if (food.successful()) {
+                    ItemStack eatenNut = this.inventoryHandler.extractItem(food.slot(), 1, false);
+                    if (!eatenNut.isEmpty()) this.healFromNut(eatenNut);
+                }
+            }
+
             //transform
             if (this.isTamed() && !this.getTransformed()) {
                 this.getNavigator().clearPath();
@@ -144,13 +170,23 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 }
             }
 
-            //make sure it equps the last item in its
+            //equip the last usable inventory item, or clear the hand when none remains.
+            ItemStack heldItem = ItemStack.EMPTY;
             if (this.isEntityAlive() && this.isTamed() && this.getTransformed()) {
                 RiftLibInventoryHandler.ItemSearchResult result = this.inventoryHandler.findItem(
-                        RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST, Items.DIAMOND_SWORD //the diamond sword is temporary, will be made configurable
+                        RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
+                        itemStack -> {
+                            if (itemStack.isEmpty()) return false;
+                            for (String entryId : SquirrelWitcheryConfig.magicalSquirrelUsableItems) {
+                                if (!(SquirrelWitcheryUtils.itemStackMatchesString(itemStack, entryId))) continue;
+                                return true;
+                            }
+                            return false;
+                        }
                 );
-                if (result.successful()) this.setHeldItem(EnumHand.MAIN_HAND, result.foundStack());
+                heldItem = result.foundStack();
             }
+            this.setHeldItem(EnumHand.MAIN_HAND, heldItem);
         }
     }
 
@@ -169,6 +205,17 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 this.getNavigator().clearPath();
                 if (!player.capabilities.isCreativeMode) heldItem.shrink(1);
                 this.world.setEntityState(this, (byte) 7);
+            }
+            return true;
+        }
+
+        //feed tamed magical squirrels for healing
+        if (this.isTamed() && this.isEntityAlive() && this.getHealth() < this.getMaxHealth()
+                && (heldItem.getItem() == SquirrelWitcheryItems.NUT || heldItem.getItem() == SquirrelWitcheryItems.BIG_NUT)
+        ) {
+            if (!this.world.isRemote) {
+                this.healFromNut(heldItem);
+                if (!player.capabilities.isCreativeMode) heldItem.shrink(1);
             }
             return true;
         }
@@ -196,14 +243,27 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         return super.processInteract(player, hand);
     }
 
+    private void healFromNut(@NotNull ItemStack nut) {
+        float healAmount = nut.getItem() == SquirrelWitcheryItems.BIG_NUT ? 4f : 2f;
+        this.heal(healAmount);
+        this.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1f, 1f);
+        this.eatingCooldown = 40;
+    }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
+    public boolean attackEntityAsMob(@NonNull Entity entityIn) {
         boolean flag = entityIn.attackEntityFrom(
                 DamageSource.causeMobDamage(this),
                 (int) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()
         );
-        if (flag) this.applyEnchantments(this, entityIn);
+        if (flag) {
+            this.applyEnchantments(this, entityIn);
+            ItemStack weapon = this.getHeldItemMainhand();
+            if (!this.world.isRemote && !weapon.isEmpty() && entityIn instanceof EntityLivingBase target) {
+                weapon.getItem().hitEntity(weapon, target, this);
+                if (weapon.isEmpty()) this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+            }
+        }
         return flag;
     }
 
@@ -283,7 +343,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     public void initializeAnimationData(@NonNull AnimationDataEntityLiving animationDataEntityLiving) {
         animationDataEntityLiving.setScale(entity -> this.getTransformed() ? 1f : 0.5f);
 
-        // Use vanilla's synchronized swing, including its duration and frame interpolation.
+        //use vanilla's synchronized swing, including its duration and frame interpolation.
         animationDataEntityLiving.addOnUpdateAnimationValue("variable.attack_progress", () -> {
             float partialTicks = 1f;
             if (this.world.isRemote) partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
