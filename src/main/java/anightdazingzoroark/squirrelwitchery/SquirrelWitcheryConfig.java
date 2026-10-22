@@ -41,6 +41,7 @@ public class SquirrelWitcheryConfig {
             "thaumcraft:thaumium_sword:-1",
             "thaumcraft:void_sword:-1",
             "thaumcraft:elemental_sword:-1",
-            "squirrelwitchery:squirrel_tail_hammer:-1"
+            "squirrelwitchery:squirrel_tail_hammer:-1",
+            "squirrelwitchery:nutsaber"
     };
 }

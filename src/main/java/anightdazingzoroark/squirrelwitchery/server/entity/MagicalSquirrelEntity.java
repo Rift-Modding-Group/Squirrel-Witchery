@@ -9,6 +9,7 @@ import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.inventory.MagicalSquirrelInventory;
+import anightdazingzoroark.squirrelwitchery.server.items.NutsaberItem;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageOpenMagicalSquirrelInventory;
 import net.minecraft.client.Minecraft;
@@ -274,13 +275,18 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
 
     @Override
     public boolean attackEntityAsMob(@NonNull Entity entityIn) {
+        ItemStack weapon = this.getHeldItemMainhand();
+        float attackDamage = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        // The stack's normal attribute modifier requires fuel; squirrels power the saber themselves.
+        if (weapon.getItem() instanceof NutsaberItem saber && saber.getRisuniumAmount(weapon) < NutsaberItem.RISUNIUM_PER_SWING) {
+            attackDamage += NutsaberItem.ATTACK_DAMAGE;
+        }
         boolean flag = entityIn.attackEntityFrom(
                 DamageSource.causeMobDamage(this),
-                (int) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()
+                (int) attackDamage
         );
         if (flag) {
             this.applyEnchantments(this, entityIn);
-            ItemStack weapon = this.getHeldItemMainhand();
             if (!this.world.isRemote && !weapon.isEmpty() && entityIn instanceof EntityLivingBase target) {
                 weapon.getItem().hitEntity(weapon, target, this);
                 if (weapon.isEmpty()) this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);

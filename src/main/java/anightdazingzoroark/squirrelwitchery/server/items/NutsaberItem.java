@@ -1,5 +1,6 @@
 package anightdazingzoroark.squirrelwitchery.server.items;
 
+import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.util.ITooltipFlag;
@@ -9,7 +10,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,7 +23,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class NutsaberItem extends Item implements IRisuniumConsumer {
-    private static final int RISUNIUM_PER_SWING = 5;
+    public static final int RISUNIUM_PER_SWING = 5;
+    public static final float ATTACK_DAMAGE = 15f;
 
     public NutsaberItem() {
         super();
@@ -60,7 +61,7 @@ public class NutsaberItem extends Item implements IRisuniumConsumer {
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (world.isRemote || !(entity instanceof EntityLivingBase entityLiving)) return;
+        if (world.isRemote || !(entity instanceof EntityLivingBase entityLiving) || entity instanceof MagicalSquirrelEntity) return;
         if (entityLiving.getHeldItemMainhand() != stack && entityLiving.getHeldItemOffhand() != stack) return;
         if (entityLiving.ticksExisted % 60 != 0 || this.getRisuniumAmount(stack) <= 0) return;
 
@@ -70,8 +71,8 @@ public class NutsaberItem extends Item implements IRisuniumConsumer {
 
     @Override
     public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
-        if (!entityLiving.world.isRemote && this.getRisuniumAmount(stack) > 0) {
-            this.setRisuniumAmount(stack, this.getRisuniumAmount(stack) - RISUNIUM_PER_SWING);
+        if (!entityLiving.world.isRemote && (this.getRisuniumAmount(stack) > 0 || entityLiving instanceof MagicalSquirrelEntity)) {
+            if (!(entityLiving instanceof MagicalSquirrelEntity)) this.setRisuniumAmount(stack, this.getRisuniumAmount(stack) - RISUNIUM_PER_SWING);
             entityLiving.world.playSound(
                     null, entityLiving.posX, entityLiving.posY, entityLiving.posZ,
                     SquirrelWitcherySounds.NUTSABER_SWING, SoundCategory.PLAYERS, 0.9f, 1f
@@ -86,7 +87,7 @@ public class NutsaberItem extends Item implements IRisuniumConsumer {
         if (slot == EntityEquipmentSlot.MAINHAND && this.getRisuniumAmount(stack) >= RISUNIUM_PER_SWING) {
             modifiers.put(
                     SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
-                    new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Nutsaber modifier", 15f, 0)
+                    new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Nutsaber modifier", ATTACK_DAMAGE, 0)
             );
         }
         return modifiers;
