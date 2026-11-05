@@ -20,8 +20,10 @@ public abstract class GuiArcaneWorkbenchMixin {
      * Allow risunium crystal to be used in the ui
      * */
     @Redirect(
-            method = "drawGuiContainerBackgroundLayer",
-            at = @At(value = "INVOKE", target = "Lthaumcraft/common/blocks/world/ore/ShardType;getMetaByAspect(Lthaumcraft/api/aspects/Aspect;)I"),
+            // This Minecraft override is named func_146976_a in production.
+            method = "drawGuiContainerBackgroundLayer(FII)V",
+            remap = true,
+            at = @At(value = "INVOKE", target = "Lthaumcraft/common/blocks/world/ore/ShardType;getMetaByAspect(Lthaumcraft/api/aspects/Aspect;)I", remap = false),
             require = 1
     )
     private int resolveCrystalSlot(Aspect aspect) {
