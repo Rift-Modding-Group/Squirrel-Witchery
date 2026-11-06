@@ -63,7 +63,15 @@ public class TinkersConstructUtil {
         for (int slot = 0; slot < squirrel.getInventoryHandler().getSlots(); slot++) {
             ItemStack stack = squirrel.getInventoryHandler().getStackInSlot(slot);
             if (!stack.isEmpty() && stack.getItem() instanceof ToolCore tool) {
+                boolean usableMelee = canUseMeleeWeapon(stack);
+                boolean usableRanged = isUsableRangedWeapon(stack);
+                int count = stack.getCount();
                 tool.onUpdate(stack, squirrel.world, squirrel, slot, stack == squirrel.getHeldItemMainhand());
+                if (usableMelee != canUseMeleeWeapon(stack) || usableRanged != isUsableRangedWeapon(stack)
+                        || count != stack.getCount()
+                ) {
+                    squirrel.markEquipmentDirty();
+                }
             }
         }
     }

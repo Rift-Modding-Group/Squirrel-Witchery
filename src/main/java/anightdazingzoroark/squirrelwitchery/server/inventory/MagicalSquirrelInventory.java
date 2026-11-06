@@ -48,7 +48,40 @@ public class MagicalSquirrelInventory extends RiftLibInventoryHandler implements
     }
 
     @Override
-    public void markDirty() {}
+    public void markDirty() {
+        this.squirrel.markEquipmentDirty();
+    }
+
+    @Override
+    protected void onContentsChanged(int slot) {
+        this.markDirty();
+    }
+
+    @Override
+    protected void onLoad() {
+        this.markDirty();
+    }
+
+    // RiftLibrary's bulk operations can mutate stacks without onContentsChanged.
+    @Override
+    @NotNull
+    public ItemStack addItem(@NotNull ItemStack stack) {
+        ItemStack remainder = super.addItem(stack);
+        this.markDirty();
+        return remainder;
+    }
+
+    @Override
+    public void insertItem(@NotNull ItemStack stack) {
+        super.insertItem(stack);
+        this.markDirty();
+    }
+
+    @Override
+    public void removeItem(@NotNull ItemSearchDirection direction, @NotNull ItemStack stack) {
+        super.removeItem(direction, stack);
+        this.markDirty();
+    }
 
     @Override
     public boolean isUsableByPlayer(@NotNull EntityPlayer player) {

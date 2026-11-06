@@ -68,6 +68,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     private EntityAITempt aiTempt;
     private int transformTicks;
     private int eatingCooldown;
+    private boolean equipmentDirty = true;
 
     public MagicalSquirrelEntity(World worldIn) {
         super(worldIn);
@@ -198,85 +199,98 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 }
             }
 
-            //equip the last usable inventory item, or clear the hand when none remains.
-            ItemStack heldItem = ItemStack.EMPTY;
-            AtomicReference<MagicalSquirrelWeaponType> pendingWeaponType = new AtomicReference<>();
-            if (this.isEntityAlive() && this.isTamed() && this.getTransformed()) {
-                RiftLibInventoryHandler.ItemSearchResult result = this.inventoryHandler.findItem(
-                        RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
-                        itemStack -> {
-                            if (itemStack.isEmpty()) return false;
-                            if (Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isMeleeWeapon(itemStack)
-                                    && !TinkersConstructUtil.canUseMeleeWeapon(itemStack)
-                            ) {
-                                return false;
-                            }
+            //update tinker tools
+            if (Loader.isModLoaded("tconstruct")) TinkersConstructUtil.updateTools(this);
+            //update sqrl equipment based on inventory updates
+            if (this.equipmentDirty) this.updateEquipment();
+        }
+    }
 
-                            //usable melee weapons
-                            for (String entryId : SquirrelWitcheryConfig.magicalSquirrelBehavior.usableMeleeWeapons) {
-                                if (!(SquirrelWitcheryUtils.itemStackMatchesString(itemStack, entryId))) continue;
-                                pendingWeaponType.set(MagicalSquirrelWeaponType.MELEE);
-                                return true;
-                            }
+    public void markEquipmentDirty() {
+        if (!this.world.isRemote) this.equipmentDirty = true;
+    }
 
-                            //bows
-                            if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseBows && itemStack.getItem() instanceof ItemBow) {
-                                pendingWeaponType.set(MagicalSquirrelWeaponType.BOW);
-                                return true;
-                            }
+    private void updateEquipment() {
+        if (this.world.isRemote) return;
+        this.equipmentDirty = false;
 
-                            //spartan weaponry ranged weapons
-                            if (Loader.isModLoaded("spartanweaponry") && SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseModdedRangedWeapons) {
-                                if (SpartanWeaponryUtils.isCrossbow(itemStack)) {
-                                    pendingWeaponType.set(MagicalSquirrelWeaponType.SPARTAN_CROSSBOW);
-                                    return true;
-                                }
-                                if (SpartanWeaponryUtils.isThrowingWeapon(itemStack)) {
-                                    pendingWeaponType.set(MagicalSquirrelWeaponType.SPARTAN_THROWING_WEAPON);
-                                    return true;
-                                }
-                            }
-
-                            //tinkers ranged weapons
-                            if (Loader.isModLoaded("tconstruct") && SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseModdedRangedWeapons) {
-                                if (!TinkersConstructUtil.isUsableRangedWeapon(itemStack)) return false;
-                                if (TinkersConstructUtil.isCrossbow(itemStack)) {
-                                    pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_CROSSBOW);
-                                    return true;
-                                }
-                                if (TinkersConstructUtil.isBow(itemStack)) {
-                                    pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_BOW);
-                                    return true;
-                                }
-                                if (TinkersConstructUtil.isShuriken(itemStack)) {
-                                    pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_SHURIKEN);
-                                    return true;
-                                }
-                            }
-
+        //equip the last usable inventory item, or clear the hand when none remains
+        ItemStack heldItem = ItemStack.EMPTY;
+        AtomicReference<MagicalSquirrelWeaponType> pendingWeaponType = new AtomicReference<>();
+        if (this.isEntityAlive() && this.isTamed() && this.getTransformed()) {
+            RiftLibInventoryHandler.ItemSearchResult result = this.inventoryHandler.findItem(
+                    RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
+                    itemStack -> {
+                        if (itemStack.isEmpty()) return false;
+                        if (Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isMeleeWeapon(itemStack)
+                                && !TinkersConstructUtil.canUseMeleeWeapon(itemStack)
+                        ) {
                             return false;
                         }
-                );
-                heldItem = result.foundStack();
-            }
-            if (this.getHeldItemMainhand() != heldItem) this.attackBehavior = null;
-            if (this.isHandActive() && this.getActiveItemStack() != heldItem) this.resetActiveHand();
-            this.setHeldItem(EnumHand.MAIN_HAND, heldItem);
-            this.setHeldWeaponType(pendingWeaponType.get());
-            if (Loader.isModLoaded("tconstruct")) TinkersConstructUtil.updateTools(this);
 
-            //equip last usable armor slots
-            for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-                if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR) continue;
-                ItemStack armor = ItemStack.EMPTY;
-                if (this.isEntityAlive() && this.isTamed()) {
-                    armor = this.inventoryHandler.findItem(
-                            RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
-                            stack -> !stack.isEmpty() && stack.getItem() instanceof ItemArmor item && item.getEquipmentSlot() == slot
-                    ).foundStack();
-                }
-                this.setItemStackToSlot(slot, armor);
+                        //usable melee weapons
+                        for (String entryId : SquirrelWitcheryConfig.magicalSquirrelBehavior.usableMeleeWeapons) {
+                            if (!(SquirrelWitcheryUtils.itemStackMatchesString(itemStack, entryId))) continue;
+                            pendingWeaponType.set(MagicalSquirrelWeaponType.MELEE);
+                            return true;
+                        }
+
+                        //bows
+                        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseBows && itemStack.getItem() instanceof ItemBow) {
+                            pendingWeaponType.set(MagicalSquirrelWeaponType.BOW);
+                            return true;
+                        }
+
+                        //spartan weaponry ranged weapons
+                        if (Loader.isModLoaded("spartanweaponry") && SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseModdedRangedWeapons) {
+                            if (SpartanWeaponryUtils.isCrossbow(itemStack)) {
+                                pendingWeaponType.set(MagicalSquirrelWeaponType.SPARTAN_CROSSBOW);
+                                return true;
+                            }
+                            if (SpartanWeaponryUtils.isThrowingWeapon(itemStack)) {
+                                pendingWeaponType.set(MagicalSquirrelWeaponType.SPARTAN_THROWING_WEAPON);
+                                return true;
+                            }
+                        }
+
+                        //tinkers ranged weapons
+                        if (Loader.isModLoaded("tconstruct") && SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseModdedRangedWeapons) {
+                            if (!TinkersConstructUtil.isUsableRangedWeapon(itemStack)) return false;
+                            if (TinkersConstructUtil.isCrossbow(itemStack)) {
+                                pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_CROSSBOW);
+                                return true;
+                            }
+                            if (TinkersConstructUtil.isBow(itemStack)) {
+                                pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_BOW);
+                                return true;
+                            }
+                            if (TinkersConstructUtil.isShuriken(itemStack)) {
+                                pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_SHURIKEN);
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    }
+            );
+            heldItem = result.foundStack();
+        }
+        if (this.getHeldItemMainhand() != heldItem) this.attackBehavior = null;
+        if (this.isHandActive() && this.getActiveItemStack() != heldItem) this.resetActiveHand();
+        this.setHeldItem(EnumHand.MAIN_HAND, heldItem);
+        this.setHeldWeaponType(pendingWeaponType.get());
+
+        //equip last usable armor slots
+        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+            if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR) continue;
+            ItemStack armor = ItemStack.EMPTY;
+            if (this.isEntityAlive() && this.isTamed()) {
+                armor = this.inventoryHandler.findItem(
+                        RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
+                        stack -> !stack.isEmpty() && stack.getItem() instanceof ItemArmor item && item.getEquipmentSlot() == slot
+                ).foundStack();
             }
+            this.setItemStackToSlot(slot, armor);
         }
     }
 
@@ -346,7 +360,10 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         //tinkers is weird
         if (Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isMeleeWeapon(weapon)) {
             boolean hit = TinkersConstructUtil.attackEntity(this, entityIn);
-            if (hit) this.applyEnchantments(this, entityIn);
+            if (hit) {
+                this.applyEnchantments(this, entityIn);
+                this.markEquipmentDirty();
+            }
             return hit;
         }
         //other
@@ -360,7 +377,10 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             if (flag) {
                 this.applyEnchantments(this, entityIn);
                 if (!this.world.isRemote && !weapon.isEmpty() && entityIn instanceof EntityLivingBase target) {
+                    boolean damageable = weapon.isItemStackDamageable();
+                    int count = weapon.getCount();
                     weapon.getItem().hitEntity(weapon, target, this);
+                    if (damageable || weapon.getCount() != count) this.markEquipmentDirty();
                     if (weapon.isEmpty()) this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
                 }
             }
@@ -376,6 +396,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR) continue;
             ItemStack armor = this.getItemStackFromSlot(slot);
             if (armor.isEmpty() || !(armor.getItem() instanceof ItemArmor)) continue;
+            if (armor.isItemStackDamageable()) this.markEquipmentDirty();
             armor.damageItem(durabilityDamage, this);
             if (armor.isEmpty()) this.setItemStackToSlot(slot, ItemStack.EMPTY);
         }
@@ -489,10 +510,8 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         this.setBehavior(Behavior.values()[compound.getByte("Behavior")]);
         if (compound.hasKey("Inventory", 10)) this.inventoryHandler.deserializeNBT(compound.getCompoundTag("Inventory"));
 
-        byte weaponTypeOrdinal = compound.getByte("WeaponType");
-        this.setHeldWeaponType(weaponTypeOrdinal >= 0 ? MagicalSquirrelWeaponType.values()[weaponTypeOrdinal] : null);
-
         this.setNoAI(this.isTamed() && !this.getTransformed());
+        this.updateEquipment();
     }
 
     //-----attack callbacks-----
@@ -506,7 +525,13 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             return;
         }
 
-        if (this.attackBehavior != null && this.attackBehavior.canUse()) this.attackBehavior.attack(target);
+        if (this.attackBehavior != null && this.attackBehavior.canUse()) {
+            ItemStack weapon = this.getHeldItemMainhand();
+            boolean damageable = weapon.isItemStackDamageable() || Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isUsableRangedWeapon(weapon);
+            int count = weapon.getCount();
+            this.attackBehavior.attack(target);
+            if (damageable || weapon.getCount() != count) this.markEquipmentDirty();
+        }
     }
 
     @Override

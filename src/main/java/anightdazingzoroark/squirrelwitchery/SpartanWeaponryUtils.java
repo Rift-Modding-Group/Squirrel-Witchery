@@ -315,6 +315,7 @@ public class SpartanWeaponryUtils {
                 originalTag.setInteger(ItemThrowingWeapon.NBT_AMMO_USED, used - 1);
             }
             original.setItemDamage(damage);
+            squirrel.getInventoryHandler().markDirty();
             squirrel.onItemPickup(thrown, 1);
             thrown.setDead();
             return true;
