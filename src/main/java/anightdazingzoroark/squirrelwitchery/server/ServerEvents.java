@@ -2,6 +2,7 @@ package anightdazingzoroark.squirrelwitchery.server;
 
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
+import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
@@ -15,6 +16,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -29,6 +31,14 @@ import thaumcraft.api.research.ResearchEvent;
 import java.util.Random;
 
 public class ServerEvents {
+    @SubscribeEvent
+    public void applySquirrelTinkersLooting(LootingLevelEvent event) {
+        if (event.getDamageSource() != null && event.getDamageSource().getTrueSource() instanceof MagicalSquirrelEntity squirrel
+                && Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isMeleeWeapon(squirrel.getHeldItemMainhand())) {
+            event.setLootingLevel(Math.max(event.getLootingLevel(), TinkersConstructUtil.getLootingLevel(squirrel.getHeldItemMainhand())));
+        }
+    }
+
     @SubscribeEvent
     public void catchSquirrelThrownWeapon(ProjectileImpactEvent.Arrow event) {
         if (event.getRayTraceResult().entityHit instanceof MagicalSquirrelEntity squirrel

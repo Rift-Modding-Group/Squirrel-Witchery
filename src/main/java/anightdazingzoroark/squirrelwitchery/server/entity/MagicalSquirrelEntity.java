@@ -8,6 +8,7 @@ import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
+import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackBehavior;
@@ -33,10 +34,13 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.fml.common.Loader;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
@@ -77,6 +81,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(24D);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(4D);
     }
 
     @Override
@@ -157,8 +162,8 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         super.onLivingUpdate();
 
         if (!this.world.isRemote) {
-            boolean spartanWeaponryLoaded = Loader.isModLoaded("spartanweaponry");
-            if (spartanWeaponryLoaded) SpartanWeaponryUtils.recoverThrownWeapons(this);
+            if (Loader.isModLoaded("spartanweaponry")) SpartanWeaponryUtils.recoverThrownWeapons(this);
+            if (Loader.isModLoaded("tconstruct")) TinkersConstructUtil.recoverProjectiles(this);
             if (this.eatingCooldown > 0) this.eatingCooldown--;
 
             //eat from inventory
@@ -201,6 +206,11 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                         RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
                         itemStack -> {
                             if (itemStack.isEmpty()) return false;
+                            if (Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isMeleeWeapon(itemStack)
+                                    && !TinkersConstructUtil.canUseMeleeWeapon(itemStack)
+                            ) {
+                                return false;
+                            }
 
                             //usable melee weapons
                             for (String entryId : SquirrelWitcheryConfig.magicalSquirrelBehavior.usableMeleeWeapons) {
@@ -216,13 +226,30 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                             }
 
                             //spartan weaponry ranged weapons
-                            if (spartanWeaponryLoaded && SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseModdedRangedWeapons) {
+                            if (Loader.isModLoaded("spartanweaponry") && SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseModdedRangedWeapons) {
                                 if (SpartanWeaponryUtils.isCrossbow(itemStack)) {
                                     pendingWeaponType.set(MagicalSquirrelWeaponType.SPARTAN_CROSSBOW);
                                     return true;
                                 }
                                 if (SpartanWeaponryUtils.isThrowingWeapon(itemStack)) {
                                     pendingWeaponType.set(MagicalSquirrelWeaponType.SPARTAN_THROWING_WEAPON);
+                                    return true;
+                                }
+                            }
+
+                            //tinkers ranged weapons
+                            if (Loader.isModLoaded("tconstruct") && SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseModdedRangedWeapons) {
+                                if (!TinkersConstructUtil.isUsableRangedWeapon(itemStack)) return false;
+                                if (TinkersConstructUtil.isCrossbow(itemStack)) {
+                                    pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_CROSSBOW);
+                                    return true;
+                                }
+                                if (TinkersConstructUtil.isBow(itemStack)) {
+                                    pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_BOW);
+                                    return true;
+                                }
+                                if (TinkersConstructUtil.isShuriken(itemStack)) {
+                                    pendingWeaponType.set(MagicalSquirrelWeaponType.TINKERS_SHURIKEN);
                                     return true;
                                 }
                             }
@@ -236,6 +263,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             if (this.isHandActive() && this.getActiveItemStack() != heldItem) this.resetActiveHand();
             this.setHeldItem(EnumHand.MAIN_HAND, heldItem);
             this.setHeldWeaponType(pendingWeaponType.get());
+            if (Loader.isModLoaded("tconstruct")) TinkersConstructUtil.updateTools(this);
 
             //equip last usable armor slots
             for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
@@ -315,23 +343,29 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     @Override
     public boolean attackEntityAsMob(@NonNull Entity entityIn) {
         ItemStack weapon = this.getHeldItemMainhand();
-        float attackDamage = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-        // The stack's normal attribute modifier requires fuel; squirrels power the saber themselves.
-        if (weapon.getItem() instanceof NutsaberItem saber && saber.getRisuniumAmount(weapon) < NutsaberItem.RISUNIUM_PER_SWING) {
-            attackDamage += NutsaberItem.ATTACK_DAMAGE;
+        //tinkers is weird
+        if (Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isMeleeWeapon(weapon)) {
+            boolean hit = TinkersConstructUtil.attackEntity(this, entityIn);
+            if (hit) this.applyEnchantments(this, entityIn);
+            return hit;
         }
-        boolean flag = entityIn.attackEntityFrom(
-                DamageSource.causeMobDamage(this),
-                (int) attackDamage
-        );
-        if (flag) {
-            this.applyEnchantments(this, entityIn);
-            if (!this.world.isRemote && !weapon.isEmpty() && entityIn instanceof EntityLivingBase target) {
-                weapon.getItem().hitEntity(weapon, target, this);
-                if (weapon.isEmpty()) this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+        //other
+        else {
+            float attackDamage = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+            //magical squirrels carry infinite risunium
+            if (weapon.getItem() instanceof NutsaberItem saber && saber.getRisuniumAmount(weapon) < NutsaberItem.RISUNIUM_PER_SWING) {
+                attackDamage += NutsaberItem.ATTACK_DAMAGE;
             }
+            boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (int) attackDamage);
+            if (flag) {
+                this.applyEnchantments(this, entityIn);
+                if (!this.world.isRemote && !weapon.isEmpty() && entityIn instanceof EntityLivingBase target) {
+                    weapon.getItem().hitEntity(weapon, target, this);
+                    if (weapon.isEmpty()) this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+                }
+            }
+            return flag;
         }
-        return flag;
     }
 
     @Override
@@ -415,6 +449,18 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     }
 
     @Override
+    public boolean hasCapability(@NotNull Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @Override
+    @Nullable
+    public <T> T getCapability(@NotNull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(this.inventoryHandler);
+        return super.getCapability(capability, facing);
+    }
+
+    @Override
     public void notifyDataManagerChange(@NonNull DataParameter<?> key) {
         super.notifyDataManagerChange(key);
         if (key.equals(TRANSFORMED)) {
@@ -490,7 +536,6 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
 
     @Override
     public void initializeAnimationData(@NonNull AnimationDataEntityLiving animationDataEntityLiving) {
-        boolean spartanWeaponryLoaded = Loader.isModLoaded("spartanweaponry");
         animationDataEntityLiving.setScale(entity -> this.getTransformed() ? 1f : 0.5f);
 
         //variables for melee attack anims
@@ -507,11 +552,12 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         });
         //for ranged attack anims
         animationDataEntityLiving.addOnUpdateAnimationValue("variable.using_bow", () -> {
-            boolean aimingCrossbow = spartanWeaponryLoaded && SpartanWeaponryUtils.isAimingCrossbow(this);
+            boolean aimingCrossbow = Loader.isModLoaded("spartanweaponry") && SpartanWeaponryUtils.isAimingCrossbow(this);
             return this.isUsingBow() || aimingCrossbow ? 1D : 0D;
         });
         animationDataEntityLiving.addOnUpdateAnimationValue("variable.charging_crossbow", () -> {
-            boolean chargingCrossbow = spartanWeaponryLoaded && SpartanWeaponryUtils.isChargingCrossbow(this);
+            boolean chargingCrossbow = Loader.isModLoaded("spartanweaponry") && SpartanWeaponryUtils.isChargingCrossbow(this);
+            chargingCrossbow |= Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isChargingCrossbow(this);
             return chargingCrossbow ? 1D : 0D;
         });
 
@@ -542,10 +588,12 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         });
         animationDataEntityLiving.addAnimation("animation.magical_squirrel.bow", data -> {
             return this.isTamed() && this.getTransformed()
-                    && (this.isUsingBow() || spartanWeaponryLoaded && SpartanWeaponryUtils.isAimingCrossbow(this));
+                    && (this.isUsingBow() || Loader.isModLoaded("spartanweaponry") && SpartanWeaponryUtils.isAimingCrossbow(this));
         });
         animationDataEntityLiving.addAnimation("animation.magical_squirrel.crossbow_charge", data -> {
-            return this.isTamed() && this.getTransformed() && spartanWeaponryLoaded && SpartanWeaponryUtils.isChargingCrossbow(this);
+            return this.isTamed() && this.getTransformed()
+                    && (Loader.isModLoaded("spartanweaponry") && SpartanWeaponryUtils.isChargingCrossbow(this)
+                    || Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isChargingCrossbow(this));
         });
     }
 

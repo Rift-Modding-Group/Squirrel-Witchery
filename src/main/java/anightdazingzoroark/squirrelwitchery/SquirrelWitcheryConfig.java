@@ -337,7 +337,15 @@ public class SquirrelWitcheryConfig {
                 "spartanweaponry:staff_platinum:-1",
                 "spartanweaponry:staff_electrum:-1",
                 "spartanweaponry:staff_nickel:-1",
-                "spartanweaponry:staff_lead:-1"
+                "spartanweaponry:staff_lead:-1",
+
+                "tconstruct:scythe:-1",
+                "tconstruct:broadsword:-1",
+                "tconstruct:longsword:-1",
+                "tconstruct:rapier:-1",
+                "tconstruct:frypan:-1",
+                "tconstruct:battlesign:-1",
+                "tconstruct:cleaver:-1"
         };
 
         @Config.Name("Magical Squirrel Can Wear Armor")
@@ -354,7 +362,7 @@ public class SquirrelWitcheryConfig {
         @Config.Name("Magical Squirrel Can Use Modded Ranged Weapons")
         @Config.Comment({
                 "Allows Magical Squirrels to use modded ranged weapons.",
-                "Supports Spartan Weaponry ranged weapons."
+                "Supports Spartan Weaponry and Tinkers' Construct ranged weapons."
         })
         public boolean canUseModdedRangedWeapons = true;
     }
