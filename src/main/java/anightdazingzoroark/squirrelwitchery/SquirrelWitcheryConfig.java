@@ -26,22 +26,35 @@ public class SquirrelWitcheryConfig {
     @Config.Comment("Upper and lower limit for amount of nuts that can drop from breaking leaves.")
     public static int[] bigNutDropQuantity = new int[]{1, 1};
 
-    @Config.Name("Magical Squirrel Usable Items")
-    @Config.Comment({
-            "Items that a Magical Squirrel can hold and use",
-            "Note that not all items can be really used, especially",
-            "if they're from another mod"
-    })
-    public static String[] magicalSquirrelUsableItems = {
-            "minecraft:wooden_sword:-1",
-            "minecraft:stone_sword:-1",
-            "minecraft:iron_sword:-1",
-            "minecraft:golden_sword:-1",
-            "minecraft:diamond_sword:-1",
-            "thaumcraft:thaumium_sword:-1",
-            "thaumcraft:void_sword:-1",
-            "thaumcraft:elemental_sword:-1",
-            "squirrelwitchery:squirrel_tail_hammer:-1",
-            "squirrelwitchery:nutsaber"
-    };
+    @Config.Name("Magical Squirrel Behavior")
+    @Config.Comment("Behavior specific to tamed magical squirrels.")
+    public static final MagicalSquirrelBehavior magicalSquirrelBehavior = new MagicalSquirrelBehavior();
+
+    public static class MagicalSquirrelBehavior {
+        @Config.Name("Magical Squirrel Usable Melee Weapons")
+        @Config.Comment("Items that a Magical Squirrel can hold and use as melee weapons.")
+        public String[] usableMeleeWeapons = {
+                "minecraft:wooden_sword:-1",
+                "minecraft:stone_sword:-1",
+                "minecraft:iron_sword:-1",
+                "minecraft:golden_sword:-1",
+                "minecraft:diamond_sword:-1",
+                "thaumcraft:thaumium_sword:-1",
+                "thaumcraft:void_sword:-1",
+                "thaumcraft:elemental_sword:-1",
+                "squirrelwitchery:squirrel_tail_hammer:-1",
+                "squirrelwitchery:nutsaber"
+        };
+
+        @Config.Name("Magical Squirrel Can Wear Armor")
+        @Config.Comment("Allows Magical Squirrels to wear armor placed in their inventory")
+        public boolean canWearArmor = true;
+
+        @Config.Name("Magical Squirrel Can Use Bows")
+        @Config.Comment({
+                "Allows Magical Squirrels to use bows.",
+                "This includes any other modded item that extends ItemBow."
+        })
+        public boolean canUseBows = true;
+    }
 }

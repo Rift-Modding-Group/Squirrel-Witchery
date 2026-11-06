@@ -169,16 +169,27 @@
 			"anim_time_update": "query.walk_distance * 4",
 			"bones": {
 				"leftArm": {
-					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * 57.29577951", 0, 0]
+					"rotation": ["(1 - variable.using_bow) * math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * 57.29577951", 0, 0]
 				},
 				"leftLeg": {
 					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * -80.21409132", 0, 0]
 				},
 				"rightArm": {
-					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * -57.29577951", 0, 0]
+					"rotation": ["(1 - variable.using_bow) * math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * -57.29577951", 0, 0]
 				},
 				"rightLeg": {
 					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * 80.21409132", 0, 0]
+				}
+			}
+		},
+		"animation.magical_squirrel.bow": {
+			"loop": true,
+			"bones": {
+				"rightArm": {
+					"rotation": ["-90 + query.head_x_rotation", "query.head_y_rotation - 5.72957795", 0]
+				},
+				"leftArm": {
+					"rotation": ["-90 + query.head_x_rotation", "query.head_y_rotation + 28.64788976", 0]
 				}
 			}
 		},

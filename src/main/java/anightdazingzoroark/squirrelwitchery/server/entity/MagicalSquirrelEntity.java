@@ -14,16 +14,19 @@ import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageOpenMagicalSquirrelInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemArrow;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -41,10 +44,14 @@ import org.jspecify.annotations.Nullable;
 import thaumcraft.common.lib.SoundsTC;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
-public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable<AnimationDataEntityLiving> {
+public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable<AnimationDataEntityLiving>, IRangedAttackMob {
     private static final DataParameter<Boolean> TRANSFORMED = EntityDataManager.createKey(MagicalSquirrelEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Byte> BEHAVIOR = EntityDataManager.createKey(MagicalSquirrelEntity.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> WEAPON_TYPE = EntityDataManager.createKey(MagicalSquirrelEntity.class, DataSerializers.BYTE);
+    private static final DataParameter<Boolean> USING_BOW = EntityDataManager.createKey(MagicalSquirrelEntity.class, DataSerializers.BOOLEAN);
+    private static final float SHOT_RANGE = 16f;
 
     @NonNull
     private final AnimationDataEntityLiving animationData = new AnimationDataEntityLiving(this);
@@ -75,6 +82,8 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         super.entityInit();
         this.dataManager.register(TRANSFORMED, false);
         this.dataManager.register(BEHAVIOR, (byte) 0);
+        this.dataManager.register(WEAPON_TYPE, (byte) -1);
+        this.dataManager.register(USING_BOW, false);
     }
 
     @Override
@@ -119,7 +128,51 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         });
         this.tasks.addTask(2, this.aiTempt);
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, player -> !this.isTamed(), 16f, 0.8D, 1.33D));
-        this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0, true));
+        this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0, true) {
+            @Override
+            public boolean shouldExecute() {
+                if (MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
+                if (MagicalSquirrelEntity.this.getHeldWeaponType() != WeaponType.MELEE) return false;
+                return super.shouldExecute();
+            }
+
+            @Override
+            public boolean shouldContinueExecuting() {
+                if (MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
+                if (MagicalSquirrelEntity.this.getHeldWeaponType() != WeaponType.MELEE) return false;
+                return super.shouldExecute();
+            }
+        });
+        this.tasks.addTask(2, new EntityAIAttackRanged(this, 1D, 60, SHOT_RANGE) {
+            @Override
+            public boolean shouldExecute() {
+                if (MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
+                if (MagicalSquirrelEntity.this.getHeldWeaponType() != WeaponType.BOW) return false;
+                return MagicalSquirrelEntity.this.findBowAmmunition().successful() && super.shouldExecute();
+            }
+
+            @Override
+            public void startExecuting() {
+                super.startExecuting();
+                MagicalSquirrelEntity.this.setUsingBow(true);
+            }
+
+            @Override
+            public void resetTask() {
+                super.resetTask();
+                MagicalSquirrelEntity.this.setUsingBow(false);
+                MagicalSquirrelEntity.this.resetActiveHand();
+            }
+
+            @Override
+            public void updateTask() {
+                if (this.rangedAttackTime > 0 && this.rangedAttackTime <= 21) {
+                    MagicalSquirrelEntity.this.setActiveHand(EnumHand.MAIN_HAND);
+                }
+                else MagicalSquirrelEntity.this.resetActiveHand();
+                super.updateTask();
+            }
+        });
         this.tasks.addTask(5, new EntityAIFollowOwner(this, 1D, 10f, 2f) {
             @Override
             public boolean shouldExecute() {
@@ -182,21 +235,34 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
 
             //equip the last usable inventory item, or clear the hand when none remains.
             ItemStack heldItem = ItemStack.EMPTY;
+            AtomicReference<WeaponType> pendingWeaponType = new AtomicReference<>();
             if (this.isEntityAlive() && this.isTamed() && this.getTransformed()) {
                 RiftLibInventoryHandler.ItemSearchResult result = this.inventoryHandler.findItem(
                         RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
                         itemStack -> {
                             if (itemStack.isEmpty()) return false;
-                            for (String entryId : SquirrelWitcheryConfig.magicalSquirrelUsableItems) {
+
+                            //usable melee weapons
+                            for (String entryId : SquirrelWitcheryConfig.magicalSquirrelBehavior.usableMeleeWeapons) {
                                 if (!(SquirrelWitcheryUtils.itemStackMatchesString(itemStack, entryId))) continue;
+                                pendingWeaponType.set(WeaponType.MELEE);
                                 return true;
                             }
+
+                            //bows
+                            if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseBows && itemStack.getItem() instanceof ItemBow) {
+                                pendingWeaponType.set(WeaponType.BOW);
+                                return true;
+                            }
+
                             return false;
                         }
                 );
                 heldItem = result.foundStack();
             }
+            if (this.isHandActive() && this.getActiveItemStack() != heldItem) this.resetActiveHand();
             this.setHeldItem(EnumHand.MAIN_HAND, heldItem);
+            this.setHeldWeaponType(pendingWeaponType.get());
 
             //equip last usable armor slots
             for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
@@ -346,6 +412,17 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         return Behavior.values()[this.dataManager.get(BEHAVIOR)];
     }
 
+    private void setHeldWeaponType(@Nullable WeaponType weaponType) {
+        if (weaponType != null) this.dataManager.set(WEAPON_TYPE, (byte) weaponType.ordinal());
+        else this.dataManager.set(WEAPON_TYPE, (byte) -1);
+    }
+
+    @Nullable
+    private WeaponType getHeldWeaponType() {
+        byte heldWeaponOrdinal = this.dataManager.get(WEAPON_TYPE);
+        return heldWeaponOrdinal >= 0 ? WeaponType.values()[heldWeaponOrdinal] : null;
+    }
+
     @NotNull
     public MagicalSquirrelInventory getInventoryHandler() {
         return this.inventoryHandler;
@@ -368,6 +445,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         compound.setBoolean("Transformed", this.getTransformed());
         compound.setByte("Behavior", (byte) this.getBehavior().ordinal());
         compound.setTag("Inventory", this.inventoryHandler.serializeNBT());
+
+        WeaponType weaponType = this.getHeldWeaponType();
+        compound.setByte("WeaponType", weaponType != null ? (byte) weaponType.ordinal() : (byte) -1);
     }
 
     @Override
@@ -376,7 +456,69 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         this.setTransformed(compound.getBoolean("Transformed"));
         this.setBehavior(Behavior.values()[compound.getByte("Behavior")]);
         if (compound.hasKey("Inventory", 10)) this.inventoryHandler.deserializeNBT(compound.getCompoundTag("Inventory"));
+
+        byte weaponTypeOrdinal = compound.getByte("WeaponType");
+        this.setHeldWeaponType(weaponTypeOrdinal >= 0 ? WeaponType.values()[weaponTypeOrdinal] : null);
+
         this.setNoAI(this.isTamed() && !this.getTransformed());
+    }
+
+    //-----ranged attack stuff, for bows-----
+    @NotNull
+    private RiftLibInventoryHandler.ItemSearchResult findBowAmmunition() {
+        return this.inventoryHandler.findItem(
+                RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
+                stack -> !stack.isEmpty() && this.getHeldItemMainhand().getItem() instanceof ItemBow bow && bow.isArrow(stack)
+        );
+    }
+
+    @Override
+    public void attackEntityWithRangedAttack(@NonNull EntityLivingBase target, float distanceFactor) {
+        if (this.world.isRemote || !this.isEntityAlive() || !target.isEntityAlive()) return;
+        if (target != this.getAttackTarget() || this.getDistanceSq(target) > SHOT_RANGE * SHOT_RANGE) return;
+        if (!this.getEntitySenses().canSee(target)) return;
+
+        ItemStack weapon = this.getHeldItemMainhand();
+        if (!(weapon.getItem() instanceof ItemBow bow) || this.getItemInUseMaxCount() < 20) return;
+
+        RiftLibInventoryHandler.ItemSearchResult ammunition = this.findBowAmmunition();
+        if (!ammunition.successful()) return;
+
+        ItemStack arrowStack = ammunition.foundStack();
+        if (!(arrowStack.getItem() instanceof ItemArrow arrowItem)) return;
+
+        //---create arrow that will be fired---
+        EntityArrow arrow = bow.customizeArrow(arrowItem.createArrow(this.world, arrowStack, this));
+        double deltaX = target.posX - arrow.posX;
+        double deltaZ = target.posZ - arrow.posZ;
+        double deltaY = target.getEntityBoundingBox().minY + target.height / 3D - arrow.posY;
+        double flightTicks = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ) / 3D;
+        arrow.shoot(deltaX, deltaY + 0.025D * flightTicks * flightTicks, deltaZ, 3f, 1f);
+
+        //apply enchantments
+        int power = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, weapon);
+        if (power > 0) arrow.setDamage(arrow.getDamage() + power * 0.5D + 0.5D);
+        int punch = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, weapon);
+        if (punch > 0) arrow.setKnockbackStrength(punch);
+        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, weapon) > 0) arrow.setFire(100);
+        boolean infinite = arrowStack.getItem() == Items.ARROW && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, weapon) > 0;
+        arrow.pickupStatus = infinite ? EntityArrow.PickupStatus.CREATIVE_ONLY : EntityArrow.PickupStatus.ALLOWED;
+
+        if (!this.world.spawnEntity(arrow)) return;
+
+        //---bow shot after effects---
+        if (!infinite) this.inventoryHandler.extractItem(ammunition.slot(), 1, false);
+        weapon.damageItem(1, this);
+        this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1f, 1f / (this.rand.nextFloat() * 0.4f + 1.2f) + 0.5f);
+        this.resetActiveHand();
+    }
+
+    private void setUsingBow(boolean swingingArms) {
+        this.dataManager.set(USING_BOW, swingingArms);
+    }
+
+    private boolean isUsingBow() {
+        return this.dataManager.get(USING_BOW);
     }
 
     //-----animation stuff-----
@@ -390,7 +532,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     public void initializeAnimationData(@NonNull AnimationDataEntityLiving animationDataEntityLiving) {
         animationDataEntityLiving.setScale(entity -> this.getTransformed() ? 1f : 0.5f);
 
-        //use vanilla's synchronized swing, including its duration and frame interpolation.
+        //variables for melee attack anims
         animationDataEntityLiving.addOnUpdateAnimationValue("variable.attack_progress", () -> {
             float partialTicks = 1f;
             if (this.world.isRemote) partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
@@ -402,6 +544,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             double attackProgress = Math.clamp(this.getSwingProgress(partialTicks), 0f, 1f);
             return Math.toDegrees(Math.sin(Math.sqrt(attackProgress) * Math.PI * 2D) * 0.2D);
         });
+
+        //for bow attack anims
+        animationDataEntityLiving.addOnUpdateAnimationValue("variable.using_bow", () -> this.isUsingBow() ? 1D : 0D);
 
         //normal form anims
         animationDataEntityLiving.addAnimation("animation.squirrel.look", data -> !this.getTransformed());
@@ -425,7 +570,12 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         //transformed form anims
         animationDataEntityLiving.addAnimation("animation.magical_squirrel.look", data -> this.getTransformed());
         animationDataEntityLiving.addAnimation("animation.magical_squirrel.walk", data -> this.getTransformed());
-        animationDataEntityLiving.addAnimation("animation.magical_squirrel.attack", data -> this.isTamed() && this.getTransformed());
+        animationDataEntityLiving.addAnimation("animation.magical_squirrel.attack", data -> {
+            return this.isTamed() && this.getTransformed();
+        });
+        animationDataEntityLiving.addAnimation("animation.magical_squirrel.bow", data -> {
+            return this.isTamed() && this.getTransformed() && this.isUsingBow();
+        });
     }
 
     //-----stuff i dont care about-----
@@ -434,6 +584,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     public EntityAgeable createChild(EntityAgeable ageable) {
         return null;
     }
+
+    @Override
+    public void setSwingingArms(boolean swingingArms) {}
 
     //-----other enums-----
     public enum Behavior {
@@ -445,5 +598,10 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         public String getTranslatedName() {
             return I18n.format("behavior.squirrelwitchery."+this.name().toLowerCase()+".name");
         }
+    }
+
+    private enum WeaponType {
+        MELEE,
+        BOW;
     }
 }
