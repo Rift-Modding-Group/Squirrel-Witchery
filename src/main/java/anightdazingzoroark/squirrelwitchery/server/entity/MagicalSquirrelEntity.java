@@ -281,16 +281,23 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         this.setHeldWeaponType(pendingWeaponType.get());
 
         //equip last usable armor slots
-        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-            if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR) continue;
-            ItemStack armor = ItemStack.EMPTY;
-            if (this.isEntityAlive() && this.isTamed()) {
-                armor = this.inventoryHandler.findItem(
-                        RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
-                        stack -> !stack.isEmpty() && stack.getItem() instanceof ItemArmor item && item.getEquipmentSlot() == slot
-                ).foundStack();
+        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canWearArmor && this.isEntityAlive() && this.isTamed() && this.getTransformed()) {
+            for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR) continue;
+                ItemStack armor = ItemStack.EMPTY;
+                if (this.isEntityAlive() && this.isTamed()) {
+                    armor = this.inventoryHandler.findItem(
+                            RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
+                            stack -> !stack.isEmpty() && stack.getItem() instanceof ItemArmor item && item.getEquipmentSlot() == slot
+                    ).foundStack();
+                }
+                this.setItemStackToSlot(slot, armor);
             }
-            this.setItemStackToSlot(slot, armor);
+        }
+        else if (!SquirrelWitcheryConfig.magicalSquirrelBehavior.canWearArmor) {
+            for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                this.setItemStackToSlot(slot, ItemStack.EMPTY);
+            }
         }
     }
 
