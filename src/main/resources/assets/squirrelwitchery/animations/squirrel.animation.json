@@ -175,10 +175,18 @@
 					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * -80.21409132", 0, 0]
 				},
 				"rightArm": {
-					"rotation": ["(1 - variable.using_bow) * math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * -57.29577951", 0, 0]
+					"rotation": ["(1 - variable.using_bow) * (1 - variable.charging_crossbow * 0.5) * math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * -57.29577951", 0, 0]
 				},
 				"rightLeg": {
 					"rotation": ["math.cos(query.anim_time * 38.17044831) * query.modified_move_speed * 80.21409132", 0, 0]
+				}
+			}
+		},
+		"animation.magical_squirrel.crossbow_charge": {
+			"loop": true,
+			"bones": {
+				"rightArm": {
+					"rotation": [-18, 0, 0]
 				}
 			}
 		},

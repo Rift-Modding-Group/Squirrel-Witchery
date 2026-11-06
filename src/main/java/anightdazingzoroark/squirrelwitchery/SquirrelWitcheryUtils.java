@@ -20,7 +20,7 @@ public class SquirrelWitcheryUtils {
     /**
      * the good ol reliable
      * */
-    public static boolean itemStackMatchesString(ItemStack itemStack, String string) {
+    public static boolean itemStackMatchesString(@NotNull ItemStack itemStack, @NotNull String string) {
         ResourceLocation itemResource = Item.REGISTRY.getNameForObject(itemStack.getItem());
         if (itemResource == null) return false;
 
@@ -33,7 +33,7 @@ public class SquirrelWitcheryUtils {
     }
 
     @NotNull
-    private static ImmutablePair<String, Integer> getRegistryNameAndMeta(String string) {
+    private static ImmutablePair<String, Integer> getRegistryNameAndMeta(@NotNull String string) {
         int firstColonIndex = string.indexOf(":");
         int secondColonIndex = string.indexOf(":", firstColonIndex + 1);
 

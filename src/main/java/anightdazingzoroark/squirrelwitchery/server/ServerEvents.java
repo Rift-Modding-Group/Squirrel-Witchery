@@ -1,6 +1,8 @@
 package anightdazingzoroark.squirrelwitchery.server;
 
+import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
+import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.material.Material;
@@ -12,9 +14,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.EntityMountEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import thaumcraft.api.ThaumcraftApi;
@@ -25,6 +29,16 @@ import thaumcraft.api.research.ResearchEvent;
 import java.util.Random;
 
 public class ServerEvents {
+    @SubscribeEvent
+    public void catchSquirrelThrownWeapon(ProjectileImpactEvent.Arrow event) {
+        if (event.getRayTraceResult().entityHit instanceof MagicalSquirrelEntity squirrel
+                && Loader.isModLoaded("spartanweaponry")
+                && SpartanWeaponryUtils.catchThrownWeapon(squirrel, event.getArrow())
+        ) {
+            event.setCanceled(true);
+        }
+    }
+
     @SubscribeEvent
     public void enableArmorStandArmsForWitchWeapons(PlayerInteractEvent.EntityInteractSpecific event) {
         if (event.getWorld().isRemote || !(event.getTarget() instanceof EntityArmorStand armorStand) || armorStand.getShowArms()) return;
