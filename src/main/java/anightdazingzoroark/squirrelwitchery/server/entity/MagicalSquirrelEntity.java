@@ -395,6 +395,33 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     }
 
     @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.noFriendlyFire && source != null
+                && (this.isRelatedToEntity(source.getTrueSource()) || this.isRelatedToEntity(source.getImmediateSource()))
+        ) {
+            return false;
+        }
+        return super.attackEntityFrom(source, amount);
+    }
+
+    public boolean isRelatedToEntity(@Nullable Entity entity) {
+        if (entity instanceof MultiPartEntityPart hitboxPart) {
+            Entity hitboxParent = (Entity) hitboxPart.parent;
+            return this.isRelatedToEntity(hitboxParent);
+        }
+        else if (entity != null && this.isOnSameTeam(entity)) {
+            return true;
+        }
+        else if (entity instanceof EntityTameable entityTameable) {
+            return entityTameable.isTamed() && this.isTamed() && entityTameable.getOwner() != null && entityTameable.getOwner().equals(this.getOwner());
+        }
+        else if (entity instanceof EntityPlayer entityPlayer) {
+            return this.isTamed() && this.getOwner() != null && this.getOwner().equals(entityPlayer);
+        }
+        return false;
+    }
+
+    @Override
     public boolean attackEntityAsMob(@NonNull Entity entityIn) {
         ItemStack weapon = this.getHeldItemMainhand();
         //tinkers is weird

@@ -49,6 +49,7 @@ public class SquirrelWitcheryItems {
     public static Item SQUIRREL_FUR_JACKET;
     public static Item SQUIRREL_FUR_SKIRT;
     public static Item SQUIRREL_FUR_SHOES;
+    public static Item MAGICAL_SQUIRREL_ESSENCE;
 
     public static ItemBlock getBlockItem(Block block) {
         return BLOCK_ITEMS.get(block);
@@ -129,6 +130,7 @@ public class SquirrelWitcheryItems {
                 new ItemArmor(ItemArmor.ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.FEET),
                 "squirrel_fur_shoes", true
         );
+        MAGICAL_SQUIRREL_ESSENCE = registerItem(new Item(), "magical_squirrel_essence", true);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

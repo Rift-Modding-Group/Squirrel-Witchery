@@ -31,6 +31,13 @@ public class SquirrelWitcheryConfig {
     public static final MagicalSquirrelBehavior magicalSquirrelBehavior = new MagicalSquirrelBehavior();
 
     public static class MagicalSquirrelBehavior {
+        @Config.Name("Prevent Friendly Fire Against Magical Squirrels")
+        @Config.Comment({
+                "Make sure that you and other friendlies will never be able to deal",
+                "damage to tamed Magical Squirrels"
+        })
+        public boolean noFriendlyFire = true;
+
         @Config.Name("Magical Squirrel Usable Melee Weapons")
         @Config.Comment("Items that a Magical Squirrel can hold and use as melee weapons.")
         public String[] usableMeleeWeapons = {
