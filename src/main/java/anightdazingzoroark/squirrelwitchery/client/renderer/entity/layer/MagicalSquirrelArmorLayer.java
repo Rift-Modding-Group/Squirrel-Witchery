@@ -9,6 +9,7 @@ import anightdazingzoroark.squirrelwitchery.client.renderer.entity.MagicalSquirr
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.entity.Entity;
@@ -17,13 +18,17 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import thaumcraft.client.renderers.models.gear.ModelFortressArmor;
 import thaumcraft.client.renderers.models.gear.ModelRobe;
 
-public class MagicalSquirrelArmorLayer extends LayerBipedArmor {
+import java.util.IdentityHashMap;
+import java.util.Map;
+
+public class MagicalSquirrelArmorLayer extends LayerBipedArmor implements IGeoArmorPoseProvider {
     @NotNull
     private final MagicalSquirrelEntityRenderer renderer;
-    private ModelRobe robeArmor;
-    private ModelRobe robeLeggings;
+    @NotNull
+    private final Map<ModelBiped, ModelBiped> armorModels = new IdentityHashMap<>();
 
     public MagicalSquirrelArmorLayer(@NotNull MagicalSquirrelEntityRenderer renderer) {
         super(renderer);
@@ -32,10 +37,8 @@ public class MagicalSquirrelArmorLayer extends LayerBipedArmor {
 
     @Override
     protected void initArmor() {
-        this.modelLeggings = new ArmorModel(0.5f);
-        this.modelArmor = new ArmorModel(1f);
-        this.robeLeggings = new RobeModel(0.5f);
-        this.robeArmor = new RobeModel(1f);
+        this.modelLeggings = new MagicalSquirrelBipedModel(0.5f);
+        this.modelArmor = new MagicalSquirrelBipedModel(1f);
     }
 
     @Override
@@ -45,15 +48,23 @@ public class MagicalSquirrelArmorLayer extends LayerBipedArmor {
             @NotNull EntityEquipmentSlot slot, @NotNull ModelBiped model
     ) {
         ModelBiped selected = super.getArmorModelHook(entity, stack, slot, model);
-        if (!(selected instanceof ModelRobe)) return selected;
+        ModelBiped posed = this.armorModels.computeIfAbsent(selected, original -> {
+            float inflation = switch (slot) {
+                case HEAD, LEGS -> 0.5f;
+                default -> 1f;
+            };
+            if (original instanceof ModelRobe) return new RobeModel(inflation);
+            if (original instanceof ModelFortressArmor) return new FortressModel(inflation);
+            //Identify the optional mod's model without requiring Antique Armory to be installed.
+            //Its broken/concealed armor model must retain its empty render implementation.
+            if (original.getClass().getName().equals("c4.conarm.client.models.ModelConstructsArmorFixed")) {
+                return new AntiqueArmoryModel(original);
+            }
+            return original;
+        });
 
-        //special case for thaumcraft robes
-        ModelRobe robe = switch (slot) {
-            case HEAD, LEGS -> this.robeLeggings;
-            default -> this.robeArmor;
-        };
-        robe.setModelAttributes(selected);
-        return robe;
+        posed.setModelAttributes(selected);
+        return posed;
     }
 
     @Override
@@ -79,6 +90,50 @@ public class MagicalSquirrelArmorLayer extends LayerBipedArmor {
         GlStateManager.popMatrix();
     }
 
+    @Override
+    @Nullable
+    public GeoBone getArmorPoseBone(@NotNull EntityLivingBase wearer, @NotNull GeoArmorRenderer.ArmorBodyPart part) {
+        if (!(wearer instanceof MagicalSquirrelEntity squirrel)) return null;
+        String name = switch (part) {
+            case HEAD -> "head";
+            case BODY, HIPS -> "body";
+            case RIGHT_ARM -> "rightArm";
+            case LEFT_ARM -> "leftArm";
+            case RIGHT_LEG, RIGHT_FOOT -> "rightLeg";
+            case LEFT_LEG, LEFT_FOOT -> "leftLeg";
+        };
+        AnimatedGeoModel<MagicalSquirrelEntity> model = (AnimatedGeoModel<MagicalSquirrelEntity>) this.renderer.getGeoModelProvider();
+        return model.getModel(squirrel).getAllBones().get(name);
+    }
+
+    private void copyArmorPose(@NotNull Entity entity, @NotNull ModelBiped model) {
+        if (entity instanceof EntityLivingBase wearer) GeoArmorPoseHelper.copyToBiped(this, wearer, model);
+    }
+
+    //-----subclasses for armor-----
+    //help out w riftlib armors
+    private class MagicalSquirrelBipedModel extends ModelBiped implements IGeoArmorPoseProvider {
+        public MagicalSquirrelBipedModel(float inflation) {
+            super(inflation);
+        }
+
+        @Override
+        public void setRotationAngles(
+                float limbSwing, float limbSwingAmount, float ageInTicks,
+                float netHeadYaw, float headPitch, float scale, @NotNull Entity entity
+        ) {
+            MagicalSquirrelArmorLayer.this.copyArmorPose(entity, this);
+        }
+
+        //RiftLibrary obtains the pose provider from the default model passed to Forge's hook.
+        @Override
+        @Nullable
+        public GeoBone getArmorPoseBone(@NotNull EntityLivingBase wearer, @NotNull GeoArmorRenderer.ArmorBodyPart part) {
+            return MagicalSquirrelArmorLayer.this.getArmorPoseBone(wearer, part);
+        }
+    }
+
+    //thaumic robe
     private class RobeModel extends ModelRobe {
         public RobeModel(float inflation) {
             super(inflation);
@@ -89,9 +144,7 @@ public class MagicalSquirrelArmorLayer extends LayerBipedArmor {
                 float limbSwing, float limbSwingAmount, float ageInTicks,
                 float netHeadYaw, float headPitch, float scale, @NotNull Entity entity
         ) {
-            if (entity instanceof EntityLivingBase wearer) {
-                GeoArmorPoseHelper.copyToBiped((ArmorModel) MagicalSquirrelArmorLayer.this.modelArmor, wearer, this);
-            }
+            MagicalSquirrelArmorLayer.this.copyArmorPose(entity, this);
         }
 
         @Override
@@ -101,16 +154,14 @@ public class MagicalSquirrelArmorLayer extends LayerBipedArmor {
         ) {
             this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
             float forwardLegPitch = Math.min(this.bipedLeftLeg.rotateAngleX, this.bipedRightLeg.rotateAngleX);
-            //ModelRobe drives its cloth with min(cos(swing), cos(swing + PI)) * 1.4 * amount.
-            //At phase zero this reproduces the squirrel's forward leg pitch; our override
-            //above keeps the limbs on their actual animated pose when ModelRobe renders.
             float clothSwingAmount = Math.max(0f, -forwardLegPitch) / 1.4f;
             super.render(entity, 0f, clothSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         }
     }
 
-    private class ArmorModel extends ModelBiped implements IGeoArmorPoseProvider {
-        public ArmorModel(float inflation) {
+    //thaum fortress
+    private class FortressModel extends ModelFortressArmor {
+        public FortressModel(float inflation) {
             super(inflation);
         }
 
@@ -119,23 +170,37 @@ public class MagicalSquirrelArmorLayer extends LayerBipedArmor {
                 float limbSwing, float limbSwingAmount, float ageInTicks,
                 float netHeadYaw, float headPitch, float scale, @NotNull Entity entity
         ) {
-            if (entity instanceof EntityLivingBase wearer) GeoArmorPoseHelper.copyToBiped(this, wearer, this);
+            MagicalSquirrelArmorLayer.this.copyArmorPose(entity, this);
         }
+    }
 
-        @Override
-        @Nullable
-        public GeoBone getArmorPoseBone(@NotNull EntityLivingBase wearer, @NotNull GeoArmorRenderer.ArmorBodyPart part) {
-            if (!(wearer instanceof MagicalSquirrelEntity squirrel)) return null;
-            String name = switch (part) {
-                case HEAD -> "head";
-                case BODY, HIPS -> "body";
-                case RIGHT_ARM -> "rightArm";
-                case LEFT_ARM -> "leftArm";
-                case RIGHT_LEG, RIGHT_FOOT -> "rightLeg";
-                case LEFT_LEG, LEFT_FOOT -> "leftLeg";
-            };
-            AnimatedGeoModel<MagicalSquirrelEntity> model = (AnimatedGeoModel<MagicalSquirrelEntity>) MagicalSquirrelArmorLayer.this.renderer.getGeoModelProvider();
-            return model.getModel(squirrel).getAllBones().get(name);
+    //antique armory
+    private class AntiqueArmoryModel extends MagicalSquirrelBipedModel {
+        public AntiqueArmoryModel(@NotNull ModelBiped selected) {
+            super(0f);
+            this.bipedHeadwear.cubeList.clear();
+            for (GeoArmorRenderer.ArmorBodyPart part : GeoArmorRenderer.ArmorBodyPart.values()) {
+                if (part == GeoArmorRenderer.ArmorBodyPart.HIPS || part == GeoArmorRenderer.ArmorBodyPart.RIGHT_FOOT
+                        || part == GeoArmorRenderer.ArmorBodyPart.LEFT_FOOT
+                ) {
+                    continue;
+                }
+
+                ModelRenderer source = part.getBipedBone(selected);
+                ModelRenderer target = part.getBipedBone(this);
+                target.cubeList.clear();
+                ModelRenderer geometry = new ModelRenderer(this);
+                geometry.cubeList.addAll(source.cubeList);
+                geometry.childModels = source.childModels;
+                geometry.showModel = source.showModel;
+                geometry.isHidden = source.isHidden;
+                geometry.rotationPointX = switch (part) {
+                    case RIGHT_LEG -> 1.9f;
+                    case LEFT_LEG -> -1.9f;
+                    default -> 0f;
+                };
+                target.addChild(geometry);
+            }
         }
     }
 }
