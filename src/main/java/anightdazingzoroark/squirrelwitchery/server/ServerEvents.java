@@ -4,12 +4,12 @@ import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
+import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelRangedAttackBehavior;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
@@ -17,6 +17,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -31,6 +32,16 @@ import thaumcraft.api.research.ResearchEvent;
 import java.util.Random;
 
 public class ServerEvents {
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void recordSquirrelRangedHit(LivingHurtEvent event) {
+        if (event.getEntityLiving().world.isRemote || event.getAmount() <= 0f
+                || !(event.getSource().getTrueSource() instanceof MagicalSquirrelEntity squirrel)
+        ) {
+            return;
+        }
+        if (squirrel.getAttackBehavior() instanceof MagicalSquirrelRangedAttackBehavior behavior) behavior.recordRangedHit(event.getEntityLiving());
+    }
+
     @SubscribeEvent
     public void applySquirrelTinkersLooting(LootingLevelEvent event) {
         if (event.getDamageSource() != null && event.getDamageSource().getTrueSource() instanceof MagicalSquirrelEntity squirrel

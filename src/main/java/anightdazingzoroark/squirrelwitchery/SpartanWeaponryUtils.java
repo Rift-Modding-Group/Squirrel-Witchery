@@ -108,25 +108,25 @@ public class SpartanWeaponryUtils {
         return true;
     }
 
-    public static void shootCrossbow(@NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target) {
-        if (squirrel.world.isRemote || !canUseCrossbow(squirrel)) return;
+    public static boolean shootCrossbow(@NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target) {
+        if (squirrel.world.isRemote || !canUseCrossbow(squirrel)) return false;
         ItemStack weapon = squirrel.getHeldItemMainhand();
         if (!isCrossbowLoaded(weapon) || !squirrel.isHandActive()
                 || squirrel.getActiveItemStack() != weapon
                 || squirrel.getItemInUseMaxCount() < getCrossbowAimTicks(weapon)
         ) {
-            return;
+            return false;
         }
 
         ItemCrossbow crossbow = (ItemCrossbow) weapon.getItem();
         NBTTagCompound tag = weapon.getTagCompound();
-        if (tag == null) return;
+        if (tag == null) return false;
         ItemStack ammunition = new ItemStack(tag.getCompoundTag(ItemCrossbow.nbtAmmoStack));
         if (ammunition.isEmpty()) {
-            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, weapon) <= 0) return;
+            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, weapon) <= 0) return false;
             ammunition = new ItemStack(ItemRegistrySW.bolt);
         }
-        if (!(ammunition.getItem() instanceof ItemBolt boltItem)) return;
+        if (!(ammunition.getItem() instanceof ItemBolt boltItem)) return false;
 
         boolean infinite = boltItem.getClass() == ItemBolt.class && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, weapon) > 0;
         int projectileCount = ammunition.getCount() > 1 ? 3 : 1;
@@ -161,13 +161,14 @@ public class SpartanWeaponryUtils {
             bolt.pickupStatus = infinite || index > 0 ? EntityArrow.PickupStatus.CREATIVE_ONLY : EntityArrow.PickupStatus.ALLOWED;
             spawned |= squirrel.world.spawnEntity(bolt);
         }
-        if (!spawned) return;
+        if (!spawned) return false;
 
         tag.setBoolean(ItemCrossbow.NBT_IS_LOADED, false);
         tag.setTag(ItemCrossbow.nbtAmmoStack, new NBTTagCompound());
         weapon.damageItem(projectileCount, squirrel);
         squirrel.playSound(SoundRegistry.CROSSBOW_FIRE, 1f, 1f / (squirrel.getRNG().nextFloat() * 0.4f + 1.2f) + crossbow.getBoltSpeed() * 0.5f);
         squirrel.resetActiveHand();
+        return true;
     }
 
     //-----throwing weapons-----

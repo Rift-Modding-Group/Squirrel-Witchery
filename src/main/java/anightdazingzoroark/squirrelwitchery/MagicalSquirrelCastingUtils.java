@@ -3,7 +3,7 @@ package anightdazingzoroark.squirrelwitchery;
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
-import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackBehavior;
+import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelRangedAttackBehavior;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -112,8 +112,7 @@ public class MagicalSquirrelCastingUtils {
         if (!(focusStack.getItem() instanceof ItemFocus focus)) return 10;
         FocusPackage source = ItemFocus.getPackage(focusStack);
         if (source == null || source.nodes.isEmpty()) return 10;
-        MagicalSquirrelAttackBehavior behavior = squirrel.getAttackBehavior();
-        if (behavior == null || target != behavior.getTarget()) return 10;
+        if (!(squirrel.getAttackBehavior() instanceof MagicalSquirrelRangedAttackBehavior behavior) || target != behavior.getTarget()) return 10;
 
         float visCost = focus.getVisCost(focusStack);
         if (AuraHelper.drainVis(squirrel.world, squirrel.getPosition(), visCost, true) + 0.00001f < visCost) return 10;
@@ -132,6 +131,7 @@ public class MagicalSquirrelCastingUtils {
 
         // Cast directly from the selected focus while keeping the real caster equipped.
         AuraHelper.drainVis(squirrel.world, squirrel.getPosition(), visCost, false);
+        behavior.recordRangedShot(target);
         FocusEngine.castFocusPackage(squirrel, spell, true);
         squirrel.swingArm(EnumHand.MAIN_HAND);
         return Math.max(1, focus.getActivationTime(focusStack));

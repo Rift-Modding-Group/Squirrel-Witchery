@@ -9,10 +9,10 @@ import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
-import anightdazingzoroark.squirrelwitchery.MagicalSquirrelCastingUtils;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackBehavior;
+import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelRangedAttackBehavior;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelWeaponType;
 import anightdazingzoroark.squirrelwitchery.server.inventory.MagicalSquirrelInventory;
 import anightdazingzoroark.squirrelwitchery.server.items.NutsaberItem;
@@ -540,20 +540,14 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     @Override
     public void attackEntityWithRangedAttack(@NonNull EntityLivingBase target, float distanceFactor) {
         if (this.world.isRemote || !this.isEntityAlive() || !this.getTransformed() || !target.isEntityAlive()) return;
-        if (this.getBehavior() == Behavior.SIT || this.attackBehavior == null || target != this.attackBehavior.getTarget()) return;
-        double range = MagicalSquirrelAttackAI.SHOT_RANGE;
-        if (this.getHeldWeaponType() == MagicalSquirrelWeaponType.CASTER) range = MagicalSquirrelCastingUtils.getAttackRange(this);
-        if (this.getDistanceSq(target) > range * range
-                || !this.getEntitySenses().canSee(target)
-        ) {
-            return;
-        }
+        if (this.getBehavior() == Behavior.SIT || !(this.attackBehavior instanceof MagicalSquirrelRangedAttackBehavior behavior)
+                || target != behavior.getTarget() || !behavior.canRangedAttack(target)) return;
 
-        if (this.attackBehavior != null && this.attackBehavior.canUse()) {
+        if (behavior.canUse()) {
             ItemStack weapon = this.getHeldItemMainhand();
             boolean damageable = weapon.isItemStackDamageable() || Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isUsableRangedWeapon(weapon);
             int count = weapon.getCount();
-            this.attackBehavior.attack(target);
+            behavior.attack(target);
             if (damageable || weapon.getCount() != count) this.markEquipmentDirty();
         }
     }

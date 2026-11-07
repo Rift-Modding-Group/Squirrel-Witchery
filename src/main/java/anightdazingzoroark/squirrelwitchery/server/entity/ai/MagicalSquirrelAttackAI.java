@@ -27,7 +27,10 @@ public class MagicalSquirrelAttackAI extends EntityAIBase {
         MagicalSquirrelAttackBehavior behavior = this.squirrel.getAttackBehavior();
         if (!this.squirrel.isEntityAlive() || !this.squirrel.getTransformed()
                 || this.squirrel.getBehavior() == MagicalSquirrelEntity.Behavior.SIT
-                || behavior == null || !behavior.canUse()) return false;
+                || behavior == null || !behavior.canUse()
+        ) {
+            return false;
+        }
         EntityLivingBase target = behavior.getTarget();
         return target != null && target.isEntityAlive() && behavior.canStart(target);
     }
@@ -48,7 +51,10 @@ public class MagicalSquirrelAttackAI extends EntityAIBase {
 
     @Override
     public void resetTask() {
-        if (this.activeBehavior != null) this.activeBehavior.stop();
+        if (this.activeBehavior != null) {
+            this.activeBehavior.stop();
+            if (this.activeBehavior instanceof MagicalSquirrelRangedAttackBehavior rangedBehavior) rangedBehavior.resetRangedAttack();
+        }
         this.squirrel.setUsingBow(false);
         this.squirrel.resetActiveHand();
         this.squirrel.getNavigator().clearPath();

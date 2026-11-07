@@ -27,8 +27,6 @@ import thaumcraft.common.items.casters.ItemFocus;
 
 import java.util.function.Function;
 
-import static anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI.SHOT_RANGE;
-
 public enum MagicalSquirrelWeaponType {
     //melee attacks
     MELEE(entity -> new MagicalSquirrelAttackBehavior(entity) {
@@ -110,7 +108,7 @@ public enum MagicalSquirrelWeaponType {
         public void finishUsing() {}
     }),
     //bows, affects anything that extends ItemBow
-    BOW(entity -> new MagicalSquirrelAttackBehavior(entity) {
+    BOW(entity -> new MagicalSquirrelRangedAttackBehavior(entity) {
         private int nextShotTick;
 
         @Override
@@ -132,13 +130,6 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void stop() {
             this.nextShotTick = 0;
-        }
-
-        @Override
-        public void move(@NotNull EntityLivingBase target) {
-            double distanceSquared = this.squirrel.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ);
-            if (distanceSquared <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target)) this.squirrel.getNavigator().clearPath();
-            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
         }
 
         @Override
@@ -186,6 +177,7 @@ public enum MagicalSquirrelWeaponType {
             boolean infinite = arrowStack.getItem() == Items.ARROW && EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, weapon) > 0;
             arrow.pickupStatus = infinite ? EntityArrow.PickupStatus.CREATIVE_ONLY : EntityArrow.PickupStatus.ALLOWED;
             if (!this.squirrel.world.spawnEntity(arrow)) return;
+            this.recordRangedShot(target);
 
             if (!infinite) this.squirrel.getInventoryHandler().extractItem(ammunition.slot(), 1, false);
             weapon.damageItem(1, this.squirrel);
@@ -197,7 +189,7 @@ public enum MagicalSquirrelWeaponType {
         public void finishUsing() {}
     }),
     //witchs shotgun
-    WITCHS_SHOTGUN(entity -> new MagicalSquirrelAttackBehavior(entity) {
+    WITCHS_SHOTGUN(entity -> new MagicalSquirrelRangedAttackBehavior(entity) {
         private int nextShotTick;
 
         @Override
@@ -218,14 +210,6 @@ public enum MagicalSquirrelWeaponType {
         public void stop() {}
 
         @Override
-        public void move(@NotNull EntityLivingBase target) {
-            if (this.squirrel.getDistanceSq(target) <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target)) {
-                this.squirrel.getNavigator().clearPath();
-            }
-            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
-        }
-
-        @Override
         public void update(@NotNull EntityLivingBase target) {
             if (this.squirrel.ticksExisted >= this.nextShotTick) this.squirrel.attackEntityWithRangedAttack(target, 1f);
         }
@@ -240,6 +224,7 @@ public enum MagicalSquirrelWeaponType {
             double deltaZ = target.posZ - start.z;
             float pitch = (float) -Math.toDegrees(Math.atan2(deltaY, Math.sqrt(deltaX * deltaX + deltaZ * deltaZ)));
             float yaw = (float) Math.toDegrees(Math.atan2(-deltaX, deltaZ));
+            this.recordRangedShot(target);
             WitchShotgunItem.shoot(this.squirrel, pitch, yaw);
             this.nextShotTick = this.squirrel.ticksExisted + WitchShotgunItem.COOLDOWN_TICKS;
         }
@@ -248,7 +233,7 @@ public enum MagicalSquirrelWeaponType {
         public void finishUsing() {}
     }),
     //spartan weaponry crossbows
-    SPARTAN_CROSSBOW(entity -> new MagicalSquirrelAttackBehavior(entity) {
+    SPARTAN_CROSSBOW(entity -> new MagicalSquirrelRangedAttackBehavior(entity) {
         private int readyTick;
 
         @Override
@@ -268,17 +253,9 @@ public enum MagicalSquirrelWeaponType {
         public void stop() {}
 
         @Override
-        public void move(@NotNull EntityLivingBase target) {
-            double distanceSquared = this.squirrel.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ);
-            if (distanceSquared <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target)) this.squirrel.getNavigator().clearPath();
-            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
-        }
-
-        @Override
         public void update(@NotNull EntityLivingBase target) {
             ItemStack crossbow = this.squirrel.getHeldItemMainhand();
-            boolean canAttack = this.squirrel.ticksExisted >= this.readyTick
-                    && this.squirrel.getDistanceSq(target) <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target);
+            boolean canAttack = this.squirrel.ticksExisted >= this.readyTick && this.canRangedAttack(target);
             if (canAttack) this.squirrel.setActiveHand(EnumHand.MAIN_HAND);
             else this.squirrel.resetActiveHand();
 
@@ -292,8 +269,8 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.squirrel.ticksExisted >= this.readyTick) {
-                SpartanWeaponryUtils.shootCrossbow(this.squirrel, target);
+            if (this.squirrel.ticksExisted >= this.readyTick && SpartanWeaponryUtils.shootCrossbow(this.squirrel, target)) {
+                this.recordRangedShot(target);
             }
         }
 
@@ -305,7 +282,9 @@ public enum MagicalSquirrelWeaponType {
         }
     }),
     //spartan weaponry knives, axes, javelins and boomerangs
-    SPARTAN_THROWING_WEAPON(entity -> new MagicalSquirrelAttackBehavior(entity) {
+    SPARTAN_THROWING_WEAPON(entity -> new MagicalSquirrelRangedAttackBehavior(
+            entity, squirrel -> SpartanWeaponryUtils.getThrowingRange(squirrel.getHeldItemMainhand())
+    ) {
         private int readyTick;
 
         @Override
@@ -325,19 +304,8 @@ public enum MagicalSquirrelWeaponType {
         public void stop() {}
 
         @Override
-        public void move(@NotNull EntityLivingBase target) {
-            double range = SpartanWeaponryUtils.getThrowingRange(this.squirrel.getHeldItemMainhand());
-            if (this.squirrel.getDistanceSq(target) <= range * range && this.squirrel.getEntitySenses().canSee(target)) {
-                this.squirrel.getNavigator().clearPath();
-            }
-            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
-        }
-
-        @Override
         public void update(@NotNull EntityLivingBase target) {
-            double range = SpartanWeaponryUtils.getThrowingRange(this.squirrel.getHeldItemMainhand());
-            boolean canAttack = this.squirrel.ticksExisted >= this.readyTick
-                    && this.squirrel.getDistanceSq(target) <= range * range && this.squirrel.getEntitySenses().canSee(target);
+            boolean canAttack = this.squirrel.ticksExisted >= this.readyTick && this.canRangedAttack(target);
             this.squirrel.setUsingBow(canAttack);
             if (!canAttack) {
                 this.squirrel.resetActiveHand();
@@ -352,6 +320,7 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void attack(@NotNull EntityLivingBase target) {
             if (this.squirrel.ticksExisted >= this.readyTick && SpartanWeaponryUtils.throwWeapon(this.squirrel, target)) {
+                this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 20;
             }
         }
@@ -359,7 +328,7 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void finishUsing() {}
     }),
-    TINKERS_BOW(entity -> new MagicalSquirrelAttackBehavior(entity) {
+    TINKERS_BOW(entity -> new MagicalSquirrelRangedAttackBehavior(entity) {
         private int readyTick;
 
         @Override
@@ -384,15 +353,9 @@ public enum MagicalSquirrelWeaponType {
         }
 
         @Override
-        public void move(@NotNull EntityLivingBase target) {
-            if (this.squirrel.getDistanceSq(target) <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target)) this.squirrel.getNavigator().clearPath();
-            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
-        }
-
-        @Override
         public void update(@NotNull EntityLivingBase target) {
             boolean canAttack = this.squirrel.ticksExisted >= this.readyTick
-                    && this.squirrel.getDistanceSq(target) <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target);
+                    && this.canRangedAttack(target);
             this.squirrel.setUsingBow(canAttack);
             if (!canAttack) {
                 this.squirrel.resetActiveHand();
@@ -407,6 +370,7 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void attack(@NotNull EntityLivingBase target) {
             if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootRangedWeapon(this.squirrel, target)) {
+                this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 20;
                 this.squirrel.setUsingBow(false);
             }
@@ -415,7 +379,7 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void finishUsing() {}
     }),
-    TINKERS_CROSSBOW(entity -> new MagicalSquirrelAttackBehavior(entity) {
+    TINKERS_CROSSBOW(entity -> new MagicalSquirrelRangedAttackBehavior(entity) {
         private int readyTick;
 
         @Override
@@ -440,15 +404,9 @@ public enum MagicalSquirrelWeaponType {
         }
 
         @Override
-        public void move(@NotNull EntityLivingBase target) {
-            if (this.squirrel.getDistanceSq(target) <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target)) this.squirrel.getNavigator().clearPath();
-            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
-        }
-
-        @Override
         public void update(@NotNull EntityLivingBase target) {
             boolean canAttack = this.squirrel.ticksExisted >= this.readyTick
-                    && this.squirrel.getDistanceSq(target) <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target);
+                    && this.canRangedAttack(target);
             this.squirrel.setUsingBow(canAttack && TinkersConstructUtil.isCrossbowLoaded(this.squirrel.getHeldItemMainhand()));
             if (!canAttack) {
                 this.squirrel.resetActiveHand();
@@ -464,6 +422,7 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void attack(@NotNull EntityLivingBase target) {
             if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootRangedWeapon(this.squirrel, target)) {
+                this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 20;
                 this.squirrel.setUsingBow(false);
             }
@@ -472,7 +431,7 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void finishUsing() {}
     }),
-    TINKERS_SHURIKEN(entity -> new MagicalSquirrelAttackBehavior(entity) {
+    TINKERS_SHURIKEN(entity -> new MagicalSquirrelRangedAttackBehavior(entity) {
         private int readyTick;
 
         @Override
@@ -495,12 +454,6 @@ public enum MagicalSquirrelWeaponType {
         }
 
         @Override
-        public void move(@NotNull EntityLivingBase target) {
-            if (this.squirrel.getDistanceSq(target) <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target)) this.squirrel.getNavigator().clearPath();
-            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
-        }
-
-        @Override
         public void update(@NotNull EntityLivingBase target) {
             if (this.squirrel.ticksExisted >= this.readyTick) this.squirrel.attackEntityWithRangedAttack(target, 1f);
         }
@@ -508,6 +461,7 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void attack(@NotNull EntityLivingBase target) {
             if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootRangedWeapon(this.squirrel, target)) {
+                this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 4;
             }
         }
@@ -515,15 +469,19 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void finishUsing() {}
     }),
-    CASTER(entity -> new MagicalSquirrelAttackBehavior(entity) {
+    CASTER(entity -> new MagicalSquirrelRangedAttackBehavior(entity, MagicalSquirrelCastingUtils::getAttackRange) {
         private int nextCastTick;
         @Nullable
         private EntityLivingBase healingOwner;
+        @Nullable
+        private EntityLivingBase healingShotTarget;
+        private float healthBeforeHealingShot;
 
         @Override
         public boolean canUse() {
-            if (!SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseCastingItems
-                    || !(this.squirrel.getHeldItemMainhand().getItem() instanceof ItemCaster)) return false;
+            if (!SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseCastingItems || !(this.squirrel.getHeldItemMainhand().getItem() instanceof ItemCaster)) {
+                return false;
+            }
             return MagicalSquirrelCastingUtils.hasSpell(MagicalSquirrelCastingUtils.getOrInstallFocus(
                     this.squirrel.getHeldItemMainhand(), this.squirrel.getInventoryHandler()
             ));
@@ -553,15 +511,6 @@ public enum MagicalSquirrelWeaponType {
         public void stop() {}
 
         @Override
-        public void move(@NotNull EntityLivingBase target) {
-            double range = MagicalSquirrelCastingUtils.getAttackRange(this.squirrel);
-            if (this.squirrel.getDistanceSq(target) <= range * range && this.squirrel.getEntitySenses().canSee(target)) {
-                this.squirrel.getNavigator().clearPath();
-            }
-            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
-        }
-
-        @Override
         public void update(@NotNull EntityLivingBase target) {
             if (this.squirrel.ticksExisted >= this.nextCastTick) this.squirrel.attackEntityWithRangedAttack(target, 1f);
         }
@@ -574,6 +523,34 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void finishUsing() {}
+
+        //---ranged attack overrides specific to healing---
+        @Override
+        public boolean canRangedAttack(@NotNull EntityLivingBase target) {
+            //healing restores health instead of producing the damage events used by other ranged attacks
+            if (target == this.healingShotTarget && target.getHealth() > this.healthBeforeHealingShot) {
+                this.recordRangedHit(target);
+                this.healingShotTarget = null;
+            }
+            return super.canRangedAttack(target);
+        }
+
+        @Override
+        public boolean recordRangedShot(@NotNull EntityLivingBase target) {
+            boolean recorded = super.recordRangedShot(target);
+            if (recorded) {
+                this.healingShotTarget = target == this.squirrel.getOwner() ? target : null;
+                this.healthBeforeHealingShot = target.getHealth();
+            }
+            return recorded;
+        }
+
+        @Override
+        public void resetRangedAttack() {
+            super.resetRangedAttack();
+            this.healingShotTarget = null;
+            this.healthBeforeHealingShot = 0f;
+        }
     });
 
     @NotNull
