@@ -31,23 +31,59 @@ public class MagicalSquirrelCastingUtils {
     public static ItemStack getOrInstallFocus(@NotNull ItemStack weapon, @NotNull RiftLibInventoryHandler inventory) {
         if (!(weapon.getItem() instanceof ItemCaster caster)) return ItemStack.EMPTY;
         ItemStack installedFocus = caster.getFocusStack(weapon);
-        if (installedFocus != null && !installedFocus.isEmpty()) return installedFocus;
+        if (installedFocus == null) installedFocus = ItemStack.EMPTY;
+        if (hasSpell(installedFocus)) return installedFocus;
         RiftLibInventoryHandler.ItemSearchResult result = inventory.findItem(
                 RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
-                stack -> !stack.isEmpty() && stack.getItem() instanceof ItemFocus
+                MagicalSquirrelCastingUtils::hasSpell
         );
-        if (!result.successful()) return ItemStack.EMPTY;
+        if (!result.successful()) return installedFocus;
         ItemStack focus = inventory.extractItem(result.slot(), 1, true);
         if (focus.isEmpty()) return ItemStack.EMPTY;
+
+        int returnSlot = -1;
+        if (!installedFocus.isEmpty()) {
+            //a single replacement focus frees its slot, even when every inventory slot is occupied
+            if (inventory.getStackInSlot(result.slot()).getCount() == 1 && inventory.isItemValid(result.slot(), installedFocus)
+                    && installedFocus.getCount() <= Math.min(inventory.getSlotLimit(result.slot()), installedFocus.getMaxStackSize())) {
+                returnSlot = result.slot();
+            }
+            else {
+                for (int slot = 0; slot < inventory.getSlots(); slot++) {
+                    if (inventory.insertItem(slot, installedFocus, true).isEmpty()) {
+                        returnSlot = slot;
+                        break;
+                    }
+                }
+            }
+            //Keep both focuses where they are if the old one cannot be returned without losing items.
+            if (returnSlot < 0) return installedFocus;
+        }
         caster.setFocus(weapon, focus);
         inventory.extractItem(result.slot(), 1, false);
+        if (returnSlot >= 0) inventory.insertItem(returnSlot, installedFocus, false);
         return focus;
     }
 
     public static boolean hasSpell(@NotNull ItemStack focus) {
         if (!(focus.getItem() instanceof ItemFocus)) return false;
-        FocusPackage focusPackage = ItemFocus.getPackage(focus);
-        return focusPackage != null && !focusPackage.nodes.isEmpty();
+        return hasFocusMedium(ItemFocus.getPackage(focus));
+    }
+
+    //mostly to prevent magical sqrls from choosing spells that will hit themselves
+    private static boolean hasFocusMedium(@Nullable FocusPackage spell) {
+        if (spell == null) return false;
+        ArrayList<FocusPackage> packages = new ArrayList<>();
+        packages.add(spell);
+        for (int index = 0; index < packages.size(); index++) {
+            for (IFocusElement element : packages.get(index).nodes) {
+                //The engine's root is implicit and cannot replace a medium chosen for the spell.
+                if (element instanceof FocusMedium && !(element instanceof FocusMediumRoot)) return true;
+                if (element instanceof FocusPackage nested) packages.add(nested);
+                else if (element instanceof FocusModSplit split) packages.addAll(split.getSplitPackages());
+            }
+        }
+        return false;
     }
 
     //special method to resolve casting target
@@ -116,7 +152,7 @@ public class MagicalSquirrelCastingUtils {
         ItemStack focusStack = getOrInstallFocus(weapon, squirrel.getInventoryHandler());
         if (!(focusStack.getItem() instanceof ItemFocus focus)) return 10;
         FocusPackage source = ItemFocus.getPackage(focusStack);
-        if (source == null || source.nodes.isEmpty()) return 10;
+        if (!hasFocusMedium(source)) return 10;
         if (!(squirrel.getAttackBehavior() instanceof MagicalSquirrelRangedAttackBehavior behavior) || target != behavior.getTarget()) return 10;
 
         float visCost = focus.getVisCost(focusStack);

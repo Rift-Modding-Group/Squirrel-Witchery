@@ -5,6 +5,7 @@ import anightdazingzoroark.riftlib.core.controller.AnimationController;
 import anightdazingzoroark.riftlib.core.controller.AnimationControllerState;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataEntityLiving;
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
+import anightdazingzoroark.squirrelwitchery.MagicalSquirrelCastingUtils;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
@@ -253,7 +254,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                         }
 
                         //casting items
-                        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseCastingItems && itemStack.getItem() instanceof ItemCaster) {
+                        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseCastingItems && itemStack.getItem() instanceof ItemCaster
+                            && MagicalSquirrelCastingUtils.hasSpell(MagicalSquirrelCastingUtils.getOrInstallFocus(itemStack, this.inventoryHandler))
+                        ) {
                             pendingWeaponType.set(MagicalSquirrelWeaponType.CASTER);
                             return true;
                         }

@@ -481,11 +481,14 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public boolean canUse() {
             if (!SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseCastingItems || !(this.squirrel.getHeldItemMainhand().getItem() instanceof ItemCaster)) {
+                this.squirrel.markEquipmentDirty();
                 return false;
             }
-            return MagicalSquirrelCastingUtils.hasSpell(MagicalSquirrelCastingUtils.getOrInstallFocus(
+            boolean usable = MagicalSquirrelCastingUtils.hasSpell(MagicalSquirrelCastingUtils.getOrInstallFocus(
                     this.squirrel.getHeldItemMainhand(), this.squirrel.getInventoryHandler()
             ));
+            if (!usable) this.squirrel.markEquipmentDirty();
+            return usable;
         }
 
         @Override
