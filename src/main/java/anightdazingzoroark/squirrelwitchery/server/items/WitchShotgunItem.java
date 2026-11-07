@@ -3,6 +3,7 @@ package anightdazingzoroark.squirrelwitchery.server.items;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -14,7 +15,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -22,6 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.IdentityHashMap;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 public class WitchShotgunItem extends Item implements IRisuniumConsumer {
+    public static final int COOLDOWN_TICKS = 20;
     private static final int RISUNIUM_COST = 20;
     private static final double RANGE = 32D;
 
@@ -78,36 +80,45 @@ public class WitchShotgunItem extends Item implements IRisuniumConsumer {
         //---normal shotgun use---
         //use risunium and other stuff
         this.setRisuniumAmount(stack, this.getRisuniumAmount(stack) - RISUNIUM_COST);
-        player.getCooldownTracker().setCooldown(this, 20);
-        player.swingArm(hand);
+        player.getCooldownTracker().setCooldown(this, COOLDOWN_TICKS);
+        shoot(player, player.rotationPitch, player.rotationYaw);
+        player.inventoryContainer.detectAndSendChanges();
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+    }
+
+    //shoot method shared between player and magical squirrel
+    public static void shoot(@NotNull EntityLivingBase shooter, float aimPitch, float aimYaw) {
+        World world = shooter.world;
+        if (world.isRemote) return;
+
         world.playSound(
                 null,
-                player.posX, player.posY, player.posZ,
-                SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS,
+                shooter.posX, shooter.posY, shooter.posZ,
+                SoundEvents.ENTITY_GENERIC_EXPLODE, shooter.getSoundCategory(),
                 0.8f, 1.35f
         );
 
-        Vec3d start = player.getPositionEyes(1f);
+        Vec3d start = shooter.getPositionEyes(1f);
         Map<Entity, Integer> pelletHits = new IdentityHashMap<>();
 
         //shotgun pellet spread
         for (int pellet = 0; pellet < 12; pellet++) {
-            double spreadRadius = pellet == 0 ? 0D : Math.sqrt(player.getRNG().nextDouble()) * 15D; //pellet spread is by up to 15 degrees
-            double spreadAngle = player.getRNG().nextDouble() * Math.PI * 2.0;
-            float pitch = player.rotationPitch + (float) (Math.sin(spreadAngle) * spreadRadius);
-            float yaw = player.rotationYaw + (float) (Math.cos(spreadAngle) * spreadRadius);
+            double spreadRadius = pellet == 0 ? 0D : Math.sqrt(shooter.getRNG().nextDouble()) * 15D; //pellet spread is by up to 15 degrees
+            double spreadAngle = shooter.getRNG().nextDouble() * Math.PI * 2.0;
+            float pitch = aimPitch + (float) (Math.sin(spreadAngle) * spreadRadius);
+            float yaw = aimYaw + (float) (Math.cos(spreadAngle) * spreadRadius);
             Vec3d direction = Vec3d.fromPitchYaw(pitch, yaw);
             Vec3d end = start.add(direction.scale(RANGE));
             RayTraceResult blockHit = world.rayTraceBlocks(start, end, false, true, false);
             double nearestDistance = blockHit == null ? RANGE : start.distanceTo(blockHit.hitVec);
             Entity nearestEntity = null;
-            AxisAlignedBB searchBounds = player.getEntityBoundingBox()
+            AxisAlignedBB searchBounds = shooter.getEntityBoundingBox()
                     .expand(direction.x * RANGE, direction.y * RANGE, direction.z * RANGE)
                     .grow(1D);
 
-            for (Entity candidate : world.getEntitiesWithinAABBExcludingEntity(player, searchBounds)) {
+            for (Entity candidate : world.getEntitiesWithinAABBExcludingEntity(shooter, searchBounds)) {
                 if (!candidate.canBeCollidedWith()) continue;
-                if (candidate.getLowestRidingEntity() == player.getLowestRidingEntity() && !candidate.canRiderInteract()) continue;
+                if (candidate.getLowestRidingEntity() == shooter.getLowestRidingEntity() && !candidate.canRiderInteract()) continue;
 
                 AxisAlignedBB hitbox = candidate.getEntityBoundingBox().grow(candidate.getCollisionBorderSize());
                 RayTraceResult entityHit = hitbox.calculateIntercept(start, end);
@@ -127,13 +138,10 @@ public class WitchShotgunItem extends Item implements IRisuniumConsumer {
         }
 
         //deal damage
-        DamageSource damageSource = new EntityDamageSource("witchShotgun", player).setProjectile();
+        DamageSource damageSource = new EntityDamageSource("witchShotgun", shooter).setProjectile();
         for (Map.Entry<Entity, Integer> hit : pelletHits.entrySet()) {
             hit.getKey().attackEntityFrom(damageSource, hit.getValue() * 5f); //each pellet does 5 damage
         }
-
-        player.inventoryContainer.detectAndSendChanges();
-        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 
     @Override

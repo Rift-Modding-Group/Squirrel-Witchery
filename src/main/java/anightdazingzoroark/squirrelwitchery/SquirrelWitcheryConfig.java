@@ -349,7 +349,10 @@ public class SquirrelWitcheryConfig {
         };
 
         @Config.Name("Magical Squirrel Can Wear Armor")
-        @Config.Comment("Allows Magical Squirrels to wear armor placed in their inventory")
+        @Config.Comment({
+                "Allows Magical Squirrels to wear armor placed in their inventory",
+                "Should also most support moded armors."
+        })
         public boolean canWearArmor = true;
 
         @Config.Name("Magical Squirrel Can Use Bows")
@@ -358,6 +361,12 @@ public class SquirrelWitcheryConfig {
                 "This includes any other modded item that extends ItemBow."
         })
         public boolean canUseBows = true;
+
+        @Config.Name("Magical Squirrel Can Use Witch's Shotgun")
+        @Config.Comment({
+                "Allows Magical Squirrels to use the Witch's Shotgun."
+        })
+        public boolean canUseWitchsShotgun = true;
 
         @Config.Name("Magical Squirrel Can Use Modded Ranged Weapons")
         @Config.Comment({

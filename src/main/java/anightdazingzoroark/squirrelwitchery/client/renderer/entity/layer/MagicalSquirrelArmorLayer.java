@@ -81,8 +81,6 @@ public class MagicalSquirrelArmorLayer extends LayerBipedArmor implements IGeoAr
         this.modelArmor.isSneak = squirrel.isSneaking();
         this.modelLeggings.isSneak = squirrel.isSneaking();
 
-        //Vanilla armor uses a downward Y axis and an origin above the feet
-        //LayerBipedArmor's Forge hooks also select registered RiftLibrary armor
         GlStateManager.pushMatrix();
         GlStateManager.scale(-1f, -1f, 1f);
         GlStateManager.translate(0f, -1.501f, 0f);

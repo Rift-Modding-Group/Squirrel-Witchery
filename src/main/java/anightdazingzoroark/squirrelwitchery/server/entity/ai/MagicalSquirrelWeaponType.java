@@ -5,6 +5,7 @@ import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
+import anightdazingzoroark.squirrelwitchery.server.items.WitchShotgunItem;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -187,6 +188,57 @@ public enum MagicalSquirrelWeaponType {
             weapon.damageItem(1, this.squirrel);
             this.squirrel.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1f, 1f / (this.squirrel.getRNG().nextFloat() * 0.4f + 1.2f) + 0.5f);
             this.squirrel.resetActiveHand();
+        }
+
+        @Override
+        public void finishUsing() {}
+    }),
+    //witchs shotgun
+    WITCHS_SHOTGUN(entity -> new MagicalSquirrelAttackBehavior(entity) {
+        private int nextShotTick;
+
+        @Override
+        public boolean canUse() {
+            return SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseWitchsShotgun
+                    && this.squirrel.getHeldItemMainhand().getItem() instanceof WitchShotgunItem;
+        }
+
+        @Override
+        public boolean canStart(@NotNull EntityLivingBase target) {
+            return true;
+        }
+
+        @Override
+        public void start() {}
+
+        @Override
+        public void stop() {}
+
+        @Override
+        public void move(@NotNull EntityLivingBase target) {
+            if (this.squirrel.getDistanceSq(target) <= SHOT_RANGE * SHOT_RANGE && this.squirrel.getEntitySenses().canSee(target)) {
+                this.squirrel.getNavigator().clearPath();
+            }
+            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
+        }
+
+        @Override
+        public void update(@NotNull EntityLivingBase target) {
+            if (this.squirrel.ticksExisted >= this.nextShotTick) this.squirrel.attackEntityWithRangedAttack(target, 1f);
+        }
+
+        @Override
+        public void attack(@NotNull EntityLivingBase target) {
+            if (!this.canUse() || this.squirrel.ticksExisted < this.nextShotTick) return;
+
+            Vec3d start = this.squirrel.getPositionEyes(1f);
+            double deltaX = target.posX - start.x;
+            double deltaY = target.getEntityBoundingBox().minY + target.height / 2D - start.y;
+            double deltaZ = target.posZ - start.z;
+            float pitch = (float) -Math.toDegrees(Math.atan2(deltaY, Math.sqrt(deltaX * deltaX + deltaZ * deltaZ)));
+            float yaw = (float) Math.toDegrees(Math.atan2(-deltaX, deltaZ));
+            WitchShotgunItem.shoot(this.squirrel, pitch, yaw);
+            this.nextShotTick = this.squirrel.ticksExisted + WitchShotgunItem.COOLDOWN_TICKS;
         }
 
         @Override

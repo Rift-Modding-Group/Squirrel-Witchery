@@ -16,6 +16,7 @@ import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelWeap
 import anightdazingzoroark.squirrelwitchery.server.inventory.MagicalSquirrelInventory;
 import anightdazingzoroark.squirrelwitchery.server.items.NutsaberItem;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import anightdazingzoroark.squirrelwitchery.server.items.WitchShotgunItem;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageOpenMagicalSquirrelInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -226,6 +227,12 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                                 && !TinkersConstructUtil.canUseMeleeWeapon(itemStack)
                         ) {
                             return false;
+                        }
+
+                        //witch's shotgun
+                        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseWitchsShotgun && itemStack.getItem() instanceof WitchShotgunItem) {
+                            pendingWeaponType.set(MagicalSquirrelWeaponType.WITCHS_SHOTGUN);
+                            return true;
                         }
 
                         //usable melee weapons
@@ -556,7 +563,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     }
 
     private boolean isUsingBow() {
-        return this.dataManager.get(USING_BOW);
+        return this.dataManager.get(USING_BOW) || this.getHeldItemMainhand().getItem() instanceof WitchShotgunItem;
     }
 
     //-----animation stuff-----
