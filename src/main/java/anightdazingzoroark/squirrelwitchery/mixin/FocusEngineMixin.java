@@ -2,6 +2,7 @@ package anightdazingzoroark.squirrelwitchery.mixin;
 
 import anightdazingzoroark.squirrelwitchery.server.items.WitchStaffAttachmentItem;
 import anightdazingzoroark.squirrelwitchery.server.items.WitchStaffItem;
+import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,19 +25,20 @@ public abstract class FocusEngineMixin {
     )
     private static void applyWitchStaffAttachments(FocusPackage focusPackage, EntityLivingBase caster) {
         focusPackage.initialize(caster);
-        if (caster.world.isRemote || !(caster instanceof EntityPlayer player)) return;
+        if (caster.world.isRemote || !(caster instanceof EntityPlayer || caster instanceof MagicalSquirrelEntity)) return;
 
-        ItemStack staffStack = player.getHeldItemMainhand();
+        boolean requiresCastingTag = caster instanceof EntityPlayer;
+        ItemStack staffStack = caster.getHeldItemMainhand();
         if (!(staffStack.getItem() instanceof WitchStaffItem)
-                || !staffStack.hasTagCompound()
-                || !staffStack.getTagCompound().getBoolean("Casting")
+                || requiresCastingTag && (!staffStack.hasTagCompound() || !staffStack.getTagCompound().getBoolean("Casting"))
         ) {
-            staffStack = player.getHeldItemOffhand();
+            staffStack = caster.getHeldItemOffhand();
         }
         if (!(staffStack.getItem() instanceof WitchStaffItem staff)
-                || !staffStack.hasTagCompound()
-                || !staffStack.getTagCompound().getBoolean("Casting")
-        ) return;
+                || requiresCastingTag && (!staffStack.hasTagCompound() || !staffStack.getTagCompound().getBoolean("Casting"))
+        ) {
+            return;
+        }
 
         ArrayList<IFocusElement> elements = new ArrayList<>();
         ArrayList<FocusPackage> packages = new ArrayList<>();
@@ -60,6 +62,10 @@ public abstract class FocusEngineMixin {
         }
 
         staff.setRisuniumAmount(staffStack, risunium);
-        player.inventoryContainer.detectAndSendChanges();
+        if (caster instanceof EntityPlayer player) player.inventoryContainer.detectAndSendChanges();
+        else {
+            MagicalSquirrelEntity squirrel = (MagicalSquirrelEntity) caster;
+            squirrel.markEquipmentDirty();
+        }
     }
 }

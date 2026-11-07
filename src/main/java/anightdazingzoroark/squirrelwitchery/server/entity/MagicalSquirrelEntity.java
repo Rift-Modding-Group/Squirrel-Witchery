@@ -9,6 +9,7 @@ import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
+import anightdazingzoroark.squirrelwitchery.MagicalSquirrelCastingUtils;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackBehavior;
@@ -47,6 +48,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import thaumcraft.common.lib.SoundsTC;
+import thaumcraft.common.items.casters.ItemCaster;
 
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
@@ -232,6 +234,12 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                         //witch's shotgun
                         if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseWitchsShotgun && itemStack.getItem() instanceof WitchShotgunItem) {
                             pendingWeaponType.set(MagicalSquirrelWeaponType.WITCHS_SHOTGUN);
+                            return true;
+                        }
+
+                        //casting items
+                        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseCastingItems && itemStack.getItem() instanceof ItemCaster) {
+                            pendingWeaponType.set(MagicalSquirrelWeaponType.CASTER);
                             return true;
                         }
 
@@ -533,7 +541,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     public void attackEntityWithRangedAttack(@NonNull EntityLivingBase target, float distanceFactor) {
         if (this.world.isRemote || !this.isEntityAlive() || !this.getTransformed() || !target.isEntityAlive()) return;
         if (this.getBehavior() == Behavior.SIT || target != this.getAttackTarget()) return;
-        if (this.getDistanceSq(target) > MagicalSquirrelAttackAI.SHOT_RANGE * MagicalSquirrelAttackAI.SHOT_RANGE
+        double range = MagicalSquirrelAttackAI.SHOT_RANGE;
+        if (this.getHeldWeaponType() == MagicalSquirrelWeaponType.CASTER) range = MagicalSquirrelCastingUtils.getAttackRange(this);
+        if (this.getDistanceSq(target) > range * range
                 || !this.getEntitySenses().canSee(target)
         ) {
             return;

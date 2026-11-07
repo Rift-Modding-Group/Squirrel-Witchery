@@ -374,5 +374,14 @@ public class SquirrelWitcheryConfig {
                 "Supports Spartan Weaponry and Tinkers' Construct ranged weapons."
         })
         public boolean canUseModdedRangedWeapons = true;
+
+        @Config.Name("Magical Squirrel Can Use Spell Casting Items")
+        @Config.Comment({
+                "Allows Magical Squirrels to use spell casting items.",
+                "Basically includes anything that extends ItemCaster",
+                "Like the Caster's Gauntlet and the Witch's Staff.",
+                "Uses the installed focus, or installs the last focus from the Magical Squirrel's inventory if none is installed."
+        })
+        public boolean canUseCastingItems = true;
     }
 }

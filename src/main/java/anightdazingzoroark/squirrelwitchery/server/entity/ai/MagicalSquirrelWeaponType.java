@@ -4,6 +4,7 @@ import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
+import anightdazingzoroark.squirrelwitchery.MagicalSquirrelCastingUtils;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.WitchShotgunItem;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.Loader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import thaumcraft.common.items.casters.ItemCaster;
 
 import java.util.function.Function;
 
@@ -507,6 +509,52 @@ public enum MagicalSquirrelWeaponType {
             if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootRangedWeapon(this.squirrel, target)) {
                 this.readyTick = this.squirrel.ticksExisted + 4;
             }
+        }
+
+        @Override
+        public void finishUsing() {}
+    }),
+    CASTER(entity -> new MagicalSquirrelAttackBehavior(entity) {
+        private int nextCastTick;
+
+        @Override
+        public boolean canUse() {
+            if (!SquirrelWitcheryConfig.magicalSquirrelBehavior.canUseCastingItems
+                    || !(this.squirrel.getHeldItemMainhand().getItem() instanceof ItemCaster)) return false;
+            return MagicalSquirrelCastingUtils.hasSpell(MagicalSquirrelCastingUtils.getOrInstallFocus(
+                    this.squirrel.getHeldItemMainhand(), this.squirrel.getInventoryHandler()
+            ));
+        }
+
+        @Override
+        public boolean canStart(@NotNull EntityLivingBase target) {
+            return true;
+        }
+
+        @Override
+        public void start() {}
+
+        @Override
+        public void stop() {}
+
+        @Override
+        public void move(@NotNull EntityLivingBase target) {
+            double range = MagicalSquirrelCastingUtils.getAttackRange(this.squirrel);
+            if (this.squirrel.getDistanceSq(target) <= range * range && this.squirrel.getEntitySenses().canSee(target)) {
+                this.squirrel.getNavigator().clearPath();
+            }
+            else this.squirrel.getNavigator().tryMoveToEntityLiving(target, 1D);
+        }
+
+        @Override
+        public void update(@NotNull EntityLivingBase target) {
+            if (this.squirrel.ticksExisted >= this.nextCastTick) this.squirrel.attackEntityWithRangedAttack(target, 1f);
+        }
+
+        @Override
+        public void attack(@NotNull EntityLivingBase target) {
+            if (!this.canUse() || this.squirrel.ticksExisted < this.nextCastTick) return;
+            this.nextCastTick = this.squirrel.ticksExisted + MagicalSquirrelCastingUtils.cast(this.squirrel, target);
         }
 
         @Override
