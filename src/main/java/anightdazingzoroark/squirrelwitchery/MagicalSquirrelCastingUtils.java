@@ -4,9 +4,11 @@ import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelRangedAttackBehavior;
+import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelSpellHazards;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +19,9 @@ import thaumcraft.common.items.casters.ItemCaster;
 import thaumcraft.common.items.casters.ItemFocus;
 import thaumcraft.common.items.casters.foci.FocusEffectHeal;
 import thaumcraft.common.items.casters.foci.FocusMediumBolt;
+import thaumcraft.common.items.casters.foci.FocusMediumPlan;
 import thaumcraft.common.items.casters.foci.FocusMediumTouch;
+import thaumcraft.common.lib.utils.BlockUtils;
 import thaumcraft.common.lib.utils.EntityUtils;
 
 import java.util.ArrayList;
@@ -58,7 +62,8 @@ public class MagicalSquirrelCastingUtils {
             if (effect instanceof FocusEffectHeal) {
                 //start at the configured threshold, then continue until the owner is fully healed
                 if (owner != null && owner.isEntityAlive() && owner.getHealth() < owner.getMaxHealth()
-                        && (healingOwner || owner.getHealth() <= owner.getMaxHealth() * (Math.clamp(healingThreshold, 0D, 100D) / 100D))) {
+                        && (healingOwner || owner.getHealth() <= owner.getMaxHealth() * (Math.clamp(healingThreshold, 0D, 100D) / 100D))
+                ) {
                     return owner;
                 }
                 //enemy is undead
@@ -90,7 +95,7 @@ public class MagicalSquirrelCastingUtils {
             }
             if (element instanceof FocusPackage nested) return getPackageRange(nested, range);
             if (element instanceof FocusMediumBolt) range += 16D;
-            else if (element.getClass() == FocusMediumTouch.class) range += 4D;
+            else if (element instanceof FocusMediumTouch) range += 4D;
             else if (element instanceof FocusMedium medium) {
                 double mediumRange = MagicalSquirrelAttackAI.SHOT_RANGE;
                 if (medium.getSettingList() != null && medium.getSettingList().contains("range") && medium.getSettingValue("range") > 0) {
@@ -134,7 +139,25 @@ public class MagicalSquirrelCastingUtils {
         behavior.recordRangedShot(target);
         FocusEngine.castFocusPackage(squirrel, spell, true);
         squirrel.swingArm(EnumHand.MAIN_HAND);
-        return Math.max(1, focus.getActivationTime(focusStack));
+
+        int delay = Math.max(1, focus.getActivationTime(focusStack));
+        ArrayList<FocusPackage> packages = new ArrayList<>();
+        packages.add(source);
+        outer: for (int index = 0; index < packages.size(); index++) {
+            for (IFocusElement element : packages.get(index).nodes) {
+                //special case for plan, delay must use the spell's effect time + 3 more seconds
+                if (element instanceof FocusMediumPlan) {
+                    for (FocusEffect effect : source.getFocusEffects()) {
+                        if (effect.getSetting("duration") != null) delay = Math.max(delay, effect.getSettingValue("duration") * 20);
+                    }
+                    delay += 60;
+                    break outer;
+                }
+                else if (element instanceof FocusPackage nested) packages.add(nested);
+                else if (element instanceof FocusModSplit split) packages.addAll(split.getSplitPackages());
+            }
+        }
+        return delay;
     }
 
     @NotNull
@@ -151,10 +174,14 @@ public class MagicalSquirrelCastingUtils {
                 split.getSplitPackages().replaceAll(focusPackage -> preparePackage(focusPackage, caster));
             }
             else {
+                //replace focus mediums originall meant for player with those that work for le magical sqrl
+                //ps: stfu intellij
                 FocusNode replacement;
-                if (element.getClass() == FocusMediumBolt.class) replacement = new SquirrelBolt();
-                else if (element.getClass() == FocusMediumTouch.class) replacement = new SquirrelTouch();
+                if (element instanceof FocusMediumBolt) replacement = new SquirrelBolt();
+                else if (element instanceof FocusMediumTouch) replacement = new SquirrelTouch();
+                else if (element instanceof FocusMediumPlan) replacement = new SquirrelPlan();
                 else continue;
+
                 replacement.initialize();
                 for (String setting : ((FocusNode) element).getSettingList()) {
                     if (replacement.getSetting(setting) != null) replacement.getSetting(setting).setValue(((FocusNode) element).getSettingValue(setting));
@@ -163,33 +190,6 @@ public class MagicalSquirrelCastingUtils {
             }
         }
         return spell;
-    }
-
-    @NotNull
-    private static RayTraceResult[] findTargets(@NotNull FocusNode node, double range) {
-        ArrayList<RayTraceResult> targets = new ArrayList<>();
-        if (node.getParent() != null && node.getParent().supplyTrajectories() != null) {
-            for (Trajectory trajectory : node.getParent().supplyTrajectories()) {
-                RayTraceResult hit = trace(node, trajectory, range);
-                if (hit != null) targets.add(hit);
-            }
-        }
-        return targets.toArray(RayTraceResult[]::new);
-    }
-
-    @NotNull
-    private static Trajectory[] findTrajectories(@NotNull FocusNode node, double range) {
-        ArrayList<Trajectory> trajectories = new ArrayList<>();
-        if (node.getParent() != null && node.getParent().supplyTrajectories() != null) {
-            for (Trajectory trajectory : node.getParent().supplyTrajectories()) {
-                Vec3d direction = trajectory.direction.normalize();
-                Vec3d end = trajectory.source.add(direction.scale(range));
-                RayTraceResult hit = trace(node, trajectory, range);
-                if (hit != null && hit.hitVec != null) end = hit.hitVec;
-                trajectories.add(new Trajectory(end, direction));
-            }
-        }
-        return trajectories.toArray(Trajectory[]::new);
     }
 
     @Nullable
@@ -202,6 +202,44 @@ public class MagicalSquirrelCastingUtils {
             return entityHit;
         }
         return blockHit;
+    }
+
+    //-----replacement classes for focus mediums for magical squirrels-----
+    private static class SquirrelPlan extends FocusMediumPlan {
+        @Override
+        @NotNull
+        public RayTraceResult[] supplyTargets() {
+            FocusPackage spell = this.getPackage();
+            if (spell == null || this.getParent() == null || spell.getCaster() == null) return new RayTraceResult[0];
+            Trajectory[] trajectories = this.getParent().supplyTrajectories();
+            if (trajectories == null) return new RayTraceResult[0];
+
+            EntityLivingBase caster = spell.getCaster();
+            ItemStack weapon = caster.getHeldItemMainhand();
+            if (!(weapon.getItem() instanceof ICaster)) weapon = caster.getHeldItemOffhand();
+            if (!(weapon.getItem() instanceof ICaster)) return new RayTraceResult[0];
+
+            ArrayList<RayTraceResult> targets = new ArrayList<>();
+            for (Trajectory trajectory : trajectories) {
+                RayTraceResult hit = trace(this, trajectory, 16D);
+                if (hit != null && hit.entityHit instanceof EntityLivingBase target) {
+                    //Plan effects act on blocks; aim the saved area at the ground beneath the intercepted target
+                    Vec3d feet = new Vec3d(target.posX, target.getEntityBoundingBox().minY + 0.1D, target.posZ);
+                    hit = spell.world.rayTraceBlocks(feet, feet.add(0D, -4D, 0D));
+                    if (hit != null && trajectory.source.squareDistanceTo(hit.hitVec) > 16D * 16D) continue;
+                }
+                if (hit == null || hit.typeOfHit != RayTraceResult.Type.BLOCK) continue;
+
+                //reuse Plan's full/surface selection and the caster's saved area; its selector does not use the player argument
+                ArrayList<BlockPos> blocks = this.getArchitectBlocks(weapon, spell.world, hit.getBlockPos(), hit.sideHit, null);
+                blocks.sort(new BlockUtils.BlockPosComparator(hit.getBlockPos()));
+                for (BlockPos pos : blocks) {
+                    targets.add(new RayTraceResult(new Vec3d(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D), hit.sideHit, pos));
+                }
+            }
+            MagicalSquirrelSpellHazards.recordPlanArea(this.getRemainingPackage(), targets);
+            return targets.toArray(RayTraceResult[]::new);
+        }
     }
 
     private static class SquirrelTouch extends FocusMediumTouch {
@@ -230,5 +268,32 @@ public class MagicalSquirrelCastingUtils {
         public Trajectory[] supplyTrajectories() {
             return findTrajectories(this, 16D);
         }
+    }
+
+    @NotNull
+    private static RayTraceResult[] findTargets(@NotNull FocusNode node, double range) {
+        ArrayList<RayTraceResult> targets = new ArrayList<>();
+        if (node.getParent() != null && node.getParent().supplyTrajectories() != null) {
+            for (Trajectory trajectory : node.getParent().supplyTrajectories()) {
+                RayTraceResult hit = trace(node, trajectory, range);
+                if (hit != null) targets.add(hit);
+            }
+        }
+        return targets.toArray(RayTraceResult[]::new);
+    }
+
+    @NotNull
+    private static Trajectory[] findTrajectories(@NotNull FocusNode node, double range) {
+        ArrayList<Trajectory> trajectories = new ArrayList<>();
+        if (node.getParent() != null && node.getParent().supplyTrajectories() != null) {
+            for (Trajectory trajectory : node.getParent().supplyTrajectories()) {
+                Vec3d direction = trajectory.direction.normalize();
+                Vec3d end = trajectory.source.add(direction.scale(range));
+                RayTraceResult hit = trace(node, trajectory, range);
+                if (hit != null && hit.hitVec != null) end = hit.hitVec;
+                trajectories.add(new Trajectory(end, direction));
+            }
+        }
+        return trajectories.toArray(Trajectory[]::new);
     }
 }

@@ -469,6 +469,7 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void finishUsing() {}
     }),
+    //anything that allows casting tc spells
     CASTER(entity -> new MagicalSquirrelRangedAttackBehavior(entity, MagicalSquirrelCastingUtils::getAttackRange) {
         private int nextCastTick;
         @Nullable

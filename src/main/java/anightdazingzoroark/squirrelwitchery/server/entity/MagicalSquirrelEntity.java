@@ -12,6 +12,7 @@ import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackBehavior;
+import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelPathNavigate;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelRangedAttackBehavior;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelWeaponType;
 import anightdazingzoroark.squirrelwitchery.server.inventory.MagicalSquirrelInventory;
@@ -34,6 +35,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumFacing;
@@ -76,6 +78,12 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     public MagicalSquirrelEntity(World worldIn) {
         super(worldIn);
         this.setSize(0.5f, 0.5f);
+    }
+
+    @Override
+    @NotNull
+    protected PathNavigate createNavigator(@NotNull World world) {
+        return new MagicalSquirrelPathNavigate(this, world);
     }
 
     @Override
@@ -141,6 +149,13 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, player -> !this.isTamed(), 16f, 0.8D, 1.33D));
         this.tasks.addTask(4, new MagicalSquirrelAttackAI(this));
         this.tasks.addTask(5, new EntityAIFollowOwner(this, 1D, 10f, 2f) {
+            @Override
+            protected boolean isTeleportFriendlyBlock(int x, int z, int y, int xOffset, int zOffset) {
+                return super.isTeleportFriendlyBlock(x, z, y, xOffset, zOffset)
+                        && MagicalSquirrelEntity.this.getNavigator() instanceof MagicalSquirrelPathNavigate navigator
+                        && navigator.isSafeAt(x + xOffset + 0.5D, y, z + zOffset + 0.5D);
+            }
+
             @Override
             public boolean shouldExecute() {
                 if (MagicalSquirrelEntity.this.getBehavior() != Behavior.FOLLOW) return false;
