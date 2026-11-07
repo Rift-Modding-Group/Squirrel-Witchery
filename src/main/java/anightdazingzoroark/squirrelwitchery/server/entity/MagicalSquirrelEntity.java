@@ -540,7 +540,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     @Override
     public void attackEntityWithRangedAttack(@NonNull EntityLivingBase target, float distanceFactor) {
         if (this.world.isRemote || !this.isEntityAlive() || !this.getTransformed() || !target.isEntityAlive()) return;
-        if (this.getBehavior() == Behavior.SIT || target != this.getAttackTarget()) return;
+        if (this.getBehavior() == Behavior.SIT || this.attackBehavior == null || target != this.attackBehavior.getTarget()) return;
         double range = MagicalSquirrelAttackAI.SHOT_RANGE;
         if (this.getHeldWeaponType() == MagicalSquirrelWeaponType.CASTER) range = MagicalSquirrelCastingUtils.getAttackRange(this);
         if (this.getDistanceSq(target) > range * range

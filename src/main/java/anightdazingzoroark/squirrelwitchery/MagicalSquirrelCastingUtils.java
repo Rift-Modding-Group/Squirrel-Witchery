@@ -3,6 +3,7 @@ package anightdazingzoroark.squirrelwitchery;
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
+import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackBehavior;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -14,6 +15,7 @@ import thaumcraft.api.aura.AuraHelper;
 import thaumcraft.api.casters.*;
 import thaumcraft.common.items.casters.ItemCaster;
 import thaumcraft.common.items.casters.ItemFocus;
+import thaumcraft.common.items.casters.foci.FocusEffectHeal;
 import thaumcraft.common.items.casters.foci.FocusMediumBolt;
 import thaumcraft.common.items.casters.foci.FocusMediumTouch;
 import thaumcraft.common.lib.utils.EntityUtils;
@@ -42,6 +44,30 @@ public class MagicalSquirrelCastingUtils {
         if (!(focus.getItem() instanceof ItemFocus)) return false;
         FocusPackage focusPackage = ItemFocus.getPackage(focus);
         return focusPackage != null && !focusPackage.nodes.isEmpty();
+    }
+
+    //special method to resolve casting target
+    @Nullable
+    public static EntityLivingBase getCastingTarget(
+            @Nullable FocusPackage spell, @Nullable EntityLivingBase owner, @Nullable EntityLivingBase enemy, boolean healingOwner
+    ) {
+        if (spell == null) return null;
+        double healingThreshold = SquirrelWitcheryConfig.magicalSquirrelBehavior.ownerHealingHealthThreshold;
+        for (FocusEffect effect : spell.getFocusEffects()) {
+            //special case for the focus heal effect
+            if (effect instanceof FocusEffectHeal) {
+                //start at the configured threshold, then continue until the owner is fully healed
+                if (owner != null && owner.isEntityAlive() && owner.getHealth() < owner.getMaxHealth()
+                        && (healingOwner || owner.getHealth() <= owner.getMaxHealth() * (Math.clamp(healingThreshold, 0D, 100D) / 100D))) {
+                    return owner;
+                }
+                //enemy is undead
+                else if (enemy != null && enemy.isEntityUndead()) return enemy;
+            }
+            else return enemy;
+        }
+
+        return null;
     }
 
     public static double getAttackRange(@NotNull MagicalSquirrelEntity squirrel) {
@@ -86,6 +112,8 @@ public class MagicalSquirrelCastingUtils {
         if (!(focusStack.getItem() instanceof ItemFocus focus)) return 10;
         FocusPackage source = ItemFocus.getPackage(focusStack);
         if (source == null || source.nodes.isEmpty()) return 10;
+        MagicalSquirrelAttackBehavior behavior = squirrel.getAttackBehavior();
+        if (behavior == null || target != behavior.getTarget()) return 10;
 
         float visCost = focus.getVisCost(focusStack);
         if (AuraHelper.drainVis(squirrel.world, squirrel.getPosition(), visCost, true) + 0.00001f < visCost) return 10;
@@ -93,8 +121,11 @@ public class MagicalSquirrelCastingUtils {
         FocusPackage spell = preparePackage(source, squirrel);
         Vec3d start = squirrel.getPositionEyes(1f).add(0D, -0.1D, 0D);
         Vec3d direction = new Vec3d(target.posX, target.getEntityBoundingBox().minY + target.height / 2D, target.posZ).subtract(start).normalize();
+        EntityLivingBase rootTarget = squirrel;
+        if (target == squirrel.getOwner()) rootTarget = target;
         FocusMediumRoot root = new FocusMediumRoot(
-                new Trajectory[]{new Trajectory(start, direction)}, new RayTraceResult[]{new RayTraceResult(squirrel)}
+                new Trajectory[]{new Trajectory(start, direction)},
+                new RayTraceResult[]{new RayTraceResult(rootTarget)}
         );
         if (spell.nodes.getFirst() instanceof FocusMediumRoot) spell.nodes.set(0, root);
         else spell.nodes.addFirst(root);

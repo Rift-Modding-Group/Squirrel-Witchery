@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.Loader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import thaumcraft.common.items.casters.ItemCaster;
+import thaumcraft.common.items.casters.ItemFocus;
 
 import java.util.function.Function;
 
@@ -516,6 +517,8 @@ public enum MagicalSquirrelWeaponType {
     }),
     CASTER(entity -> new MagicalSquirrelAttackBehavior(entity) {
         private int nextCastTick;
+        @Nullable
+        private EntityLivingBase healingOwner;
 
         @Override
         public boolean canUse() {
@@ -524,6 +527,18 @@ public enum MagicalSquirrelWeaponType {
             return MagicalSquirrelCastingUtils.hasSpell(MagicalSquirrelCastingUtils.getOrInstallFocus(
                     this.squirrel.getHeldItemMainhand(), this.squirrel.getInventoryHandler()
             ));
+        }
+
+        @Override
+        @Nullable
+        public EntityLivingBase getTarget() {
+            ItemStack focus = MagicalSquirrelCastingUtils.getOrInstallFocus(this.squirrel.getHeldItemMainhand(), this.squirrel.getInventoryHandler());
+            EntityLivingBase owner = this.squirrel.getOwner();
+            EntityLivingBase target = MagicalSquirrelCastingUtils.getCastingTarget(
+                    ItemFocus.getPackage(focus), owner, this.squirrel.getAttackTarget(), owner != null && owner == this.healingOwner
+            );
+            this.healingOwner = target == owner ? owner : null;
+            return target;
         }
 
         @Override
@@ -553,7 +568,7 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (!this.canUse() || this.squirrel.ticksExisted < this.nextCastTick) return;
+            if (!this.canUse() || target != this.getTarget() || this.squirrel.ticksExisted < this.nextCastTick) return;
             this.nextCastTick = this.squirrel.ticksExisted + MagicalSquirrelCastingUtils.cast(this.squirrel, target);
         }
 

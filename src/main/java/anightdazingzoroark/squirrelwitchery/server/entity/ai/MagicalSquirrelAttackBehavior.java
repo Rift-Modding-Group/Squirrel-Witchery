@@ -3,6 +3,7 @@ package anightdazingzoroark.squirrelwitchery.server.entity.ai;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import net.minecraft.entity.EntityLivingBase;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Handler for attack behavior depending on a magical squirrel's weapon
@@ -16,6 +17,11 @@ public abstract class MagicalSquirrelAttackBehavior {
     }
 
     public abstract boolean canUse();
+
+    @Nullable
+    public EntityLivingBase getTarget() {
+        return this.squirrel.getAttackTarget();
+    }
 
     public abstract boolean canStart(@NotNull EntityLivingBase target);
 

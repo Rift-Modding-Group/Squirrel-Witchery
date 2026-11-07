@@ -383,5 +383,14 @@ public class SquirrelWitcheryConfig {
                 "Uses the installed focus, or installs the last focus from the Magical Squirrel's inventory if none is installed."
         })
         public boolean canUseCastingItems = true;
+
+        @Config.Name("Magical Squirrel Owner Healing Health Threshold")
+        @Config.Comment({
+                "The Health Focus effect is a special case, as it will only be used by Magical Squirrels",
+                "to attack undead mobs or heal its owner. This defines the threshold at which Magical Squirrels",
+                "with access to this spell will start using it on their owner, then continue until their health is full."
+        })
+        @Config.RangeDouble(min = 0D, max = 100D)
+        public double ownerHealingHealthThreshold = 25D;
     }
 }

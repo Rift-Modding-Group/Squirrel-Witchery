@@ -24,13 +24,12 @@ public class MagicalSquirrelAttackAI extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-        EntityLivingBase target = this.squirrel.getAttackTarget();
         MagicalSquirrelAttackBehavior behavior = this.squirrel.getAttackBehavior();
-        return this.squirrel.isEntityAlive() && this.squirrel.getTransformed()
-                && this.squirrel.getBehavior() != MagicalSquirrelEntity.Behavior.SIT
-                && target != null && target.isEntityAlive() && behavior != null
-                && behavior.canUse()
-                && behavior.canStart(target);
+        if (!this.squirrel.isEntityAlive() || !this.squirrel.getTransformed()
+                || this.squirrel.getBehavior() == MagicalSquirrelEntity.Behavior.SIT
+                || behavior == null || !behavior.canUse()) return false;
+        EntityLivingBase target = behavior.getTarget();
+        return target != null && target.isEntityAlive() && behavior.canStart(target);
     }
 
     @Override
@@ -59,9 +58,13 @@ public class MagicalSquirrelAttackAI extends EntityAIBase {
 
     @Override
     public void updateTask() {
-        EntityLivingBase target = this.squirrel.getAttackTarget();
         MagicalSquirrelAttackBehavior behavior = this.squirrel.getAttackBehavior();
-        if (target == null || behavior == null) return;
+        EntityLivingBase target = null;
+        if (behavior != null) target = behavior.getTarget();
+        if (target == null || !target.isEntityAlive()) {
+            this.resetTask();
+            return;
+        }
 
         if (this.activeBehavior != behavior || this.activeWeapon != this.squirrel.getHeldItemMainhand()) {
             this.resetTask();
