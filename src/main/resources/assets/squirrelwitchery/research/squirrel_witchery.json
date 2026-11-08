@@ -298,6 +298,27 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_MAGICAL_SQUIRREL_REVIVAL",
+      "name": "research.SQUIRREL_WITCHERY_MAGICAL_SQUIRREL_REVIVAL.title",
+      "icons": ["squirrelwitchery:magical_squirrel_essence"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ALCHEMY", "~magical_squirrel_died"],
+      "location": [7, 1],
+      "meta": ["ROUND", "HIDDEN"],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_MAGICAL_SQUIRREL_REVIVAL.stage.1",
+          "required_research": ["magical_squirrel_revived"],
+          "warp": 2
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_MAGICAL_SQUIRREL_REVIVAL.stage.2"
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_RISUNIC_AUROMANCY",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.title",
       "icons": ["squirrelwitchery:textures/ui/risunic_auromancy.png"],

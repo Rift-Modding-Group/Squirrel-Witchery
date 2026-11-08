@@ -4,19 +4,21 @@ import anightdazingzoroark.riftlib.core.IAnimatable;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataEntityNonLiving;
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.server.inventory.MagicalSquirrelInventory;
-import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.jetbrains.annotations.NotNull;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXGeneric;
 
 import java.util.List;
 
-public class MagicalSquirrelEssenceEntity extends Entity implements IAnimatable<AnimationDataEntityNonLiving> {
+public class MagicalSquirrelEssenceEntity extends Entity implements IAnimatable<AnimationDataEntityNonLiving>, IEntityAdditionalSpawnData {
     @NotNull
     private final RiftLibInventoryHandler essenceItemSlot = new RiftLibInventoryHandler(1);
     @NotNull
@@ -28,7 +30,6 @@ public class MagicalSquirrelEssenceEntity extends Entity implements IAnimatable<
         super(worldIn);
         this.setSize(1f, 0.5f);
         this.preventEntitySpawning = true;
-        this.essenceItemSlot.insertItem(new ItemStack(SquirrelWitcheryItems.MAGICAL_SQUIRREL_ESSENCE));
     }
 
     @Override
@@ -77,9 +78,25 @@ public class MagicalSquirrelEssenceEntity extends Entity implements IAnimatable<
         }
     }
 
+    //should help out w syncin essence from server to client
+    @Override
+    public void writeSpawnData(@NotNull ByteBuf buffer) {
+        ByteBufUtils.writeItemStack(buffer, this.getEssenceItem());
+    }
+
+    //same here
+    @Override
+    public void readSpawnData(@NotNull ByteBuf buffer) {
+        this.essenceItemSlot.setStackInSlot(0, ByteBufUtils.readItemStack(buffer));
+    }
+
     @NotNull
     public ItemStack getEssenceItem() {
         return this.essenceItemSlot.getStackInSlot(0);
+    }
+
+    public void addEssenceItem(@NotNull ItemStack itemStack) {
+        this.essenceItemSlot.insertItem(itemStack);
     }
 
     public void copyInventoryFromSquirrel(@NotNull MagicalSquirrelInventory magicalSquirrelInventory) {

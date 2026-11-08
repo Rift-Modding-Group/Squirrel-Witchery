@@ -130,7 +130,7 @@ public class SquirrelWitcheryItems {
                 new ItemArmor(ItemArmor.ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.FEET),
                 "squirrel_fur_shoes", true
         );
-        MAGICAL_SQUIRREL_ESSENCE = registerItem(new Item(), "magical_squirrel_essence", true);
+        MAGICAL_SQUIRREL_ESSENCE = registerItem(new Item().setMaxStackSize(1), "magical_squirrel_essence", false);
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

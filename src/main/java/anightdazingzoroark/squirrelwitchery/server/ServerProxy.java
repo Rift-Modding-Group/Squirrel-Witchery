@@ -1,6 +1,5 @@
 package anightdazingzoroark.squirrelwitchery.server;
 
-import anightdazingzoroark.riftlib.RiftLib;
 import anightdazingzoroark.riftlib.message.RiftLibMessage;
 import anightdazingzoroark.riftlib.message.RiftLibMessageSide;
 import anightdazingzoroark.riftlib.message.RiftLibMessageWrapper;
@@ -15,6 +14,7 @@ import anightdazingzoroark.squirrelwitchery.server.gui.SquirrelWitcheryGuiHandle
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageOpenMagicalSquirrelInventory;
 import anightdazingzoroark.squirrelwitchery.server.player.SquirrelPlayerProperties;
+import anightdazingzoroark.squirrelwitchery.server.recipe.SquirrelWitcheryRecipes;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;

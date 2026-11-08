@@ -19,6 +19,8 @@ public final class SquirrelWitcheryResearch {
     public static final String SQUIRREL_GUN = "!squirrel_with_a_gun";
     public static final String MAGICAL_SQUIRREL = "!magical_squirrel";
     public static final String MAGICAL_SQUIRREL_TAMED = "magical_squirrel_tamed";
+    public static final String MAGICAL_SQUIRREL_DIED = "magical_squirrel_died";
+    public static final String MAGICAL_SQUIRREL_REVIVED = "magical_squirrel_revived";
     public static final String CRYSTALLIZED_SQUIRREL_HEART = "SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART";
     public static final String SQUIRREL_RISUNIUM_INTERACTION = "squirrel_risunium";
     public static final String SQUIRREL_HEART_USED = "squirrel_heart_used";

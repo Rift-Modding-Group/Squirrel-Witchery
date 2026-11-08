@@ -1,5 +1,6 @@
-package anightdazingzoroark.squirrelwitchery.server;
+package anightdazingzoroark.squirrelwitchery.server.recipe;
 
+import anightdazingzoroark.squirrelwitchery.server.SquirrelWitcheryResearch;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.items.WitchStaffAttachmentItem;
 import anightdazingzoroark.squirrelwitchery.server.items.WitchStaffItem;

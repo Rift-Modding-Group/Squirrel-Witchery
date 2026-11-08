@@ -490,12 +490,35 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     @Override
     public void onDeath(@NonNull DamageSource cause) {
         super.onDeath(cause);
-        if (!this.world.isRemote && this.dead) {
-            //essence
+
+        if (!this.world.isRemote) {
+            //---create essence---
             MagicalSquirrelEssenceEntity essenceEntity = new MagicalSquirrelEssenceEntity(world);
             essenceEntity.setPosition(this.posX, this.posY + 0.5D, this.posZ);
             essenceEntity.copyInventoryFromSquirrel(this.inventoryHandler);
+
+            //define essence item
+            ItemStack essenceItem = new ItemStack(SquirrelWitcheryItems.MAGICAL_SQUIRREL_ESSENCE);
+            NBTTagCompound squirrelData = new NBTTagCompound();
+            if (this.getOwnerId() != null) squirrelData.setUniqueId("Owner", this.getOwnerId());
+            squirrelData.setBoolean("Transformed", this.getTransformed());
+            squirrelData.setByte("Behavior", (byte) this.getBehavior().ordinal());
+            squirrelData.setString("CustomName", this.getCustomNameTag());
+            squirrelData.setBoolean("CustomNameVisible", this.getAlwaysRenderNameTag());
+            essenceItem.setTagInfo("MagicalSquirrel", squirrelData);
+            essenceEntity.addEssenceItem(essenceItem);
+
+            //spawn
             this.world.spawnEntity(essenceEntity);
+
+            //---unlock revival research---
+            EntityLivingBase owner = this.getOwner();
+            if (this.isTamed() && owner instanceof EntityPlayerMP playerOwner) {
+                IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(playerOwner);
+                if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.MAGICAL_SQUIRREL_DIED)) {
+                    knowledge.sync(playerOwner);
+                }
+            }
         }
     }
 
@@ -595,7 +618,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         this.setBehavior(Behavior.values()[compound.getByte("Behavior")]);
         if (compound.hasKey("Inventory", 10)) this.inventoryHandler.deserializeNBT(compound.getCompoundTag("Inventory"));
 
-        this.setNoAI(this.isTamed() && !this.getTransformed());
+        this.setNoAI(this.isTamed() && !this.getTransformed()); //only here so that when restarting the world, still transforming magical sqrls still dont have ai
         this.updateEquipment();
     }
 

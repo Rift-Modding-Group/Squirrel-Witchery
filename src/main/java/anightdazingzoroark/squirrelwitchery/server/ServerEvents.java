@@ -122,8 +122,7 @@ public class ServerEvents {
         //add risunium discovery when scanning the squirrels
         if ((event.getResearchKey().equals(SquirrelWitcheryResearch.SQUIRREL)
                 || event.getResearchKey().equals(SquirrelWitcheryResearch.SQUIRREL_GUN)
-                || event.getResearchKey().equals(SquirrelWitcheryResearch.MAGICAL_SQUIRREL)
-        )
+                || event.getResearchKey().equals(SquirrelWitcheryResearch.MAGICAL_SQUIRREL))
                 && knowledge.addResearch(SquirrelWitcheryResearch.RISUNIUM_DISCOVERED)
         ) {
             knowledge.sync(player);
