@@ -4,6 +4,7 @@ import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -131,7 +132,9 @@ public final class SquirrelWitcheryAspects {
     public void onAspectRegistry(AspectRegistryEvent event) {
         for (AspectAssignment<?> itemAspectAssignment : ASPECT_ASSIGNMENTS) {
             ItemStack itemStack;
-            if (itemAspectAssignment.object instanceof Item item) itemStack = new ItemStack(item);
+            if (itemAspectAssignment.object instanceof Item item) {
+                itemStack = new ItemStack(item, 1, item instanceof ItemArmor ? -1 : 0);
+            }
             else if (itemAspectAssignment.object instanceof Block block) itemStack = new ItemStack(block);
             else throw new RuntimeException();
 

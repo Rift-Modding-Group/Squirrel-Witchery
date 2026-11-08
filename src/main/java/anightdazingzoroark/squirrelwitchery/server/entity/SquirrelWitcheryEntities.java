@@ -63,8 +63,18 @@ public class SquirrelWitcheryEntities {
                 .id(magicalSquirrelRegistryName, 4)
                 .name(magicalSquirrelRegistryName.getPath())
                 .tracker(64, 3, true)
-                //.spawn(EnumCreatureType.MONSTER, 2, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST))
+                //.spawn(EnumCreatureType.MONSTER, 2, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST)) todo: make it spawn in tc magical forest
                 .egg(0xF0B2B9, 0xF19AA4)
+                .build()
+        );
+
+        ResourceLocation magicalSquirrelEssenceRegistryName = new ResourceLocation(SquirrelWitchery.MODID, "magical_squirrel_essence");
+        ForgeRegistries.ENTITIES.register(EntityEntryBuilder.<MagicalSquirrelEssenceEntity>create()
+                .entity(MagicalSquirrelEssenceEntity.class)
+                .factory(MagicalSquirrelEssenceEntity::new)
+                .id(magicalSquirrelEssenceRegistryName, 5)
+                .name(magicalSquirrelEssenceRegistryName.getPath())
+                .tracker(64, 3, true)
                 .build()
         );
     }

@@ -10,7 +10,6 @@ import anightdazingzoroark.squirrelwitchery.client.renderer.armor.WitchCostumeRe
 import anightdazingzoroark.squirrelwitchery.client.renderer.player.SquirrelAttachmentsLayer;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
-import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelPlushBlock;
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.entity.*;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
@@ -35,6 +34,7 @@ public class ClientProxy extends ServerProxy {
         RenderingRegistry.registerEntityRenderingHandler(ExplosiveNutProjectileEntity.class, ExplosiveNutEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(SquirrelGunEntity.class, SquirrelGunEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(MagicalSquirrelEntity.class, MagicalSquirrelEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(MagicalSquirrelEssenceEntity.class, MagicalSquirrelEssenceEntityRenderer::new);
 
         //---item rendering---
         SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());

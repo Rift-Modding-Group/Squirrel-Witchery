@@ -62,7 +62,7 @@ public class MagicalSquirrelInventory extends RiftLibInventoryHandler implements
         this.markDirty();
     }
 
-    // RiftLibrary's bulk operations can mutate stacks without onContentsChanged.
+    //RiftLibrary's bulk operations can mutate stacks without onContentsChanged.
     @Override
     @NotNull
     public ItemStack addItem(@NotNull ItemStack stack) {

@@ -473,11 +473,11 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     public void onDeath(@NonNull DamageSource cause) {
         super.onDeath(cause);
         if (!this.world.isRemote && this.dead) {
-            this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-            for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-                if (slot.getSlotType() == EntityEquipmentSlot.Type.ARMOR) this.setItemStackToSlot(slot, ItemStack.EMPTY);
-            }
-            this.inventoryHandler.dropAllItems(this.world, this.getPosition());
+            //essence
+            MagicalSquirrelEssenceEntity essenceEntity = new MagicalSquirrelEssenceEntity(world);
+            essenceEntity.setPosition(this.posX, this.posY + 0.5D, this.posZ);
+            essenceEntity.copyInventoryFromSquirrel(this.inventoryHandler);
+            this.world.spawnEntity(essenceEntity);
         }
     }
 
