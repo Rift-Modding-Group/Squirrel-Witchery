@@ -54,6 +54,7 @@ public class ServerProxy {
     }
 
     public void init(FMLInitializationEvent e) {
+        SquirrelWitcheryEntities.registerEntitySpawns();
         SquirrelWitcheryResearch.registerCategory();
         SquirrelWitcheryRecipes.registerRecipes();
     }

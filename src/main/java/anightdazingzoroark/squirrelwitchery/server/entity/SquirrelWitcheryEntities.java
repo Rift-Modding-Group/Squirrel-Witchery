@@ -5,9 +5,12 @@ import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.entity.model.SquirrelGunModel;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import thaumcraft.common.world.biomes.BiomeHandler;
 
 public class SquirrelWitcheryEntities {
     public static void registerEntities() {
@@ -18,7 +21,6 @@ public class SquirrelWitcheryEntities {
                 .id(squirrelRegistryName, 0)
                 .name(squirrelRegistryName.getPath())
                 .tracker(64, 3, true)
-                .spawn(EnumCreatureType.CREATURE, 10, 2, 4, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST))
                 .egg(0x6A4932, 0xC5AD91)
                 .build()
         );
@@ -51,7 +53,6 @@ public class SquirrelWitcheryEntities {
                 .id(squirrelGunRegistryName, 3)
                 .name(squirrelGunRegistryName.getPath())
                 .tracker(64, 3, true)
-                .spawn(EnumCreatureType.MONSTER, 2, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST))
                 .egg(0x6A4932, 0xC5AD91)
                 .build()
         );
@@ -63,7 +64,6 @@ public class SquirrelWitcheryEntities {
                 .id(magicalSquirrelRegistryName, 4)
                 .name(magicalSquirrelRegistryName.getPath())
                 .tracker(64, 3, true)
-                //.spawn(EnumCreatureType.MONSTER, 2, 1, 1, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST)) todo: make it spawn in tc magical forest
                 .egg(0xF0B2B9, 0xF19AA4)
                 .build()
         );
@@ -77,5 +77,11 @@ public class SquirrelWitcheryEntities {
                 .tracker(64, 3, true)
                 .build()
         );
+    }
+
+    public static void registerEntitySpawns() {
+        EntityRegistry.addSpawn(SquirrelEntity.class, 10, 2, 4, EnumCreatureType.CREATURE, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST).toArray(new Biome[0]));
+        EntityRegistry.addSpawn(SquirrelGunEntity.class, 2, 1, 1, EnumCreatureType.MONSTER, BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST).toArray(new Biome[0]));
+        EntityRegistry.addSpawn(MagicalSquirrelEntity.class, 2, 1, 1, EnumCreatureType.CREATURE, BiomeHandler.MAGICAL_FOREST);
     }
 }
