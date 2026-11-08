@@ -11,6 +11,7 @@ import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
 import anightdazingzoroark.squirrelwitchery.server.ServerProxy;
+import anightdazingzoroark.squirrelwitchery.server.SquirrelWitcheryResearch;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackBehavior;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelPathNavigate;
@@ -27,6 +28,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -50,6 +52,8 @@ import net.minecraftforge.fml.common.Loader;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import thaumcraft.api.capabilities.IPlayerKnowledge;
+import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.items.casters.ItemCaster;
 
@@ -345,6 +349,12 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 if (this.aiTempt == null || !this.aiTempt.isRunning() || ForgeEventFactory.onAnimalTame(this, player)) return true;
 
                 this.setTamedBy(player);
+                if (player instanceof EntityPlayerMP serverPlayer) {
+                    IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(serverPlayer);
+                    if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.MAGICAL_SQUIRREL_TAMED)) {
+                        knowledge.sync(serverPlayer);
+                    }
+                }
                 this.setNoAI(true);
                 this.getNavigator().clearPath();
                 if (!player.capabilities.isCreativeMode) heldItem.shrink(1);
@@ -396,7 +406,13 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.noFriendlyFire && source != null
+        if (source == null) return false;
+
+        //block thaumcraft taint
+        if (source.damageType.equals("taint")) return false;
+
+        //block friendly fire
+        if (SquirrelWitcheryConfig.magicalSquirrelBehavior.noFriendlyFire
                 && (this.isRelatedToEntity(source.getTrueSource()) || this.isRelatedToEntity(source.getImmediateSource()))
         ) {
             return false;

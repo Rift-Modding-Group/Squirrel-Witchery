@@ -70,6 +70,22 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_TAMED_MAGICAL_SQUIRREL",
+      "name": "research.SQUIRREL_WITCHERY_TAMED_MAGICAL_SQUIRREL.title",
+      "icons": ["squirrelwitchery:squirrel_fur_hat"],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["!magical_squirrel", "~magical_squirrel_tamed"],
+      "location": [-4, 4],
+      "meta": [ "ROUND", "HIDDEN" ],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_TAMED_MAGICAL_SQUIRREL.stage.1"
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_NUTS",
       "name": "research.SQUIRREL_WITCHERY_NUTS.title",
       "icons": ["squirrelwitchery:nut"],
