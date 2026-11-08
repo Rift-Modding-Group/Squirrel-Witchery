@@ -5,8 +5,8 @@
       "name": "research.SQUIRREL_WITCHERY_SQUIRREL.title",
       "icons": ["squirrelwitchery:squirrel_fur"],
       "category": "SQUIRREL_WITCHERY",
-      "location": [-2, 0],
-      "meta": [ "HEX" ],
+      "location": [-8, 2],
+      "meta": [ "HEX", "HIDDEN" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
@@ -21,7 +21,7 @@
       "icons": ["squirrelwitchery:crystallized_squirrel_heart"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["!squirrel", "~SQUIRREL_WITCHERY_RISUNIC_STUDIES"],
-      "location": [-4, 0],
+      "location": [-8, 4],
       "meta": ["ROUND", "HIDDEN"],
       "reward_item": [],
       "reward_knowledge": [],
@@ -44,13 +44,28 @@
       "name": "research.SQUIRREL_WITCHERY_SQUIRREL_WITH_GUN.title",
       "icons": ["squirrelwitchery:squirrel_fur"],
       "category": "SQUIRREL_WITCHERY",
-      "location": [-6, 0],
-      "meta": [ "HEX" ],
+      "location": [-6, 2],
+      "meta": [ "HEX", "HIDDEN" ],
       "reward_item": [],
       "reward_knowledge": [],
       "stages": [
         {
           "text": "research.SQUIRREL_WITCHERY_SQUIRREL_WITH_GUN.stage.1"
+        }
+      ]
+    },
+    {
+      "key": "!magical_squirrel",
+      "name": "research.SQUIRREL_WITCHERY_MAGICAL_SQUIRREL.title",
+      "icons": ["squirrelwitchery:squirrel_fur"],
+      "category": "SQUIRREL_WITCHERY",
+      "location": [-4, 2],
+      "meta": [ "HEX", "HIDDEN" ],
+      "reward_item": [],
+      "reward_knowledge": [],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_MAGICAL_SQUIRREL.stage.1"
         }
       ]
     },

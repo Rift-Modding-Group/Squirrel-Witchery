@@ -5,7 +5,8 @@
   "target": "@env(MOD)",
   "client": [
     "GuiArcaneWorkbenchMixin",
-    "GuiResearchPageMixin"
+    "GuiResearchPageMixin",
+    "ThaumicForeverResearchPageMixin"
   ],
   "mixins": [
     "FocusEngineMixin",

@@ -5,7 +5,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.api.research.ResearchStage;
 import thaumcraft.client.gui.GuiResearchPage;
@@ -16,18 +18,16 @@ public abstract class GuiResearchPageMixin {
     private ResearchEntry research;
 
     //get le custom textures
-    @Redirect(
+    @Inject(
             method = "drawRequirements",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lthaumcraft/api/research/ResearchStage;getResearchIcon()[Ljava/lang/String;"
-            ),
-            require = 2
+            at = @At("HEAD")
     )
-    private String[] provideCustomMilestoneIcons(ResearchStage stage) {
+    private void provideCustomMilestoneIcons(int x, int mouseX, int mouseY, ResearchStage stage, CallbackInfo callbackInfo) {
         String[] researchIcons = stage.getResearchIcon();
         String[] requiredResearch = stage.getResearch();
-        for (int index = 0; index < requiredResearch.length; index++) {
+        if (researchIcons == null || requiredResearch == null) return;
+
+        for (int index = 0; index < Math.min(requiredResearch.length, researchIcons.length); index++) {
             if (requiredResearch[index].equals(SquirrelWitcheryResearch.SQUIRREL_RISUNIUM_INTERACTION)) {
                 researchIcons[index] = "squirrelwitchery:textures/items/squirrel_fur.png";
             }
@@ -35,7 +35,6 @@ public abstract class GuiResearchPageMixin {
                 researchIcons[index] = "squirrelwitchery:textures/items/crystallized_squirrel_heart.png";
             }
         }
-        return researchIcons;
     }
 
     @Redirect(

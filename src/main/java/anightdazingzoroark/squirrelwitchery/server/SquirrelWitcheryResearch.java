@@ -16,6 +16,8 @@ import java.util.List;
 public final class SquirrelWitcheryResearch {
     public static final String CATEGORY = "SQUIRREL_WITCHERY";
     public static final String SQUIRREL = "!squirrel";
+    public static final String SQUIRREL_GUN = "!squirrel_with_a_gun";
+    public static final String MAGICAL_SQUIRREL = "!magical_squirrel";
     public static final String CRYSTALLIZED_SQUIRREL_HEART = "SQUIRREL_WITCHERY_CRYSTALLIZED_SQUIRREL_HEART";
     public static final String SQUIRREL_RISUNIUM_INTERACTION = "squirrel_risunium";
     public static final String SQUIRREL_HEART_USED = "squirrel_heart_used";
