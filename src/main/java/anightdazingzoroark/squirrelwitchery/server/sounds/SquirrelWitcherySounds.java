@@ -14,13 +14,18 @@ public class SquirrelWitcherySounds {
     @NotNull
     private static final List<SoundEvent> SOUND_EVENTS = new ArrayList<>();
 
-    public static SoundEvent SQUIRREL_AMBIENT = defineSoundEvent("squirrel_ambient");
-    public static SoundEvent SQUIRREL_HURT = defineSoundEvent("squirrel_hurt");
-    public static SoundEvent SQUIRREL_DEATH = defineSoundEvent("squirrel_death");
+    public static SoundEvent SQUIRREL_AMBIENT = defineSoundEvent("sounds.squirrelwitchery.squirrel_ambient");
+    public static SoundEvent SQUIRREL_HURT = defineSoundEvent("sounds.squirrelwitchery.squirrel_hurt");
+    public static SoundEvent SQUIRREL_DEATH = defineSoundEvent("sounds.squirrelwitchery.squirrel_death");
 
-    public static SoundEvent NUTSABER_ACTIVATE = defineSoundEvent("nutsaber_activate");
-    public static SoundEvent NUTSABER_SWING = defineSoundEvent("nutsaber_swing");
-    public static SoundEvent NUTSABER_DEACTIVATE = defineSoundEvent("nutsaber_deactivate");
+    public static SoundEvent MAGICAL_SQUIRREL_GREET = defineSoundEvent("sounds.squirrelwitchery.magical_squirrel_greet");
+    public static SoundEvent MAGICAL_SQUIRREL_AMBIENT = defineSoundEvent("sounds.squirrelwitchery.magical_squirrel_ambient");
+    public static SoundEvent MAGICAL_SQUIRREL_HURT = defineSoundEvent("sounds.squirrelwitchery.magical_squirrel_hurt");
+    public static SoundEvent MAGICAL_SQUIRREL_DEATH = defineSoundEvent("sounds.squirrelwitchery.magical_squirrel_death");
+
+    public static SoundEvent NUTSABER_ACTIVATE = defineSoundEvent("sounds.squirrelwitchery.nutsaber_activate");
+    public static SoundEvent NUTSABER_SWING = defineSoundEvent("sounds.squirrelwitchery.nutsaber_swing");
+    public static SoundEvent NUTSABER_DEACTIVATE = defineSoundEvent("sounds.squirrelwitchery.nutsaber_deactivate");
 
     private static SoundEvent defineSoundEvent(@NotNull String name) {
         SoundEvent toReturn = new SoundEvent(new ResourceLocation(SquirrelWitchery.MODID, name)).setRegistryName(SquirrelWitchery.MODID, name);

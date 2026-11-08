@@ -1,5 +1,5 @@
 {
-  "squirrel_ambient": {
+  "sounds.squirrelwitchery.squirrel_ambient": {
     "subtitle": "subtitles.squirrelwitchery.squirrel_ambient",
     "sounds": [
       "squirrelwitchery:entity/squirrel/squirrel_ambient_0",
@@ -8,25 +8,25 @@
       "squirrelwitchery:entity/squirrel/squirrel_ambient_3"
     ]
   },
-  "squirrel_hurt": {
+  "sounds.squirrelwitchery.squirrel_hurt": {
     "subtitle": "subtitles.squirrelwitchery.squirrel_hurt",
     "sounds": [
       "squirrelwitchery:entity/squirrel/squirrel_hurt"
     ]
   },
-  "squirrel_death": {
+  "sounds.squirrelwitchery.squirrel_death": {
     "subtitle": "subtitles.squirrelwitchery.squirrel_death",
     "sounds": [
       "squirrelwitchery:entity/squirrel/squirrel_death"
     ]
   },
-  "nutsaber_activate": {
+  "sounds.squirrelwitchery.nutsaber_activate": {
     "subtitle": "subtitles.squirrelwitchery.nutsaber_activate",
     "sounds": [
       "squirrelwitchery:item/nutsaber/nutsaber_activate"
     ]
   },
-  "nutsaber_swing": {
+  "sounds.squirrelwitchery.nutsaber_swing": {
     "subtitle": "subtitles.squirrelwitchery.nutsaber_swing",
     "sounds": [
       "squirrelwitchery:item/nutsaber/nutsaber_swing_0",
@@ -36,10 +36,45 @@
       "squirrelwitchery:item/nutsaber/nutsaber_swing_4"
     ]
   },
-  "nutsaber_deactivate": {
+  "sounds.squirrelwitchery.nutsaber_deactivate": {
     "subtitle": "subtitles.squirrelwitchery.nutsaber_deactivate",
     "sounds": [
       "squirrelwitchery:item/nutsaber/nutsaber_deactivate"
+    ]
+  },
+  "sounds.squirrelwitchery.magical_squirrel_greet": {
+    "subtitle": "subtitles.squirrelwitchery.magical_squirrel_greet",
+    "sounds": [
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_greet"
+    ]
+  },
+  "sounds.squirrelwitchery.magical_squirrel_ambient": {
+    "subtitle": "subtitles.squirrelwitchery.magical_squirrel_ambient",
+    "sounds": [
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_brrr_1",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_brrr_2",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_brrr_3",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_chihuy_1",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_chihuy_2",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_chihuy_3",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_aweuweu_1",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_aweuweu_2",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_aweuweu_3",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_mouthplay",
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_izzyiiinnn"
+    ]
+  },
+  "sounds.squirrelwitchery.magical_squirrel_hurt": {
+    "subtitle": "subtitles.squirrelwitchery.magical_squirrel_hurt",
+    "sounds": [
+      "squirrelwitchery:entity/magicalsquirrel/magical_squirrel_hurt"
+    ]
+  },
+  "sounds.squirrelwitchery.magical_squirrel_death": {
+    "subtitle": "subtitles.squirrelwitchery.magical_squirrel_death",
+    "sounds": [
+      "thaumcraft:poof1",
+      "thaumcraft:poof2"
     ]
   }
 }

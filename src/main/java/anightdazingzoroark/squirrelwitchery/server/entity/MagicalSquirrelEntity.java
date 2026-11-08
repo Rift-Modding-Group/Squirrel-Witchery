@@ -22,6 +22,7 @@ import anightdazingzoroark.squirrelwitchery.server.items.NutsaberItem;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.items.WitchShotgunItem;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageOpenMagicalSquirrelInventory;
+import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.*;
@@ -39,10 +40,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -218,6 +216,10 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                     this.world.playSound(
                             null, this.posX, this.posY, this.posZ,
                             SoundsTC.wand, SoundCategory.NEUTRAL, 1f, 1.15f
+                    );
+                    this.world.playSound(
+                            null, this.posX, this.posY, this.posZ,
+                            SquirrelWitcherySounds.MAGICAL_SQUIRREL_GREET, SoundCategory.NEUTRAL, 1f, 1.15f
                     );
                 }
             }
@@ -699,6 +701,28 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                     && (Loader.isModLoaded("spartanweaponry") && SpartanWeaponryUtils.isChargingCrossbow(this)
                     || Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isChargingCrossbow(this));
         });
+    }
+
+    //---sound stuff---
+    @Override
+    @Nullable
+    protected SoundEvent getAmbientSound() {
+        if (!this.getTransformed()) return SquirrelWitcherySounds.SQUIRREL_AMBIENT;
+        return SquirrelWitcherySounds.MAGICAL_SQUIRREL_AMBIENT;
+    }
+
+    @Override
+    @Nullable
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        if (!this.getTransformed()) return SquirrelWitcherySounds.SQUIRREL_HURT;
+        return SquirrelWitcherySounds.MAGICAL_SQUIRREL_HURT;
+    }
+
+    @Override
+    @Nullable
+    protected SoundEvent getDeathSound() {
+        if (!this.getTransformed()) return SquirrelWitcherySounds.SQUIRREL_DEATH;
+        return SquirrelWitcherySounds.MAGICAL_SQUIRREL_DEATH;
     }
 
     //-----stuff i dont care about-----

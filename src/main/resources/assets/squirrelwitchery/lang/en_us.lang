@@ -1,7 +1,13 @@
 entity.squirrel.name=Squirrel
 entity.squirrel_with_gun.name=Squirrel with a Gun
 entity.magical_squirrel.name=Magical Squirrel
+
 subtitles.squirrelwitchery.squirrel_ambient=Squirrel chirps
+subtitles.squirrelwitchery.squirrel_hurt=Squirrel hurts
+subtitles.squirrelwitchery.squirrel_death=Squirrel dies
+subtitles.squirrelwitchery.magical_squirrel_greet=Magical Squirrel greets
+subtitles.squirrelwitchery.magical_squirrel_ambient=Magical Squirrel noises
+subtitles.squirrelwitchery.magical_squirrel_death=Magical Squirrel dissolves into essence
 
 effect.gws.name=Get Well Soon!
 
@@ -35,6 +41,10 @@ item.squirrel_fur_jacket.name=Squirrel Fur Jacket
 item.squirrel_fur_skirt.name=Squirrel Fur Skirt
 item.squirrel_fur_shoes.name=Squirrel Fur Shoes
 item.magical_squirrel_essence.name=Magical Squirrel Essence
+
+subtitles.squirrelwitchery.nutsaber_activate=Nutsaber activates
+subtitles.squirrelwitchery.nutsaber_swing=Nutsaber swings
+subtitles.squirrelwitchery.nutsaber_deactivate=Nutsaber deactivates
 
 tile.squirrel_plush.name=Squirrel Plush
 tile.witch_squirrel_plush.name=Witch Squirrel Plush
