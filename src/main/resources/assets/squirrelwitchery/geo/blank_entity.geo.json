@@ -3,12 +3,12 @@
 	"riftlibrary:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.magical_squirrel_essence",
-				"texture_width": 128,
-				"texture_height": 128,
-				"visible_bounds_width": 8,
-				"visible_bounds_height": 18,
-				"visible_bounds_offset": [0, 8, 0]
+				"identifier": "geometry.blank_entity",
+				"texture_width": 16,
+				"texture_height": 16,
+				"visible_bounds_width": 4,
+				"visible_bounds_height": 5,
+				"visible_bounds_offset": [0, -2.5, 0]
 			},
 			"bones": [
 				{

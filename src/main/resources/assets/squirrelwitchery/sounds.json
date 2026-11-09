@@ -76,5 +76,17 @@
       "thaumcraft:poof1",
       "thaumcraft:poof2"
     ]
+  },
+  "sounds.squirrelwitchery.nut_rain": {
+    "subtitle": "subtitles.squirrelwitchery.nut_rain",
+    "sounds": [
+      "squirrelwitchery:focus/nut_rain_hit"
+    ]
+  },
+  "sounds.squirrelwitchery.nut_rain_end": {
+    "subtitle": "subtitles.squirrelwitchery.nut_rain_end",
+    "sounds": [
+      "squirrelwitchery:focus/nut_rain_end"
+    ]
   }
 }

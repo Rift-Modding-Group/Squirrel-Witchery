@@ -21,13 +21,13 @@ public class MagicalSquirrelEssenceEntityRenderer extends GeoEntityNonLivingRend
             @Override
             @NotNull
             public String getModelIdentifier(MagicalSquirrelEssenceEntity magicalSquirrelEssenceEntity) {
-                return "geometry.magical_squirrel_essence";
+                return "geometry.blank_entity";
             }
 
             @Override
             @NotNull
             public String getTextureLocation(MagicalSquirrelEssenceEntity magicalSquirrelEssenceEntity) {
-                return "entity/magical_squirrel_essence.png";
+                return "entity/blank_entity.png";
             }
         });
     }

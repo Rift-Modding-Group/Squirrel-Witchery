@@ -1,5 +1,7 @@
 package anightdazingzoroark.squirrelwitchery.server.entity.ai;
 
+import anightdazingzoroark.squirrelwitchery.server.entity.NutRainEntity;
+import anightdazingzoroark.squirrelwitchery.server.focus.FocusEffectNutRain;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -52,6 +54,7 @@ public class MagicalSquirrelSpellHazards {
             if (effect instanceof FocusEffectCurse) {
                 radius = Math.clamp(1.5D * effect.getSettingValue("power") * spell.getPower(), radius, 8D);
             }
+            if (effect instanceof FocusEffectNutRain) radius = Math.max(radius, NutRainEntity.RADIUS);
         }
         for (int index = 1; index < targets.size(); index++) {
             AxisAlignedBB block = new AxisAlignedBB(targets.get(index).getBlockPos()).expand(0D, 1D, 0D);
@@ -72,6 +75,13 @@ public class MagicalSquirrelSpellHazards {
                 if (area.intersects(bounds)) areas.add(area);
             }
             if (plans.isEmpty()) PLAN_AREAS.remove(world);
+        }
+        for (NutRainEntity rain : world.getEntitiesWithinAABB(
+                NutRainEntity.class, bounds.grow(NutRainEntity.RADIUS, 0D, NutRainEntity.RADIUS)
+                        .expand(0D, NutRainEntity.MAX_HEIGHT, 0D), candidate -> !candidate.isDead
+        )) {
+            AxisAlignedBB rainArea = rain.getRainArea();
+            if (rainArea.intersects(bounds)) areas.add(rainArea);
         }
         List<Entity> spellHazardEntities = world.getEntitiesWithinAABB(
                 Entity.class, bounds,

@@ -39,6 +39,7 @@ public final class SquirrelWitcheryResearch {
     public static final String WITCH_PENDANT = "SQUIRREL_WITCHERY_WITCH_PENDANT";
     public static final String SQUIRREL_PLUSH = "SQUIRREL_WITCHERY_SQUIRREL_PLUSH";
     public static final String SQUIRREL_TAIL_HAMMER = "SQUIRREL_WITCHERY_SQUIRREL_TAIL_HAMMER";
+    public static final String NUT_RAIN = "SQUIRREL_WITCHERY_NUT_RAIN";
     public static final List<String> RISUNIC_DEVICE_TABS = List.of(WITCH_BROOM, WITCH_STAFF, WITCH_SHOTGUN, NUTSABER);
 
     public static void registerCategory() {

@@ -35,6 +35,7 @@ public class ClientProxy extends ServerProxy {
         RenderingRegistry.registerEntityRenderingHandler(SquirrelGunEntity.class, SquirrelGunEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(MagicalSquirrelEntity.class, MagicalSquirrelEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(MagicalSquirrelEssenceEntity.class, MagicalSquirrelEssenceEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(NutRainEntity.class, NutRainEntityRenderer::new);
 
         //---item rendering---
         SquirrelWitcheryItems.WITCH_BROOM.setTileEntityItemStackRenderer(new WitchBroomItemRenderer());

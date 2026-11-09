@@ -366,6 +366,24 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_NUT_RAIN",
+      "name": "research.SQUIRREL_WITCHERY_NUT_RAIN.title",
+      "icons": [ "focus:squirrelwitchery.NUT_RAIN" ],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_AUROMANCY", "~FOCUSELEMENTAL"],
+      "location": [5, 3],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_NUT_RAIN.stage.1",
+          "required_knowledge": ["THEORY;AUROMANCY;1", "THEORY;SQUIRREL_WITCHERY;1"],
+          "required_item": [ "squirrelwitchery:nut;4" ]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_NUT_RAIN.stage.2"
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_RISUNIC_ARTIFICE",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.title",
       "icons": ["squirrelwitchery:textures/ui/risunic_artifice.png"],
@@ -390,7 +408,7 @@
       "name": "research.SQUIRREL_WITCHERY_WITCH_STAFF_ATTACHMENTS.title",
       "icons": ["squirrelwitchery:risunic_focal_power_booster"],
       "category": "SQUIRREL_WITCHERY",
-      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE", "SQUIRREL_WITCHERY_WITCH_STAFF"],
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_ARTIFICE", "~SQUIRREL_WITCHERY_WITCH_STAFF"],
       "location": [3, 5],
       "meta": [ "ROUND" ],
       "reward_item": [],

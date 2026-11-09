@@ -9,6 +9,7 @@ import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspec
 import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks;
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelWitcheryEntities;
 import anightdazingzoroark.squirrelwitchery.server.effect.SquirrelWitcheryEffects;
+import anightdazingzoroark.squirrelwitchery.server.focus.FocusEffectNutRain;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.gui.SquirrelWitcheryGuiHandler;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
@@ -17,11 +18,13 @@ import anightdazingzoroark.squirrelwitchery.server.player.SquirrelPlayerProperti
 import anightdazingzoroark.squirrelwitchery.server.recipe.SquirrelWitcheryRecipes;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import thaumcraft.api.casters.FocusEngine;
 
 public class ServerProxy {
     public static RiftLibMessageWrapper<RiftLibMessage, RiftLibMessage> MESSAGE_WRAPPER = new RiftLibMessageWrapper<>(SquirrelWitchery.MODID);
@@ -56,6 +59,11 @@ public class ServerProxy {
     public void init(FMLInitializationEvent e) {
         SquirrelWitcheryEntities.registerEntitySpawns();
         SquirrelWitcheryResearch.registerCategory();
+        FocusEngine.registerElement(
+                FocusEffectNutRain.class,
+                new ResourceLocation(SquirrelWitchery.MODID, "textures/focus/nut_rain_icon.png"),
+                SquirrelWitcheryAspects.RISUNIUM.getColor()
+        );
         SquirrelWitcheryRecipes.registerRecipes();
     }
 

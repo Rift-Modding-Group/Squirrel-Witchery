@@ -27,6 +27,9 @@ public class SquirrelWitcherySounds {
     public static SoundEvent NUTSABER_SWING = defineSoundEvent("sounds.squirrelwitchery.nutsaber_swing");
     public static SoundEvent NUTSABER_DEACTIVATE = defineSoundEvent("sounds.squirrelwitchery.nutsaber_deactivate");
 
+    public static SoundEvent NUT_RAIN_SOUNDS = defineSoundEvent("sounds.squirrelwitchery.nut_rain");
+    public static SoundEvent NUT_RAIN_END = defineSoundEvent("sounds.squirrelwitchery.nut_rain_end");
+
     private static SoundEvent defineSoundEvent(@NotNull String name) {
         SoundEvent toReturn = new SoundEvent(new ResourceLocation(SquirrelWitchery.MODID, name)).setRegistryName(SquirrelWitchery.MODID, name);
         SOUND_EVENTS.add(toReturn);
