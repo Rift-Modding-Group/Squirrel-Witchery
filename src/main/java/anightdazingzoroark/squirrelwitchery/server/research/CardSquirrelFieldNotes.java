@@ -1,17 +1,14 @@
-package anightdazingzoroark.squirrelwitchery.server.research.theorycraft;
+package anightdazingzoroark.squirrelwitchery.server.research;
 
 import anightdazingzoroark.squirrelwitchery.server.SquirrelWitcheryResearch;
-import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
-import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
 
-public class CardRisunicResonance extends TheorycraftCard {
-    public CardRisunicResonance() {}
+public class CardSquirrelFieldNotes extends TheorycraftCard {
+    public CardSquirrelFieldNotes() {}
 
     @Override
     public boolean initialize(EntityPlayer player, ResearchTableData data) {
@@ -20,7 +17,7 @@ public class CardRisunicResonance extends TheorycraftCard {
 
     @Override
     public int getInspirationCost() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -30,28 +27,17 @@ public class CardRisunicResonance extends TheorycraftCard {
 
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.risunic_resonance.name").getFormattedText();
+        return new TextComponentTranslation("card.squirrel_field_notes.name").getFormattedText();
     }
 
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.risunic_resonance.text").getFormattedText();
-    }
-
-    @Override
-    public ItemStack[] getRequiredItems() {
-        return new ItemStack[]{ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM)};
-    }
-
-    @Override
-    public boolean[] getRequiredItemsConsumed() {
-        return new boolean[]{true};
+        return new TextComponentTranslation("card.squirrel_field_notes.text").getFormattedText();
     }
 
     @Override
     public boolean activate(EntityPlayer player, ResearchTableData data) {
-        data.addTotal(getResearchCategory(), 30);
-        data.bonusDraws++;
+        data.addTotal(getResearchCategory(), 20);
         return true;
     }
 }

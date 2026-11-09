@@ -1,16 +1,17 @@
-package anightdazingzoroark.squirrelwitchery.server.research.theorycraft;
+package anightdazingzoroark.squirrelwitchery.server.research;
 
 import anightdazingzoroark.squirrelwitchery.server.SquirrelWitcheryResearch;
-import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
+import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
 
-public class CardNutResearch extends TheorycraftCard {
-    public CardNutResearch() {}
+public class CardRisunicResonance extends TheorycraftCard {
+    public CardRisunicResonance() {}
 
     @Override
     public boolean initialize(EntityPlayer player, ResearchTableData data) {
@@ -19,7 +20,7 @@ public class CardNutResearch extends TheorycraftCard {
 
     @Override
     public int getInspirationCost() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -29,17 +30,17 @@ public class CardNutResearch extends TheorycraftCard {
 
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.nut_research.name").getFormattedText();
+        return new TextComponentTranslation("card.risunic_resonance.name").getFormattedText();
     }
 
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.nut_research.text").getFormattedText();
+        return new TextComponentTranslation("card.risunic_resonance.text").getFormattedText();
     }
 
     @Override
     public ItemStack[] getRequiredItems() {
-        return new ItemStack[]{new ItemStack(SquirrelWitcheryItems.NUT)};
+        return new ItemStack[]{ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM)};
     }
 
     @Override
@@ -49,7 +50,8 @@ public class CardNutResearch extends TheorycraftCard {
 
     @Override
     public boolean activate(EntityPlayer player, ResearchTableData data) {
-        data.addTotal(getResearchCategory(), 25);
+        data.addTotal(getResearchCategory(), 30);
+        data.bonusDraws++;
         return true;
     }
 }

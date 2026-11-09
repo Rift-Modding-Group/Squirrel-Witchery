@@ -1,14 +1,16 @@
-package anightdazingzoroark.squirrelwitchery.server.research.theorycraft;
+package anightdazingzoroark.squirrelwitchery.server.research;
 
 import anightdazingzoroark.squirrelwitchery.server.SquirrelWitcheryResearch;
+import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftCard;
 
-public class CardSquirrelFieldNotes extends TheorycraftCard {
-    public CardSquirrelFieldNotes() {}
+public class CardNutResearch extends TheorycraftCard {
+    public CardNutResearch() {}
 
     @Override
     public boolean initialize(EntityPlayer player, ResearchTableData data) {
@@ -27,17 +29,27 @@ public class CardSquirrelFieldNotes extends TheorycraftCard {
 
     @Override
     public String getLocalizedName() {
-        return new TextComponentTranslation("card.squirrel_field_notes.name").getFormattedText();
+        return new TextComponentTranslation("card.nut_research.name").getFormattedText();
     }
 
     @Override
     public String getLocalizedText() {
-        return new TextComponentTranslation("card.squirrel_field_notes.text").getFormattedText();
+        return new TextComponentTranslation("card.nut_research.text").getFormattedText();
+    }
+
+    @Override
+    public ItemStack[] getRequiredItems() {
+        return new ItemStack[]{new ItemStack(SquirrelWitcheryItems.NUT)};
+    }
+
+    @Override
+    public boolean[] getRequiredItemsConsumed() {
+        return new boolean[]{true};
     }
 
     @Override
     public boolean activate(EntityPlayer player, ResearchTableData data) {
-        data.addTotal(getResearchCategory(), 20);
+        data.addTotal(getResearchCategory(), 25);
         return true;
     }
 }

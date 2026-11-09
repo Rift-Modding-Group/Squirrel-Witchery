@@ -2,9 +2,9 @@ package anightdazingzoroark.squirrelwitchery.server;
 
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
-import anightdazingzoroark.squirrelwitchery.server.research.theorycraft.CardNutResearch;
-import anightdazingzoroark.squirrelwitchery.server.research.theorycraft.CardRisunicResonance;
-import anightdazingzoroark.squirrelwitchery.server.research.theorycraft.CardSquirrelFieldNotes;
+import anightdazingzoroark.squirrelwitchery.server.research.CardNutResearch;
+import anightdazingzoroark.squirrelwitchery.server.research.CardRisunicResonance;
+import anightdazingzoroark.squirrelwitchery.server.research.CardSquirrelFieldNotes;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
