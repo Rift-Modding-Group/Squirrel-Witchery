@@ -2,6 +2,7 @@ package anightdazingzoroark.squirrelwitchery.server;
 
 import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
 import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelRangedAttackBehavior;
@@ -95,10 +96,8 @@ public class ServerEvents {
     public void onItemPickup(EntityItemPickupEvent event) {
         if (!(event.getEntityPlayer() instanceof EntityPlayerMP player)) return;
 
-        ItemStack pickedUpStack = event.getItem().getItem();
-
         //unlock research tab after getting a nut
-        if (pickedUpStack.getItem() == SquirrelWitcheryItems.NUT || pickedUpStack.getItem() == SquirrelWitcheryItems.BIG_NUT) {
+        if (SquirrelWitcheryUtils.isValidNut(event.getItem().getItem())) {
             IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
             if (knowledge == null) return;
 

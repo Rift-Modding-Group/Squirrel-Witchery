@@ -1,6 +1,7 @@
 package anightdazingzoroark.squirrelwitchery;
 
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
+import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,6 +21,10 @@ public class SquirrelWitcheryUtils {
 
         AspectList aspects = crystal.getAspects(stack);
         return aspects != null && aspects.getAmount(SquirrelWitcheryAspects.RISUNIUM) > 0;
+    }
+
+    public static boolean isValidNut(@NotNull ItemStack stack) {
+        return stack.getItem() == SquirrelWitcheryItems.NUT || stack.getItem() == SquirrelWitcheryItems.BIG_NUT;
     }
 
     @Nullable

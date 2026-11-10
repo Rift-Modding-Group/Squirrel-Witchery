@@ -72,8 +72,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     private MagicalSquirrelAttackBehavior attackBehavior;
 
     //server only stuff
-    @Nullable
-    private EntityAITempt aiTempt;
+    private boolean isScared;
     private int transformTicks;
     private int eatingCooldown;
     private boolean equipmentDirty = true;
@@ -110,14 +109,6 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
 
     @Override
     protected void initEntityAI() {
-        this.aiTempt = new EntityAITempt(this, 1.2D, false, Set.of(SquirrelWitcheryItems.NUT, SquirrelWitcheryItems.BIG_NUT)) {
-            @Override
-            public boolean shouldExecute() {
-                if (MagicalSquirrelEntity.this.isTamed()) return false;
-                return super.shouldExecute();
-            }
-        };
-
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this) {
             @Override
             public boolean shouldExecute() {
@@ -147,9 +138,51 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 if (MagicalSquirrelEntity.this.isTamed()) return false;
                 return super.shouldExecute();
             }
+
+            @Override
+            public void startExecuting() {
+                super.startExecuting();
+                MagicalSquirrelEntity.this.isScared = true;
+            }
+
+            @Override
+            public void resetTask() {
+                super.resetTask();
+                MagicalSquirrelEntity.this.isScared = false;
+            }
         });
-        this.tasks.addTask(2, this.aiTempt);
-        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityPlayer.class, player -> !this.isTamed(), 16f, 0.8D, 1.33D));
+        this.tasks.addTask(2, new EntityAIAvoidEntity<>(
+                this, EntityPlayer.class,
+                player -> {
+                    if (this.isTamed()) return false;
+                    return !player.isSneaking() || !SquirrelWitcheryUtils.isValidNut(player.getHeldItem(EnumHand.MAIN_HAND));
+                },
+                16f, 0.8D, 1.33D
+        ) {
+            @Override
+            public void startExecuting() {
+                super.startExecuting();
+                MagicalSquirrelEntity.this.isScared = true;
+            }
+
+            @Override
+            public void resetTask() {
+                super.resetTask();
+                MagicalSquirrelEntity.this.isScared = false;
+            }
+        });
+        this.tasks.addTask(3, new EntityAITempt(this, 1.2D, false, Set.of()) {
+            @Override
+            public boolean shouldExecute() {
+                if (MagicalSquirrelEntity.this.isTamed()) return false;
+                return super.shouldExecute();
+            }
+
+            @Override
+            protected boolean isTempting(ItemStack stack) {
+                return SquirrelWitcheryUtils.isValidNut(stack);
+            }
+        });
         this.tasks.addTask(4, new MagicalSquirrelAttackAI(this));
         this.tasks.addTask(5, new EntityAIFollowOwner(this, 1D, 10f, 2f) {
             @Override
@@ -192,9 +225,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             if (this.isEntityAlive() && this.isTamed() && this.getHealth() < this.getMaxHealth() && this.eatingCooldown == 0) {
                 RiftLibInventoryHandler.ItemSearchResult food = this.inventoryHandler.findItem(
                         RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
-                        itemStack -> {
-                            return itemStack.getItem() == SquirrelWitcheryItems.NUT || itemStack.getItem() == SquirrelWitcheryItems.BIG_NUT;
-                        }
+                        SquirrelWitcheryUtils::isValidNut
                 );
                 if (food.successful()) {
                     ItemStack eatenNut = this.inventoryHandler.extractItem(food.slot(), 1, false);
@@ -345,10 +376,10 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         ItemStack heldItem = player.getHeldItem(hand);
 
         //taming process
-        if (!this.isTamed() && (heldItem.getItem() == SquirrelWitcheryItems.NUT || heldItem.getItem() == SquirrelWitcheryItems.BIG_NUT)) {
+        if (!this.isTamed() && SquirrelWitcheryUtils.isValidNut(heldItem)) {
             if (!this.world.isRemote) {
-                //only accept food while tempted, never while avoiding a player or panicking
-                if (this.aiTempt == null || !this.aiTempt.isRunning() || ForgeEventFactory.onAnimalTame(this, player)) return true;
+                //do not run when scared or when associated event is canceled
+                if (this.isScared || ForgeEventFactory.onAnimalTame(this, player)) return true;
 
                 this.setTamedBy(player);
                 if (player instanceof EntityPlayerMP serverPlayer) {
@@ -366,9 +397,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         }
 
         //feed tamed magical squirrels for healing
-        if (this.isTamed() && this.isEntityAlive() && this.getHealth() < this.getMaxHealth()
-                && (heldItem.getItem() == SquirrelWitcheryItems.NUT || heldItem.getItem() == SquirrelWitcheryItems.BIG_NUT)
-        ) {
+        if (this.isTamed() && this.isEntityAlive() && this.getHealth() < this.getMaxHealth() && SquirrelWitcheryUtils.isValidNut(heldItem)) {
             if (!this.world.isRemote) {
                 this.healFromNut(heldItem);
                 if (!player.capabilities.isCreativeMode) heldItem.shrink(1);
