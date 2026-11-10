@@ -43,6 +43,7 @@ import slimeknights.tconstruct.tools.ranged.item.LongBow;
 import slimeknights.tconstruct.tools.ranged.item.Shuriken;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * for tinkers and addons of interest
@@ -244,41 +245,94 @@ public class TinkersConstructUtil {
         squirrel.resetActiveHand();
     }
 
-    public static boolean shootRangedWeapon(@NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target) {
-        if (squirrel.world.isRemote || !canUseRangedWeapon(squirrel)) return false;
+    public static boolean shootBow(@NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target) {
         ItemStack weapon = squirrel.getHeldItemMainhand();
-        boolean throwing = isShuriken(weapon);
-        if (!throwing && (!squirrel.isHandActive() || squirrel.getActiveItemStack() != weapon)) return false;
-        if (isBow(weapon) && squirrel.getItemInUseMaxCount() < getDrawTicks(weapon)) return false;
-        if (isCrossbow(weapon) && (!isCrossbowLoaded(weapon) || squirrel.getItemInUseMaxCount() < 10)) return false;
-
-        ItemStack ammunition;
-        if (throwing) ammunition = weapon;
-        else ammunition = findRangedAmmunition(squirrel, weapon).foundStack();
-        ItemStack projectileStack = ammunition.copy();
-        float speed = switch (weapon.getItem()) {
-            case CrossBow crossbow -> 7f;
-            case LongBow longbow -> 5.5f;
-            case BowCore bow -> 3f;
-            default -> 2.1f;
-        };
-        float inaccuracy = 0f;
-        int projectileCount = 1;
-        boolean consumeAmmoPerProjectile = true;
-        boolean consumeDurabilityPerProjectile = true;
-        float bonusInaccuracy = 0f;
-        if (!throwing) {
-            speed *= Math.max(0.001f, ProjectileLauncherNBT.from(weapon).range);
-            if (weapon.getItem() instanceof LongBow) inaccuracy = 1.2f;
-            else if (isBow(weapon)) inaccuracy = 1f;
-            TinkerToolEvent.OnBowShoot event = TinkerToolEvent.OnBowShoot.fireEvent(weapon, ammunition, null, squirrel.getItemInUseMaxCount(), inaccuracy);
-            projectileCount = event.projectileCount;
-            consumeAmmoPerProjectile = event.consumeAmmoPerProjectile;
-            consumeDurabilityPerProjectile = event.consumeDurabilityPerProjectile;
-            bonusInaccuracy = event.bonusInaccuracy;
-            inaccuracy = event.getBaseInaccuracy();
+        if (squirrel.world.isRemote || !isBow(weapon) || !canUseRangedWeapon(squirrel)
+                || !squirrel.isHandActive() || squirrel.getActiveItemStack() != weapon
+                || squirrel.getItemInUseMaxCount() < getDrawTicks(weapon)
+        ) {
+            return false;
         }
 
+        float speed;
+        float inaccuracy;
+        if (weapon.getItem() instanceof LongBow) {
+            speed = 5.5f;
+            inaccuracy = 1.2f;
+        }
+        else {
+            speed = 3f;
+            inaccuracy = 1f;
+        }
+        speed *= Math.max(0.001f, ProjectileLauncherNBT.from(weapon).range);
+        ItemStack ammunition = findRangedAmmunition(squirrel, weapon).foundStack();
+        if (!shootLauncher(squirrel, target, weapon, ammunition, speed, inaccuracy,
+                () -> new slimeknights.tconstruct.tools.common.entity.EntityArrow(squirrel.world))
+        ) {
+            return false;
+        }
+
+        squirrel.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1f, 0.8f + squirrel.getRNG().nextFloat() * 0.2f);
+        squirrel.resetActiveHand();
+        return true;
+    }
+
+    public static boolean shootCrossbow(@NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target) {
+        ItemStack weapon = squirrel.getHeldItemMainhand();
+        if (squirrel.world.isRemote || !(weapon.getItem() instanceof CrossBow crossbow) || !canUseRangedWeapon(squirrel)
+                || !squirrel.isHandActive() || squirrel.getActiveItemStack() != weapon
+                || !crossbow.isLoaded(weapon) || squirrel.getItemInUseMaxCount() < 10
+        ) {
+            return false;
+        }
+
+        float speed = 7f * Math.max(0.001f, ProjectileLauncherNBT.from(weapon).range);
+        ItemStack ammunition = findRangedAmmunition(squirrel, weapon).foundStack();
+        if (!shootLauncher(squirrel, target, weapon, ammunition, speed, 0f, () -> new EntityBolt(squirrel.world))) return false;
+
+        crossbow.setLoaded(weapon, false);
+        squirrel.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1f, 0.8f + squirrel.getRNG().nextFloat() * 0.2f);
+        squirrel.resetActiveHand();
+        return true;
+    }
+
+    public static boolean throwShuriken(@NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target) {
+        ItemStack weapon = squirrel.getHeldItemMainhand();
+        if (squirrel.world.isRemote || !(weapon.getItem() instanceof Shuriken shuriken) || !canUseRangedWeapon(squirrel)) return false;
+
+        ItemStack projectileStack = weapon.copy();
+        ItemStack consumedStack = weapon.copy();
+        boolean usedAmmo = shuriken.useAmmo(consumedStack, squirrel);
+        if (!shootRangedWeapon(
+                squirrel, target, weapon, projectileStack,
+                new EntityShuriken(squirrel.world), 2.1f, 0f, usedAmmo, false)
+        ) {
+            return false;
+        }
+
+        weapon.setTagCompound(consumedStack.getTagCompound());
+        weapon.setItemDamage(consumedStack.getItemDamage());
+        weapon.setCount(consumedStack.getCount());
+        squirrel.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1f, 0.8f + squirrel.getRNG().nextFloat() * 0.2f);
+        squirrel.swingArm(EnumHand.MAIN_HAND);
+        squirrel.resetActiveHand();
+        return true;
+    }
+
+    //specific for bows and crossbow
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    private static boolean shootLauncher(
+            @NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target,
+            @NotNull ItemStack weapon, @NotNull ItemStack ammunition, float speed, float inaccuracy,
+            @NotNull Supplier<EntityProjectileBase> projectileFactory
+    ) {
+        ItemStack projectileStack = ammunition.copy();
+        TinkerToolEvent.OnBowShoot event = TinkerToolEvent.OnBowShoot.fireEvent(weapon, ammunition, null, squirrel.getItemInUseMaxCount(), inaccuracy);
+        int projectileCount = event.projectileCount;
+        boolean consumeAmmoPerProjectile = event.consumeAmmoPerProjectile;
+        boolean consumeDurabilityPerProjectile = event.consumeDurabilityPerProjectile;
+        float bonusInaccuracy = event.bonusInaccuracy;
+        inaccuracy = event.getBaseInaccuracy();
         boolean fired = false;
         for (int index = 0; index < projectileCount; index++) {
             boolean consumeAmmo = !fired || consumeAmmoPerProjectile;
@@ -297,66 +351,67 @@ public class TinkersConstructUtil {
             }
 
             EntityArrow projectile;
-            if (projectileStack.getItem() instanceof ProjectileCore ammo) {
-                ItemStack reference = projectileStack.copy();
-                reference.setCount(1);
-                ammo.setAmmo(usedAmmo ? 1 : 0, reference);
-                ToolHelper.unbreakTool(reference);
-                EntityProjectileBase tinkersProjectile = switch (ammo) {
-                    case Bolt bolt -> new EntityBolt(squirrel.world);
-                    case Shuriken shuriken -> new EntityShuriken(squirrel.world);
-                    default -> new slimeknights.tconstruct.tools.common.entity.EntityArrow(squirrel.world);
-                };
-                tinkersProjectile.tinkerProjectile.setItemStack(reference);
-                tinkersProjectile.tinkerProjectile.setLaunchingStack(weapon.copy());
-                tinkersProjectile.tinkerProjectile.setPower(1f);
-                projectile = tinkersProjectile;
+            if (projectileStack.getItem() instanceof ProjectileCore) {
+                projectile = projectileFactory.get();
             }
             else if (projectileStack.getItem() instanceof ItemArrow arrow) {
                 projectile = arrow.createArrow(squirrel.world, projectileStack, squirrel);
             }
             else break;
 
-            projectile.shootingEntity = squirrel;
-            projectile.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
-            if (!usedAmmo && !(projectile instanceof EntityProjectileBase)) projectile.pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
-            projectile.setLocationAndAngles(squirrel.posX, squirrel.posY + squirrel.getEyeHeight(), squirrel.posZ, squirrel.rotationYaw, squirrel.rotationPitch);
-            double deltaX = target.posX - projectile.posX;
-            double deltaZ = target.posZ - projectile.posZ;
-            double deltaY = target.getEntityBoundingBox().minY + target.height / 3D - projectile.posY;
-            double flightTicks = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ) / speed;
-            double gravity = 0.05D;
-            if (projectile instanceof EntityProjectileBase tinkersProjectile) gravity = tinkersProjectile.getGravity();
             float shotInaccuracy = inaccuracy;
             if (index > 0) shotInaccuracy += bonusInaccuracy;
-            if (projectileStack.getItem() instanceof Shuriken) shotInaccuracy *= ProjectileNBT.from(projectileStack).accuracy;
-            else if (projectileStack.getItem() instanceof ProjectileCore) {
+            if (projectileStack.getItem() instanceof ProjectileCore) {
                 shotInaccuracy -= (1f - 1f / Math.max(0.001f, ProjectileNBT.from(projectileStack).accuracy)) * speed / 2f;
             }
-            projectile.shoot(deltaX, deltaY + gravity * flightTicks * flightTicks / 2D, deltaZ, speed, shotInaccuracy);
-            if (projectile instanceof EntityProjectileBase tinkersProjectile) {
-                for (IProjectileTrait trait : tinkersProjectile.tinkerProjectile.getProjectileTraits()) {
-                    trait.onLaunch(tinkersProjectile, squirrel.world, squirrel);
-                }
-            }
-            if (!throwing) projectile.setIsCritical(true);
-            if (!ProjectileEvent.OnLaunch.fireEvent(projectile, weapon, squirrel) || !squirrel.world.spawnEntity(projectile)) continue;
+            if (!shootRangedWeapon(squirrel, target, weapon, projectileStack, projectile, speed, shotInaccuracy, usedAmmo, true)) continue;
 
             if (consumeAmmo) {
                 ammunition.setTagCompound(consumedStack.getTagCompound());
                 ammunition.setItemDamage(consumedStack.getItemDamage());
                 ammunition.setCount(consumedStack.getCount());
             }
-            if (!throwing && (!fired || consumeDurabilityPerProjectile)) ToolHelper.damageTool(weapon, 1, squirrel);
+            if (!fired || consumeDurabilityPerProjectile) ToolHelper.damageTool(weapon, 1, squirrel);
             fired = true;
         }
-        if (fired) {
-            if (weapon.getItem() instanceof CrossBow crossbow) crossbow.setLoaded(weapon, false);
-            squirrel.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1f, 0.8f + squirrel.getRNG().nextFloat() * 0.2f);
-            if (throwing) squirrel.swingArm(EnumHand.MAIN_HAND);
-            squirrel.resetActiveHand();
-        }
         return fired;
+    }
+
+    //common for all types
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    private static boolean shootRangedWeapon(
+            @NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target,
+            @NotNull ItemStack weapon, @NotNull ItemStack projectileStack, @NotNull EntityArrow projectile,
+            float speed, float inaccuracy, boolean usedAmmo, boolean critical
+    ) {
+        if (projectile instanceof EntityProjectileBase tinkersProjectile && projectileStack.getItem() instanceof ProjectileCore ammo) {
+            ItemStack reference = projectileStack.copy();
+            reference.setCount(1);
+            ammo.setAmmo(usedAmmo ? 1 : 0, reference);
+            ToolHelper.unbreakTool(reference);
+            tinkersProjectile.tinkerProjectile.setItemStack(reference);
+            tinkersProjectile.tinkerProjectile.setLaunchingStack(weapon.copy());
+            tinkersProjectile.tinkerProjectile.setPower(1f);
+        }
+
+        projectile.shootingEntity = squirrel;
+        projectile.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
+        if (!usedAmmo && !(projectile instanceof EntityProjectileBase)) projectile.pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
+        projectile.setLocationAndAngles(squirrel.posX, squirrel.posY + squirrel.getEyeHeight(), squirrel.posZ, squirrel.rotationYaw, squirrel.rotationPitch);
+        double deltaX = target.posX - projectile.posX;
+        double deltaZ = target.posZ - projectile.posZ;
+        double deltaY = target.getEntityBoundingBox().minY + target.height / 3D - projectile.posY;
+        double flightTicks = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ) / speed;
+        double gravity = 0.05D;
+        if (projectile instanceof EntityProjectileBase tinkersProjectile) gravity = tinkersProjectile.getGravity();
+        projectile.shoot(deltaX, deltaY + gravity * flightTicks * flightTicks / 2D, deltaZ, speed, inaccuracy);
+        if (projectile instanceof EntityProjectileBase tinkersProjectile) {
+            for (IProjectileTrait trait : tinkersProjectile.tinkerProjectile.getProjectileTraits()) {
+                trait.onLaunch(tinkersProjectile, squirrel.world, squirrel);
+            }
+        }
+        if (critical) projectile.setIsCritical(true);
+        return ProjectileEvent.OnLaunch.fireEvent(projectile, weapon, squirrel) && squirrel.world.spawnEntity(projectile);
     }
 
     public static void recoverProjectiles(@NotNull MagicalSquirrelEntity squirrel) {

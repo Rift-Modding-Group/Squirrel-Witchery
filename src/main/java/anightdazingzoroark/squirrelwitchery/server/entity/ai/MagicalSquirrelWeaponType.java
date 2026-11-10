@@ -369,7 +369,7 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootRangedWeapon(this.squirrel, target)) {
+            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootBow(this.squirrel, target)) {
                 this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 20;
                 this.squirrel.setUsingBow(false);
@@ -420,7 +420,7 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootRangedWeapon(this.squirrel, target)) {
+            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootCrossbow(this.squirrel, target)) {
                 this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 20;
                 this.squirrel.setUsingBow(false);
@@ -459,7 +459,7 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootRangedWeapon(this.squirrel, target)) {
+            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.throwShuriken(this.squirrel, target)) {
                 this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 4;
             }
