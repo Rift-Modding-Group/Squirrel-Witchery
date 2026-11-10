@@ -57,7 +57,7 @@
     {
       "key": "!magical_squirrel",
       "name": "research.SQUIRREL_WITCHERY_MAGICAL_SQUIRREL.title",
-      "icons": ["squirrelwitchery:squirrel_fur"],
+      "icons": ["squirrelwitchery:textures/ui/magical_squirrel.png"],
       "category": "SQUIRREL_WITCHERY",
       "location": [-4, 2],
       "meta": [ "HEX", "HIDDEN" ],
@@ -72,7 +72,7 @@
     {
       "key": "SQUIRREL_WITCHERY_TAMED_MAGICAL_SQUIRREL",
       "name": "research.SQUIRREL_WITCHERY_TAMED_MAGICAL_SQUIRREL.title",
-      "icons": ["squirrelwitchery:squirrel_fur_hat"],
+      "icons": ["squirrelwitchery:textures/ui/magical_squirrel_transformed.png"],
       "category": "SQUIRREL_WITCHERY",
       "parents": ["!magical_squirrel", "~magical_squirrel_tamed"],
       "location": [-4, 4],
