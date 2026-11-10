@@ -656,7 +656,10 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     public void attackEntityWithRangedAttack(@NonNull EntityLivingBase target, float distanceFactor) {
         if (this.world.isRemote || !this.isEntityAlive() || !this.getTransformed() || !target.isEntityAlive()) return;
         if (this.getBehavior() == Behavior.SIT || !(this.attackBehavior instanceof MagicalSquirrelRangedAttackBehavior behavior)
-                || target != behavior.getTarget() || !behavior.canRangedAttack(target)) return;
+                || target != behavior.getTarget() || !behavior.canRangedAttack(target)
+        ) {
+            return;
+        }
 
         if (behavior.canUse()) {
             ItemStack weapon = this.getHeldItemMainhand();
