@@ -8,6 +8,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectHelper;
@@ -142,7 +143,7 @@ public final class SquirrelWitcheryAspects {
         for (AspectAssignment<?> itemAspectAssignment : ASPECT_ASSIGNMENTS) {
             ItemStack itemStack;
             if (itemAspectAssignment.object instanceof Item item) {
-                itemStack = new ItemStack(item, 1, item instanceof ItemArmor ? -1 : 0);
+                itemStack = new ItemStack(item);
             }
             else if (itemAspectAssignment.object instanceof Block block) itemStack = new ItemStack(block);
             else throw new RuntimeException();
@@ -156,6 +157,10 @@ public final class SquirrelWitcheryAspects {
 
             for (AspectPair aspectPair : itemAspectAssignment.aspects) {
                 aspects.merge(aspectPair.aspect, aspectPair.amount);
+            }
+
+            if (itemStack.getItem() instanceof ItemArmor) {
+                itemStack.setItemDamage(OreDictionary.WILDCARD_VALUE);
             }
             event.register.registerObjectTag(itemStack, aspects);
         }
