@@ -10,6 +10,7 @@ import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks
 import anightdazingzoroark.squirrelwitchery.server.entity.SquirrelWitcheryEntities;
 import anightdazingzoroark.squirrelwitchery.server.effect.SquirrelWitcheryEffects;
 import anightdazingzoroark.squirrelwitchery.server.focus.FocusEffectNutRain;
+import anightdazingzoroark.squirrelwitchery.server.focus.FocusEffectSquirrelSwarm;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import anightdazingzoroark.squirrelwitchery.server.gui.SquirrelWitcheryGuiHandler;
 import anightdazingzoroark.squirrelwitchery.server.message.MessageControlWitchBroom;
@@ -62,7 +63,12 @@ public class ServerProxy {
         FocusEngine.registerElement(
                 FocusEffectNutRain.class,
                 new ResourceLocation(SquirrelWitchery.MODID, "textures/focus/nut_rain_icon.png"),
-                SquirrelWitcheryAspects.RISUNIUM.getColor()
+                0xFB8E9A
+        );
+        FocusEngine.registerElement(
+                FocusEffectSquirrelSwarm.class,
+                new ResourceLocation(SquirrelWitchery.MODID, "textures/focus/squirrel_swarm_icon.png"),
+                0xAE3E3E
         );
         SquirrelWitcheryRecipes.registerRecipes();
     }

@@ -87,6 +87,16 @@ public class SquirrelWitcheryEntities {
                 .tracker(64, 10, false)
                 .build()
         );
+
+        ResourceLocation swarmerSquirrelRegistryName = new ResourceLocation(SquirrelWitchery.MODID, "swarmer_squirrel");
+        ForgeRegistries.ENTITIES.register(EntityEntryBuilder.<SwarmerSquirrelEntity>create()
+                .entity(SwarmerSquirrelEntity.class)
+                .factory(SwarmerSquirrelEntity::new)
+                .id(swarmerSquirrelRegistryName, 7)
+                .name(swarmerSquirrelRegistryName.getPath())
+                .tracker(64, 10, false)
+                .build()
+        );
     }
 
     public static void registerEntitySpawns() {

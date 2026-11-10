@@ -384,6 +384,24 @@
       ]
     },
     {
+      "key": "SQUIRREL_WITCHERY_SQUIRREL_SWARM",
+      "name": "research.SQUIRREL_WITCHERY_SQUIRREL_SWARM.title",
+      "icons": [ "focus:squirrelwitchery.SQUIRREL_SWARM" ],
+      "category": "SQUIRREL_WITCHERY",
+      "parents": ["SQUIRREL_WITCHERY_RISUNIC_AUROMANCY", "~FOCUSELEMENTAL"],
+      "location": [7, 3],
+      "stages": [
+        {
+          "text": "research.SQUIRREL_WITCHERY_SQUIRREL_SWARM.stage.1",
+          "required_knowledge": ["THEORY;AUROMANCY;1", "THEORY;SQUIRREL_WITCHERY;1"],
+          "required_item": [ "squirrelwitchery:squirrel_fur;4" ]
+        },
+        {
+          "text": "research.SQUIRREL_WITCHERY_SQUIRREL_SWARM.stage.2"
+        }
+      ]
+    },
+    {
       "key": "SQUIRREL_WITCHERY_RISUNIC_ARTIFICE",
       "name": "research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.title",
       "icons": ["squirrelwitchery:textures/ui/risunic_artifice.png"],

@@ -43,7 +43,7 @@
         }
       },
       "minecraft:particle_appearance_tinting": {
-        "color": [ 1, 1, 1, "math.max(0, 1 - variable.particle_age / variable.particle_lifetime)"]
+        "color": [ 0.9843137, 0.5568627, 0.6039216, "math.max(0, 1 - variable.particle_age / variable.particle_lifetime)"]
       }
     }
   }

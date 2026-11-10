@@ -1,13 +1,18 @@
 package anightdazingzoroark.squirrelwitchery;
 
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.items.resources.ItemCrystalEssence;
+
+import java.util.UUID;
 
 public class SquirrelWitcheryUtils {
     public static boolean isRisuniumCrystal(@NotNull ItemStack stack) {
@@ -15,6 +20,15 @@ public class SquirrelWitcheryUtils {
 
         AspectList aspects = crystal.getAspects(stack);
         return aspects != null && aspects.getAmount(SquirrelWitcheryAspects.RISUNIUM) > 0;
+    }
+
+    @Nullable
+    public static Entity getEntityWithUUID(@NotNull World world, @NotNull UUID uuid) {
+        for (Entity entity : world.loadedEntityList) {
+            if (entity == null) continue;
+            if (entity.getUniqueID().equals(uuid)) return entity;
+        }
+        return null;
     }
 
     /**

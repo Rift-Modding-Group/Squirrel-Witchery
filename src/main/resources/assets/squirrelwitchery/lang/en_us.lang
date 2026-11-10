@@ -1,6 +1,7 @@
 entity.squirrel.name=Squirrel
 entity.squirrel_with_gun.name=Squirrel with a Gun
 entity.magical_squirrel.name=Magical Squirrel
+entity.swarmer_squirrel.name=Swarmer Squirrel
 
 subtitles.squirrelwitchery.squirrel_ambient=Squirrel chirps
 subtitles.squirrelwitchery.squirrel_hurt=Squirrel hurts
@@ -10,6 +11,7 @@ subtitles.squirrelwitchery.magical_squirrel_ambient=Magical Squirrel noises
 subtitles.squirrelwitchery.magical_squirrel_death=Magical Squirrel dissolves into essence
 
 effect.gws.name=Get Well Soon!
+effect.squirrel_swarm.name=Squirrel Swarm
 
 item.nut.name=Nut
 item.big_nut.name=Big Nut
@@ -106,8 +108,11 @@ research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.title=Risunic Auromancy
 research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.1=Risunium has been shown to resonate with the primal aspects. I need to investigate what this could mean for the field of Auromancy.
 research.SQUIRREL_WITCHERY_RISUNIC_AUROMANCY.stage.2=I have come up with a design for a Risunic lattice that can carry alterations around a focus while leaving both its spell pattern and its flow of vis undisturbed. Since the lattice remains separate from the focus, its influence can be changed without rebuilding the spell itself. A purpose-built casting implement should put this discovery to good use.<BR>I might need to add that Risunium could serve as an inspiration for new kinds of spells...
 research.SQUIRREL_WITCHERY_NUT_RAIN.title=Focus Effect: Nut Rain
-research.SQUIRREL_WITCHERY_NUT_RAIN.stage.1=Lately I've been thinking of nuts falling from decaying leaves. The impact of just one nut may be weak, but multiple nuts thrown at a high speed and at a continuous rate could make an impact. I could manifest this through auromancy with the infuence of some Risunium.
+research.SQUIRREL_WITCHERY_NUT_RAIN.stage.1=Lately I've been thinking of nuts falling from decaying leaves. The impact of just one nut may be weak, but multiple nuts thrown at a high speed and at a continuous rate could make an impact. I could manifest this through auromancy with the influence of some Risunium.
 research.SQUIRREL_WITCHERY_NUT_RAIN.stage.2=This focus effect manifests nuts raining from the sky. Though the damage is weak, it rapidly wears down armor and shields worn by anyone unfortunate enough to be hit. It's raining nuts!
+research.SQUIRREL_WITCHERY_SQUIRREL_SWARM.title=Focus Effect: Squirrel Swarm
+research.SQUIRREL_WITCHERY_SQUIRREL_SWARM.stage.1=I've been thinking of trapping my victims in a chamber full of angry geese, and watch as they scream trying to escape from them. Of course over time they will realize that geese can't really hurt them, but you know what else could actually do? Squirrels. I should turn this into a focus effect.
+research.SQUIRREL_WITCHERY_SQUIRREL_SWARM.stage.2=This focus effect makes the target be swarmed with angry squirrels! These angry squirrels are made of Risunium and a bit of some of my nastier desires, and will constantly manifest around the target. After a while, or when the target dies, these swarmer squirrels will dissolve back into essentia.
 research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.title=Risunic Artifice
 research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.stage.1=I wonder what applications does Risunium have in the field of artifice.
 research.SQUIRREL_WITCHERY_RISUNIC_ARTIFICE.stage.2=I have managed to come up with designs for thaumaturgical devices that require Risunium. Some of them cross over into other branches of thaumaturgy. This curious aspect has shown to be much more stranger than I initially presumed.
@@ -167,3 +172,5 @@ behavior.squirrelwitchery.wander.name=Wander
 
 squirrelwitchery.NUT_RAIN.name=Nut Rain
 squirrelwitchery.NUT_RAIN.text=Creates a shower of nuts that rapidly dents armor and shields.
+squirrelwitchery.SQUIRREL_SWARM.name=Squirrel Swarm
+squirrelwitchery.SQUIRREL_SWARM.text=Swarms the target with swarmer squirrels.

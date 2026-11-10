@@ -54,7 +54,7 @@ public class FocusEffectNutRain extends FocusEffect {
 
     @Override
     public boolean execute(@Nullable RayTraceResult target, @Nullable Trajectory trajectory, float power, int num) {
-        World world = getPackage().world;
+        World world = this.getPackage().world;
         if (world.isRemote || target == null || target.typeOfHit == RayTraceResult.Type.MISS) return false;
 
         Vec3d origin;
