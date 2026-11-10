@@ -1,9 +1,9 @@
 package anightdazingzoroark.squirrelwitchery.server;
 
-import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
+import anightdazingzoroark.squirrelwitchery.compat.SpartanWeaponryCompat;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryUtils;
-import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
+import anightdazingzoroark.squirrelwitchery.compat.TinkersConstructCompat;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelRangedAttackBehavior;
 import anightdazingzoroark.squirrelwitchery.server.entity.WitchBroomEntity;
@@ -46,8 +46,8 @@ public class ServerEvents {
     @SubscribeEvent
     public void applySquirrelTinkersLooting(LootingLevelEvent event) {
         if (event.getDamageSource() != null && event.getDamageSource().getTrueSource() instanceof MagicalSquirrelEntity squirrel
-                && Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isMeleeWeapon(squirrel.getHeldItemMainhand())) {
-            event.setLootingLevel(Math.max(event.getLootingLevel(), TinkersConstructUtil.getLootingLevel(squirrel.getHeldItemMainhand())));
+                && Loader.isModLoaded("tconstruct") && TinkersConstructCompat.isMeleeWeapon(squirrel.getHeldItemMainhand())) {
+            event.setLootingLevel(Math.max(event.getLootingLevel(), TinkersConstructCompat.getLootingLevel(squirrel.getHeldItemMainhand())));
         }
     }
 
@@ -55,7 +55,7 @@ public class ServerEvents {
     public void catchSquirrelThrownWeapon(ProjectileImpactEvent.Arrow event) {
         if (event.getRayTraceResult().entityHit instanceof MagicalSquirrelEntity squirrel
                 && Loader.isModLoaded("spartanweaponry")
-                && SpartanWeaponryUtils.catchThrownWeapon(squirrel, event.getArrow())
+                && SpartanWeaponryCompat.catchThrownWeapon(squirrel, event.getArrow())
         ) {
             event.setCanceled(true);
         }

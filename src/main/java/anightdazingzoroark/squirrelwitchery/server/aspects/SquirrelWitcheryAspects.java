@@ -2,11 +2,14 @@ package anightdazingzoroark.squirrelwitchery.server.aspects;
 
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
+import com.pam.harvestcraft.blocks.CropRegistry;
+import com.pam.harvestcraft.blocks.FruitRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.api.ThaumcraftApi;
@@ -121,6 +124,57 @@ public final class SquirrelWitcheryAspects {
                 SquirrelWitcheryItems.MAGICAL_SQUIRREL_ESSENCE, false,
                 new AspectPair(RISUNIUM, 25), new AspectPair(Aspect.VOID, 15)
         ));
+
+        if (Loader.isModLoaded("harvestcraft")) {
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Item>(
+                    CropRegistry.getFood(CropRegistry.PEANUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Item>(
+                    CropRegistry.getFood(CropRegistry.WATERCHESTNUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Item>(
+                    FruitRegistry.getFood(FruitRegistry.HAZELNUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Block>(
+                    FruitRegistry.getSapling(FruitRegistry.HAZELNUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Item>(
+                    FruitRegistry.getFood(FruitRegistry.COCONUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 35)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Block>(
+                    FruitRegistry.getSapling(FruitRegistry.COCONUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 15)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Item>(
+                    FruitRegistry.getFood(FruitRegistry.CHESTNUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Block>(
+                    FruitRegistry.getSapling(FruitRegistry.CHESTNUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Item>(
+                    FruitRegistry.getFood(FruitRegistry.WALNUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Block>(
+                    FruitRegistry.getSapling(FruitRegistry.WALNUT), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Item>(
+                    FruitRegistry.getFood(FruitRegistry.NUTMEG), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+            ASPECT_ASSIGNMENTS.add(new SquirrelWitcheryAspects.AspectAssignment<Block>(
+                    FruitRegistry.getSapling(FruitRegistry.NUTMEG), false,
+                    new SquirrelWitcheryAspects.AspectPair(RISUNIUM, 5)
+            ));
+        }
 
         //---entity assignments---
         ThaumcraftApi.registerEntityTag(

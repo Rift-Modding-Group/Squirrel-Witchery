@@ -1,6 +1,7 @@
-package anightdazingzoroark.squirrelwitchery;
+package anightdazingzoroark.squirrelwitchery.compat;
 
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
 import com.oblivioussp.spartanweaponry.entity.projectile.EntityBolt;
@@ -34,7 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.UUID;
 
-public class SpartanWeaponryUtils {
+public class SpartanWeaponryCompat {
     //-----crossbows-----
     public static boolean isCrossbow(@NotNull ItemStack stack) {
         return !stack.isEmpty() && stack.getItem() instanceof ItemCrossbow;

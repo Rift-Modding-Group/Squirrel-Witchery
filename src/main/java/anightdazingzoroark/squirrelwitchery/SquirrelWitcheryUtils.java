@@ -1,5 +1,6 @@
 package anightdazingzoroark.squirrelwitchery;
 
+import anightdazingzoroark.squirrelwitchery.compat.PamsHarvestcraftCompat;
 import anightdazingzoroark.squirrelwitchery.server.aspects.SquirrelWitcheryAspects;
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.entity.Entity;
@@ -7,6 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +27,8 @@ public class SquirrelWitcheryUtils {
     }
 
     public static boolean isValidNut(@NotNull ItemStack stack) {
-        return stack.getItem() == SquirrelWitcheryItems.NUT || stack.getItem() == SquirrelWitcheryItems.BIG_NUT;
+        return stack.getItem() == SquirrelWitcheryItems.NUT || stack.getItem() == SquirrelWitcheryItems.BIG_NUT
+                || (Loader.isModLoaded("harvestcraft") && PamsHarvestcraftCompat.isPamsHarvestcraftNut(stack));
     }
 
     @Nullable

@@ -1,13 +1,17 @@
 package anightdazingzoroark.squirrelwitchery.server.items;
 
 import anightdazingzoroark.squirrelwitchery.SquirrelWitchery;
+import com.pam.harvestcraft.blocks.CropRegistry;
+import com.pam.harvestcraft.blocks.FruitRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.ThaumcraftMaterials;
 
@@ -19,6 +23,9 @@ import java.util.Map;
 public class SquirrelWitcheryItems {
     public static final List<Item> ITEMS = new ArrayList<>();
     public static final Map<Block, ItemBlock> BLOCK_ITEMS = new HashMap<>();
+
+    public static final String NUT_OREDIC = "nut";
+    public static final String BIG_NUT_OREDIC = "nutBig";
 
     public static Item NUT;
     public static Item BIG_NUT;
@@ -111,6 +118,21 @@ public class SquirrelWitcheryItems {
         GWS_PILL = registerItem(new GWSPillItem(), "gws_pill", true);
         SQUIRREL_TAIL_HAMMER = registerItem(new SquirrelTailHammerItem(), "squirrel_tail_hammer", true);
         MAGICAL_SQUIRREL_ESSENCE = registerItem(new Item().setMaxStackSize(1), "magical_squirrel_essence", false);
+    }
+
+    public static void addOreDicTags() {
+        OreDictionary.registerOre(NUT_OREDIC, NUT);
+        OreDictionary.registerOre(BIG_NUT_OREDIC, BIG_NUT);
+
+        if (Loader.isModLoaded("harvestcraft")) {
+            OreDictionary.registerOre(NUT_OREDIC, CropRegistry.getFood(CropRegistry.PEANUT));
+            OreDictionary.registerOre(NUT_OREDIC, CropRegistry.getFood(CropRegistry.WATERCHESTNUT));
+            OreDictionary.registerOre(NUT_OREDIC, FruitRegistry.getFood(FruitRegistry.HAZELNUT));
+            OreDictionary.registerOre(BIG_NUT_OREDIC, FruitRegistry.getFood(FruitRegistry.COCONUT));
+            OreDictionary.registerOre(NUT_OREDIC, FruitRegistry.getFood(FruitRegistry.CHESTNUT));
+            OreDictionary.registerOre(NUT_OREDIC, FruitRegistry.getFood(FruitRegistry.WALNUT));
+            OreDictionary.registerOre(NUT_OREDIC, FruitRegistry.getFood(FruitRegistry.NUTMEG));
+        }
     }
 
     public static <T extends Item> T registerItem(T item, String registryName, boolean canBeInCreative) {

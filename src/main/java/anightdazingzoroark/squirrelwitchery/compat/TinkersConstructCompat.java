@@ -1,6 +1,7 @@
-package anightdazingzoroark.squirrelwitchery;
+package anightdazingzoroark.squirrelwitchery.compat;
 
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
+import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import c4.conarm.lib.armor.ArmorCore;
 import net.minecraft.entity.Entity;
@@ -48,7 +49,7 @@ import java.util.function.Supplier;
 /**
  * for tinkers and addons of interest
  * */
-public class TinkersConstructUtil {
+public class TinkersConstructCompat {
     //-----melee weapons-----
     public static boolean isMeleeWeapon(@NotNull ItemStack stack) {
         return !stack.isEmpty() && stack.getItem() instanceof ToolCore tool

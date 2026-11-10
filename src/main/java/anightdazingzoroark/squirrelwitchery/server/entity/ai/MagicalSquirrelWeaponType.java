@@ -2,8 +2,8 @@ package anightdazingzoroark.squirrelwitchery.server.entity.ai;
 
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
-import anightdazingzoroark.squirrelwitchery.SpartanWeaponryUtils;
-import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
+import anightdazingzoroark.squirrelwitchery.compat.SpartanWeaponryCompat;
+import anightdazingzoroark.squirrelwitchery.compat.TinkersConstructCompat;
 import anightdazingzoroark.squirrelwitchery.MagicalSquirrelCastingUtils;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.items.WitchShotgunItem;
@@ -96,8 +96,8 @@ public enum MagicalSquirrelWeaponType {
             }
 
             int attackCooldown = 20;
-            if (Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isMeleeWeapon(this.squirrel.getHeldItemMainhand())) {
-                attackCooldown = TinkersConstructUtil.getAttackCooldownTicks(this.squirrel);
+            if (Loader.isModLoaded("tconstruct") && TinkersConstructCompat.isMeleeWeapon(this.squirrel.getHeldItemMainhand())) {
+                attackCooldown = TinkersConstructCompat.getAttackCooldownTicks(this.squirrel);
             }
             this.nextAttackTick = this.squirrel.ticksExisted + attackCooldown;
             this.squirrel.swingArm(EnumHand.MAIN_HAND);
@@ -238,7 +238,7 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public boolean canUse() {
-            return Loader.isModLoaded("spartanweaponry") && SpartanWeaponryUtils.canUseCrossbow(this.squirrel);
+            return Loader.isModLoaded("spartanweaponry") && SpartanWeaponryCompat.canUseCrossbow(this.squirrel);
         }
 
         @Override
@@ -259,9 +259,9 @@ public enum MagicalSquirrelWeaponType {
             if (canAttack) this.squirrel.setActiveHand(EnumHand.MAIN_HAND);
             else this.squirrel.resetActiveHand();
 
-            if (canAttack && SpartanWeaponryUtils.isCrossbowLoaded(crossbow) && this.squirrel.isHandActive()
+            if (canAttack && SpartanWeaponryCompat.isCrossbowLoaded(crossbow) && this.squirrel.isHandActive()
                     && this.squirrel.getActiveItemStack() == crossbow
-                    && this.squirrel.getItemInUseMaxCount() >= SpartanWeaponryUtils.getCrossbowAimTicks(crossbow)
+                    && this.squirrel.getItemInUseMaxCount() >= SpartanWeaponryCompat.getCrossbowAimTicks(crossbow)
             ) {
                 this.squirrel.attackEntityWithRangedAttack(target, 1f);
             }
@@ -269,27 +269,27 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.squirrel.ticksExisted >= this.readyTick && SpartanWeaponryUtils.shootCrossbow(this.squirrel, target)) {
+            if (this.squirrel.ticksExisted >= this.readyTick && SpartanWeaponryCompat.shootCrossbow(this.squirrel, target)) {
                 this.recordRangedShot(target);
             }
         }
 
         @Override
         public void finishUsing() {
-            if (SpartanWeaponryUtils.loadCrossbow(this.squirrel)) {
-                this.readyTick = this.squirrel.ticksExisted + SpartanWeaponryUtils.getCrossbowCooldownTicks();
+            if (SpartanWeaponryCompat.loadCrossbow(this.squirrel)) {
+                this.readyTick = this.squirrel.ticksExisted + SpartanWeaponryCompat.getCrossbowCooldownTicks();
             }
         }
     }),
     //spartan weaponry knives, axes, javelins and boomerangs
     SPARTAN_THROWING_WEAPON(entity -> new MagicalSquirrelRangedAttackBehavior(
-            entity, squirrel -> SpartanWeaponryUtils.getThrowingRange(squirrel.getHeldItemMainhand())
+            entity, squirrel -> SpartanWeaponryCompat.getThrowingRange(squirrel.getHeldItemMainhand())
     ) {
         private int readyTick;
 
         @Override
         public boolean canUse() {
-            return Loader.isModLoaded("spartanweaponry") && SpartanWeaponryUtils.canUseThrowingWeapon(this.squirrel);
+            return Loader.isModLoaded("spartanweaponry") && SpartanWeaponryCompat.canUseThrowingWeapon(this.squirrel);
         }
 
         @Override
@@ -312,14 +312,14 @@ public enum MagicalSquirrelWeaponType {
                 return;
             }
             this.squirrel.setActiveHand(EnumHand.MAIN_HAND);
-            if (this.squirrel.getItemInUseMaxCount() >= SpartanWeaponryUtils.getThrowingChargeTicks(this.squirrel.getHeldItemMainhand())) {
+            if (this.squirrel.getItemInUseMaxCount() >= SpartanWeaponryCompat.getThrowingChargeTicks(this.squirrel.getHeldItemMainhand())) {
                 this.squirrel.attackEntityWithRangedAttack(target, 1f);
             }
         }
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.squirrel.ticksExisted >= this.readyTick && SpartanWeaponryUtils.throwWeapon(this.squirrel, target)) {
+            if (this.squirrel.ticksExisted >= this.readyTick && SpartanWeaponryCompat.throwWeapon(this.squirrel, target)) {
                 this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 20;
             }
@@ -333,8 +333,8 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public boolean canUse() {
-            return Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isBow(this.squirrel.getHeldItemMainhand())
-                    && TinkersConstructUtil.canUseRangedWeapon(this.squirrel);
+            return Loader.isModLoaded("tconstruct") && TinkersConstructCompat.isBow(this.squirrel.getHeldItemMainhand())
+                    && TinkersConstructCompat.canUseRangedWeapon(this.squirrel);
         }
 
         @Override
@@ -362,14 +362,14 @@ public enum MagicalSquirrelWeaponType {
                 return;
             }
             this.squirrel.setActiveHand(EnumHand.MAIN_HAND);
-            if (this.squirrel.getItemInUseMaxCount() >= TinkersConstructUtil.getDrawTicks(this.squirrel.getHeldItemMainhand())) {
+            if (this.squirrel.getItemInUseMaxCount() >= TinkersConstructCompat.getDrawTicks(this.squirrel.getHeldItemMainhand())) {
                 this.squirrel.attackEntityWithRangedAttack(target, 1f);
             }
         }
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootBow(this.squirrel, target)) {
+            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructCompat.shootBow(this.squirrel, target)) {
                 this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 20;
                 this.squirrel.setUsingBow(false);
@@ -384,8 +384,8 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public boolean canUse() {
-            return Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isCrossbow(this.squirrel.getHeldItemMainhand())
-                    && TinkersConstructUtil.canUseRangedWeapon(this.squirrel);
+            return Loader.isModLoaded("tconstruct") && TinkersConstructCompat.isCrossbow(this.squirrel.getHeldItemMainhand())
+                    && TinkersConstructCompat.canUseRangedWeapon(this.squirrel);
         }
 
         @Override
@@ -406,21 +406,21 @@ public enum MagicalSquirrelWeaponType {
         @Override
         public void update(@NotNull EntityLivingBase target) {
             boolean canAttack = this.squirrel.ticksExisted >= this.readyTick && this.canRangedAttack(target);
-            this.squirrel.setUsingBow(canAttack && TinkersConstructUtil.isCrossbowLoaded(this.squirrel.getHeldItemMainhand()));
+            this.squirrel.setUsingBow(canAttack && TinkersConstructCompat.isCrossbowLoaded(this.squirrel.getHeldItemMainhand()));
             if (!canAttack) {
                 this.squirrel.resetActiveHand();
                 return;
             }
             this.squirrel.setActiveHand(EnumHand.MAIN_HAND);
-            if (!TinkersConstructUtil.isCrossbowLoaded(this.squirrel.getHeldItemMainhand())) {
-                TinkersConstructUtil.loadCrossbow(this.squirrel);
+            if (!TinkersConstructCompat.isCrossbowLoaded(this.squirrel.getHeldItemMainhand())) {
+                TinkersConstructCompat.loadCrossbow(this.squirrel);
             }
             else if (this.squirrel.getItemInUseMaxCount() >= 10) this.squirrel.attackEntityWithRangedAttack(target, 1f);
         }
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.shootCrossbow(this.squirrel, target)) {
+            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructCompat.shootCrossbow(this.squirrel, target)) {
                 this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 20;
                 this.squirrel.setUsingBow(false);
@@ -435,8 +435,8 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public boolean canUse() {
-            return Loader.isModLoaded("tconstruct") && TinkersConstructUtil.isShuriken(this.squirrel.getHeldItemMainhand())
-                    && TinkersConstructUtil.canUseRangedWeapon(this.squirrel);
+            return Loader.isModLoaded("tconstruct") && TinkersConstructCompat.isShuriken(this.squirrel.getHeldItemMainhand())
+                    && TinkersConstructCompat.canUseRangedWeapon(this.squirrel);
         }
 
         @Override
@@ -459,7 +459,7 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructUtil.throwShuriken(this.squirrel, target)) {
+            if (this.canUse() && this.squirrel.ticksExisted >= this.readyTick && TinkersConstructCompat.throwShuriken(this.squirrel, target)) {
                 this.recordRangedShot(target);
                 this.readyTick = this.squirrel.ticksExisted + 4;
             }

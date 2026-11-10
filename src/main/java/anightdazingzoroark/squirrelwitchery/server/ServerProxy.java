@@ -36,7 +36,6 @@ public class ServerProxy {
         SquirrelWitcheryItems.registerItems();
         SquirrelWitcheryEffects.registerEffects();
         SquirrelWitcheryEntities.registerEntities();
-        SquirrelWitcheryAspects.assignAspects();
         PropertyRegistry.register(
                 SquirrelWitchery.MODID + ":player",
                 new PropertyRegistry.ClassPropertyPair<>(EntityPlayer.class, SquirrelPlayerProperties::new)
@@ -52,13 +51,14 @@ public class ServerProxy {
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryBlocks());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryItems());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryEffects());
-        MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryAspects());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcherySounds());
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
     }
 
     public void init(FMLInitializationEvent e) {
         SquirrelWitcheryEntities.registerEntitySpawns();
+        SquirrelWitcheryItems.addOreDicTags();
+        SquirrelWitcheryAspects.assignAspects();
         SquirrelWitcheryResearch.registerCategory();
         FocusEngine.registerElement(
                 FocusEffectNutRain.class,
@@ -71,6 +71,9 @@ public class ServerProxy {
                 0xAE3E3E
         );
         SquirrelWitcheryRecipes.registerRecipes();
+
+        //---events---
+        MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryAspects());
     }
 
     public void postInit(FMLPostInitializationEvent e) {}

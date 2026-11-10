@@ -198,7 +198,7 @@ public class SquirrelWitcheryRecipes {
                         "MCM",
                         "PNP",
                         'P', new ItemStack(ItemsTC.plate, 1, 0),
-                        'N', new ItemStack(SquirrelWitcheryItems.BIG_NUT),
+                        'N', SquirrelWitcheryItems.BIG_NUT_OREDIC,
                         'C', ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
                         'M', new ItemStack(ItemsTC.mechanismSimple)
                 )
@@ -246,7 +246,7 @@ public class SquirrelWitcheryRecipes {
                 new CrucibleRecipe(
                         SquirrelWitcheryResearch.EXPLOSIVE_NUT + "@1",
                         new ItemStack(SquirrelWitcheryItems.EXPLOSIVE_NUT),
-                        new ItemStack(SquirrelWitcheryItems.BIG_NUT),
+                        SquirrelWitcheryItems.BIG_NUT_OREDIC,
                         new AspectList()
                                 .add(SquirrelWitcheryAspects.RISUNIUM, 30)
                                 .add(Aspect.FIRE, 20)
@@ -258,7 +258,7 @@ public class SquirrelWitcheryRecipes {
                 new CrucibleRecipe(
                         SquirrelWitcheryResearch.GWS_PILL + "@1",
                         new ItemStack(SquirrelWitcheryItems.GWS_PILL),
-                        new ItemStack(SquirrelWitcheryItems.BIG_NUT),
+                        SquirrelWitcheryItems.BIG_NUT_OREDIC,
                         new AspectList()
                                 .add(SquirrelWitcheryAspects.RISUNIUM, 150)
                                 .add(Aspect.MIND, 100)
@@ -295,10 +295,10 @@ public class SquirrelWitcheryRecipes {
                         new ItemStack(SquirrelWitcheryItems.CRYSTALLIZED_SQUIRREL_HEART),
                         new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
                         ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
-                        new ItemStack(SquirrelWitcheryItems.NUT),
+                        SquirrelWitcheryItems.NUT_OREDIC,
                         new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
                         ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
-                        new ItemStack(SquirrelWitcheryItems.NUT)
+                        SquirrelWitcheryItems.NUT_OREDIC
                 )
         );
         ThaumcraftApi.addInfusionCraftingRecipe(
@@ -315,7 +315,7 @@ public class SquirrelWitcheryRecipes {
                         new ItemStack(SquirrelWitcheryItems.WITCH_HAT),
                         new ItemStack(SquirrelWitcheryItems.SQUIRREL_FUR),
                         ThaumcraftApiHelper.makeCrystal(SquirrelWitcheryAspects.RISUNIUM),
-                        new ItemStack(SquirrelWitcheryItems.NUT)
+                        SquirrelWitcheryItems.NUT_OREDIC
                 )
         );
         ThaumcraftApi.addInfusionCraftingRecipe(
