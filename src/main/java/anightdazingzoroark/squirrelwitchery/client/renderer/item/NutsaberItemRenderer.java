@@ -49,12 +49,14 @@ public class NutsaberItemRenderer extends GeoItemRenderer<AnimatedItemStackHolde
                                         .addStateTransition("unsheathed", animData -> {
                                             //make sure it animates when it starts ticking
                                             if (animData.tick <= 0) return false;
-                                            if (this.getStack().getItem() != SquirrelWitcheryItems.NUTSABER) return false;
                                             if (!this.isHeldByEntity()) return false;
                                             ItemCameraTransforms.TransformType transformType = this.getTransformType();
                                             if ((transformType == ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND
                                                     || transformType == ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND)
-                                                    && !this.isFirstPersonEquipAnimationComplete()) return false;
+                                                    && !this.isFirstPersonEquipAnimationComplete()
+                                            ) {
+                                                return false;
+                                            }
                                             return animData.getEntityHolder() instanceof MagicalSquirrelEntity
                                                     || SquirrelWitcheryItems.NUTSABER.getRisuniumAmount(this.getStack()) > 0;
                                         })
