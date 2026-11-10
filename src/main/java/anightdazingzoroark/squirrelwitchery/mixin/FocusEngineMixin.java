@@ -7,10 +7,12 @@ import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import thaumcraft.api.casters.FocusEngine;
@@ -53,19 +55,12 @@ public abstract class FocusEngineMixin {
         focusPackage.initialize(caster);
         if (caster.world.isRemote || !(caster instanceof EntityPlayer || caster instanceof MagicalSquirrelEntity)) return;
 
-        boolean requiresCastingTag = caster instanceof EntityPlayer;
-        ItemStack staffStack = caster.getHeldItemMainhand();
-        if (!(staffStack.getItem() instanceof WitchStaffItem)
-                || requiresCastingTag && (!staffStack.hasTagCompound() || !staffStack.getTagCompound().getBoolean("Casting"))
-        ) {
-            staffStack = caster.getHeldItemOffhand();
-        }
-        if (!(staffStack.getItem() instanceof WitchStaffItem staff)
-                || requiresCastingTag && (!staffStack.hasTagCompound() || !staffStack.getTagCompound().getBoolean("Casting"))
-        ) {
-            return;
-        }
+        //get staff
+        ItemStack staffStack = getCastingWitchStaff(caster, EnumHand.MAIN_HAND);
+        if (staffStack.isEmpty()) staffStack = getCastingWitchStaff(caster, EnumHand.OFF_HAND);
+        if (staffStack.isEmpty()) return;
 
+        //prepare spell to be modified
         ArrayList<IFocusElement> elements = new ArrayList<>();
         ArrayList<FocusPackage> packages = new ArrayList<>();
         elements.add(focusPackage);
@@ -78,6 +73,8 @@ public abstract class FocusEngineMixin {
             if (element instanceof FocusModSplit split) elements.addAll(split.getSplitPackages());
         }
 
+        //apply staff attachment effects
+        WitchStaffItem staff = (WitchStaffItem) staffStack.getItem();
         int risunium = staff.getRisuniumAmount(staffStack);
         WitchStaffAttachmentItem.Type attachment = staff.getAttachment(staffStack);
         if (attachment != null
@@ -87,11 +84,24 @@ public abstract class FocusEngineMixin {
             risunium -= WitchStaffItem.ATTACHMENT_RISUNIUM_COST;
         }
 
+        //update staff
         staff.setRisuniumAmount(staffStack, risunium);
         if (caster instanceof EntityPlayer player) player.inventoryContainer.detectAndSendChanges();
         else {
             MagicalSquirrelEntity squirrel = (MagicalSquirrelEntity) caster;
             squirrel.markEquipmentDirty();
         }
+    }
+
+    @Unique
+    @NotNull
+    private static ItemStack getCastingWitchStaff(@NotNull EntityLivingBase caster, @NotNull EnumHand hand) {
+        ItemStack staffStack = caster.getHeldItem(hand);
+        if (!(staffStack.getItem() instanceof WitchStaffItem)) return ItemStack.EMPTY;
+
+        if (caster instanceof MagicalSquirrelEntity || (staffStack.hasTagCompound() && staffStack.getTagCompound().getBoolean("Casting"))) {
+            return staffStack;
+        }
+        return ItemStack.EMPTY;
     }
 }
