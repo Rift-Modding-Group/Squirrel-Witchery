@@ -74,7 +74,7 @@ public class SquirrelWitcheryEntities {
                 .factory(MagicalSquirrelEssenceEntity::new)
                 .id(magicalSquirrelEssenceRegistryName, 5)
                 .name(magicalSquirrelEssenceRegistryName.getPath())
-                .tracker(64, 3, true)
+                .tracker(64, 10, true)
                 .build()
         );
 
@@ -94,7 +94,7 @@ public class SquirrelWitcheryEntities {
                 .factory(SwarmerSquirrelEntity::new)
                 .id(swarmerSquirrelRegistryName, 7)
                 .name(swarmerSquirrelRegistryName.getPath())
-                .tracker(64, 10, false)
+                .tracker(64, 3, true)
                 .build()
         );
     }

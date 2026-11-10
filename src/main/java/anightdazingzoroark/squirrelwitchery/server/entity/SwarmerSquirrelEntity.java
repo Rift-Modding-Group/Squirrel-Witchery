@@ -41,7 +41,36 @@ public class SwarmerSquirrelEntity extends EntityMob implements IAnimatable<Anim
     @Override
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1D, true));
+        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1D, true) {
+            private int nextPathRetryTick;
+
+            @Override
+            public void updateTask() {
+                super.updateTask();
+
+                SwarmerSquirrelEntity squirrel = SwarmerSquirrelEntity.this;
+                EntityLivingBase target = squirrel.getAttackTarget();
+                if (target == null || !target.isEntityAlive()) return;
+
+                double reachSquared = squirrel.width * 2D * (squirrel.width * 2D) + target.width;
+                if (squirrel.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ) <= reachSquared
+                        && squirrel.getEntitySenses().canSee(target)
+                ) {
+                    // Keep pursuing in melee range after the navigation path ends.
+                    squirrel.getNavigator().clearPath();
+                    squirrel.getMoveHelper().setMoveTo(target.posX, target.getEntityBoundingBox().minY, target.posZ, 1D);
+                }
+                else if (squirrel.getNavigator().noPath() && squirrel.ticksExisted >= this.nextPathRetryTick) {
+                    // Finished paths must not wait for the melee AI's random refresh.
+                    if (squirrel.getNavigator().tryMoveToEntityLiving(target, 1D)) {
+                        this.nextPathRetryTick = 0;
+                    }
+                    else {
+                        this.nextPathRetryTick = squirrel.ticksExisted + 5;
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -49,7 +78,7 @@ public class SwarmerSquirrelEntity extends EntityMob implements IAnimatable<Anim
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3D);
     }
 
