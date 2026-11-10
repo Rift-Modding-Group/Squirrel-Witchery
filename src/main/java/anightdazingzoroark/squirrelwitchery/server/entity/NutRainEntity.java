@@ -3,6 +3,7 @@ package anightdazingzoroark.squirrelwitchery.server.entity;
 import anightdazingzoroark.riftlib.core.IAnimatable;
 import anightdazingzoroark.riftlib.core.manager.AnimationDataEntityNonLiving;
 import anightdazingzoroark.riftlib.sounds.RiftLibSoundHelper;
+import anightdazingzoroark.squirrelwitchery.TinkersConstructUtil;
 import anightdazingzoroark.squirrelwitchery.server.sounds.SquirrelWitcherySounds;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -103,7 +105,13 @@ public class NutRainEntity extends Entity implements IAnimatable<AnimationDataEn
             //damage armor
             for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
                 if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR) continue;
-                target.getItemStackFromSlot(slot).damageItem(this.equipmentDamage, target);
+                ItemStack armor = target.getItemStackFromSlot(slot);
+                armor.damageItem(this.equipmentDamage, target);
+
+                //special case for antique armory to break armor
+                if (Loader.isModLoaded("conarm") && TinkersConstructUtil.isAntiqueArmoryArmor(armor)) {
+                    TinkersConstructUtil.breakArmor(armor, target);
+                }
             }
 
             //damage shield

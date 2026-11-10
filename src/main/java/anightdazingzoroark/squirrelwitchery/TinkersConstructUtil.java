@@ -2,6 +2,7 @@ package anightdazingzoroark.squirrelwitchery;
 
 import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
+import c4.conarm.lib.armor.ArmorCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -41,6 +42,9 @@ import slimeknights.tconstruct.tools.ranged.item.Shuriken;
 
 import java.util.List;
 
+/**
+ * for tinkers and addons of interest
+ * */
 public class TinkersConstructUtil {
     //-----melee weapons-----
     public static boolean isMeleeWeapon(@NotNull ItemStack stack) {
@@ -366,6 +370,17 @@ public class TinkersConstructUtil {
             squirrel.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 0.2f, 1f);
             squirrel.onItemPickup(projectile, 1);
             projectile.setDead();
+        }
+    }
+
+    //-----antique armory-----
+    public static boolean isAntiqueArmoryArmor(@NotNull ItemStack stack) {
+        return !stack.isEmpty() && stack.getItem() instanceof ArmorCore;
+    }
+
+    public static void breakArmor(@NotNull ItemStack stack, @NotNull EntityLivingBase wearer) {
+        if (!wearer.world.isRemote && !ToolHelper.isBroken(stack) && ToolHelper.getCurrentDurability(stack) <= 0) {
+            ToolHelper.breakTool(stack, wearer);
         }
     }
 }
