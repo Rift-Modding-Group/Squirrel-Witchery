@@ -1,6 +1,6 @@
 package anightdazingzoroark.squirrelwitchery.server.items;
 
-import anightdazingzoroark.squirrelwitchery.mixin.NodeSettingAccessor;
+import anightdazingzoroark.squirrelwitchery.server.casters.BoostedNodeSettingRange;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
@@ -71,7 +71,7 @@ public class WitchStaffAttachmentItem extends Item {
                         duration.getValue() + 1,
                         (int) Math.ceil(duration.getValue() * 1.5f)
                 );
-                ((NodeSettingAccessor) (Object) duration).squirrelWitchery$setValue(boostedDuration);
+                BoostedNodeSettingRange.setBoostedValue(duration, boostedDuration);
                 changedDuration = true;
             }
             return changedDuration;
@@ -82,7 +82,7 @@ public class WitchStaffAttachmentItem extends Item {
                 if (!(element instanceof FocusMediumProjectile projectile)) continue;
                 NodeSetting speed = projectile.getSetting("speed");
                 int boostedSpeed = Math.max(speed.getValue() + 1, (int) Math.ceil(speed.getValue() * 1.5f));
-                ((NodeSettingAccessor) (Object) speed).squirrelWitchery$setValue(boostedSpeed);
+                BoostedNodeSettingRange.setBoostedValue(speed, boostedSpeed);
                 changedSpeed = true;
             }
             return changedSpeed;

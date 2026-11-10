@@ -8,6 +8,7 @@
   ],
   "mixins": [
     "FocusEngineMixin",
+    "FocusPackageMixin",
     "NodeSettingAccessor",
     "SlotCrystalMixin",
     "TileCrucibleMixin",
