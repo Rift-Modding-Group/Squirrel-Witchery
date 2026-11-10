@@ -22,13 +22,12 @@ import org.apache.logging.log4j.Logger;
         modid = SquirrelWitchery.MODID,
         name = SquirrelWitchery.MODNAME,
         version = SquirrelWitchery.MODVERSION,
-        dependencies = "required-after:riftlib@[1.0.0,);" +
-                ";required-after:thaumcraft"
+        dependencies = "required-after:riftlib@[1.0.0,);" + ";required-after:thaumcraft"
 )
 public class SquirrelWitchery {
     public static final String MODID = "squirrelwitchery";
     public static final String MODNAME = "Squirrel Witchery";
-    public static final String MODVERSION = "1.0.0";
+    public static final String MODVERSION = "1.1.0";
     public static final Logger LOGGER = LogManager.getLogger(MODNAME);
     public static final CreativeTabs creativeItemsTab = new CreativeTabs(MODID) {
         @Override

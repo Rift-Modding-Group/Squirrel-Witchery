@@ -33,6 +33,8 @@ import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.tconstruct.library.utils.ToolHelper;
 import slimeknights.tconstruct.tools.TinkerModifiers;
+import slimeknights.tconstruct.tools.common.entity.EntityBolt;
+import slimeknights.tconstruct.tools.common.entity.EntityShuriken;
 import slimeknights.tconstruct.tools.tools.Scythe;
 import slimeknights.tconstruct.tools.ranged.item.Arrow;
 import slimeknights.tconstruct.tools.ranged.item.Bolt;
@@ -229,18 +231,17 @@ public class TinkersConstructUtil {
         return Math.max(5, (int) Math.ceil(bow.getDrawTime() / Math.max(0.001D, ProjectileLauncherNBT.from(stack).drawSpeed)));
     }
 
-    public static boolean loadCrossbow(@NotNull MagicalSquirrelEntity squirrel) {
+    public static void loadCrossbow(@NotNull MagicalSquirrelEntity squirrel) {
         ItemStack stack = squirrel.getHeldItemMainhand();
         if (squirrel.world.isRemote || !canUseRangedWeapon(squirrel) || !(stack.getItem() instanceof CrossBow crossbow)
                 || crossbow.isLoaded(stack) || !squirrel.isHandActive() || squirrel.getActiveItemStack() != stack
                 || squirrel.getItemInUseMaxCount() < getDrawTicks(stack)
         ) {
-            return false;
+            return;
         }
         crossbow.setLoaded(stack, true);
         squirrel.playSound(slimeknights.tconstruct.common.Sounds.crossbow_reload, 1.5f, 0.9f + squirrel.getRNG().nextFloat() * 0.1f);
         squirrel.resetActiveHand();
-        return true;
     }
 
     public static boolean shootRangedWeapon(@NotNull MagicalSquirrelEntity squirrel, @NotNull EntityLivingBase target) {
@@ -270,7 +271,6 @@ public class TinkersConstructUtil {
             speed *= Math.max(0.001f, ProjectileLauncherNBT.from(weapon).range);
             if (weapon.getItem() instanceof LongBow) inaccuracy = 1.2f;
             else if (isBow(weapon)) inaccuracy = 1f;
-            // The native bow event has a player-only shooter field; native ammo traits also support a null player.
             TinkerToolEvent.OnBowShoot event = TinkerToolEvent.OnBowShoot.fireEvent(weapon, ammunition, null, squirrel.getItemInUseMaxCount(), inaccuracy);
             projectileCount = event.projectileCount;
             consumeAmmoPerProjectile = event.consumeAmmoPerProjectile;
@@ -303,8 +303,8 @@ public class TinkersConstructUtil {
                 ammo.setAmmo(usedAmmo ? 1 : 0, reference);
                 ToolHelper.unbreakTool(reference);
                 EntityProjectileBase tinkersProjectile = switch (ammo) {
-                    case Bolt bolt -> new slimeknights.tconstruct.tools.common.entity.EntityBolt(squirrel.world);
-                    case Shuriken shuriken -> new slimeknights.tconstruct.tools.common.entity.EntityShuriken(squirrel.world);
+                    case Bolt bolt -> new EntityBolt(squirrel.world);
+                    case Shuriken shuriken -> new EntityShuriken(squirrel.world);
                     default -> new slimeknights.tconstruct.tools.common.entity.EntityArrow(squirrel.world);
                 };
                 tinkersProjectile.tinkerProjectile.setItemStack(reference);

@@ -405,8 +405,7 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void update(@NotNull EntityLivingBase target) {
-            boolean canAttack = this.squirrel.ticksExisted >= this.readyTick
-                    && this.canRangedAttack(target);
+            boolean canAttack = this.squirrel.ticksExisted >= this.readyTick && this.canRangedAttack(target);
             this.squirrel.setUsingBow(canAttack && TinkersConstructUtil.isCrossbowLoaded(this.squirrel.getHeldItemMainhand()));
             if (!canAttack) {
                 this.squirrel.resetActiveHand();
