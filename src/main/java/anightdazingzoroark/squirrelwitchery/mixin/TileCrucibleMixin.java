@@ -38,6 +38,10 @@ public abstract class TileCrucibleMixin {
         //essence must never be dissolved in the crucible
         callback.setReturnValue(item);
 
+        //make sure essence has nbt to be able to revive
+        NBTTagCompound tag = item.getTagCompound();
+        if (tag == null || !tag.hasKey("MagicalSquirrel", 10)) return;
+
         TileCrucible crucible = (TileCrucible) (Object) this;
         World world = crucible.getWorld();
         if (world.isRemote || crucible.heat <= 150 || crucible.tank.getFluidAmount() <= 0
@@ -49,19 +53,16 @@ public abstract class TileCrucibleMixin {
         BlockPos pos = crucible.getPos();
         //---recreate the magical squirrel---
         MagicalSquirrelEntity squirrel = new MagicalSquirrelEntity(world);
-        NBTTagCompound tag = item.getTagCompound();
-        if (tag != null && tag.hasKey("MagicalSquirrel", 10)) {
-            NBTTagCompound squirrelData = tag.getCompoundTag("MagicalSquirrel");
-            if (squirrelData.hasUniqueId("Owner")) {
-                squirrel.setOwnerId(squirrelData.getUniqueId("Owner"));
-                squirrel.setTamed(true);
-            }
-            squirrel.setTransformed(squirrelData.getBoolean("Transformed"));
-            MagicalSquirrelEntity.Behavior[] behaviors = MagicalSquirrelEntity.Behavior.values();
-            squirrel.setBehavior(behaviors[Math.clamp(squirrelData.getByte("Behavior"), 0, behaviors.length - 1)]);
-            squirrel.setCustomNameTag(squirrelData.getString("CustomName"));
-            squirrel.setAlwaysRenderNameTag(squirrelData.getBoolean("CustomNameVisible"));
+        NBTTagCompound squirrelData = tag.getCompoundTag("MagicalSquirrel");
+        if (squirrelData.hasUniqueId("Owner")) {
+            squirrel.setOwnerId(squirrelData.getUniqueId("Owner"));
+            squirrel.setTamed(true);
         }
+        squirrel.setTransformed(squirrelData.getBoolean("Transformed"));
+        MagicalSquirrelEntity.Behavior[] behaviors = MagicalSquirrelEntity.Behavior.values();
+        squirrel.setBehavior(behaviors[Math.clamp(squirrelData.getByte("Behavior"), 0, behaviors.length - 1)]);
+        squirrel.setCustomNameTag(squirrelData.getString("CustomName"));
+        squirrel.setAlwaysRenderNameTag(squirrelData.getBoolean("CustomNameVisible"));
         squirrel.setHealth(squirrel.getMaxHealth());
 
         //---find a valid space to spawn the squirrel in---
