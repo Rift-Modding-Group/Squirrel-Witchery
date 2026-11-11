@@ -10,6 +10,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
@@ -151,7 +152,6 @@ public class TinkersConstructCompat {
             }
         }
 
-        // Keep each weapon's own damage implementation, including rapier armor piercing and broadsword sweeps.
         boolean hit = tool.dealDamage(stack, squirrel, entity, damage);
         if (!hit || target == null) return hit;
         float damageDealt = oldHealth - target.getHealth();
@@ -176,13 +176,19 @@ public class TinkersConstructCompat {
         float durabilityDamage = Math.max(1f, damage / 10f);
         if (!tool.hasCategory(Category.WEAPON)) durabilityDamage *= 2f;
         ToolHelper.damageTool(stack, (int) durabilityDamage, squirrel);
-        if (ToolHelper.isBroken(stack)) {
-            squirrel.playSound(SoundEvents.ENTITY_ITEM_BREAK, 0.8f, 0.8f + squirrel.getRNG().nextFloat() * 0.4f);
-            squirrel.resetActiveHand();
-            if (Config.vanillaToolBreaking) stack.shrink(1);
-        }
+        handleBrokenTool(squirrel, stack);
         if (stack.isEmpty()) squirrel.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
         return true;
+    }
+
+    private static void handleBrokenTool(@NotNull MagicalSquirrelEntity squirrel, @NotNull ItemStack stack) {
+        if (stack.isEmpty() || !ToolHelper.isBroken(stack)) return;
+
+        squirrel.playSound(SoundEvents.ENTITY_ITEM_BREAK, 0.8f, 0.8f + squirrel.getRNG().nextFloat() * 0.4f);
+        if (squirrel.isHandActive() && squirrel.getActiveItemStack() == stack) squirrel.resetActiveHand();
+        if (Config.vanillaToolBreaking) stack.shrink(1);
+        if (squirrel.getHeldItemMainhand() == stack && stack.isEmpty()) squirrel.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+        squirrel.markEquipmentDirty();
     }
 
     //-----ranged weapons-----
@@ -291,7 +297,7 @@ public class TinkersConstructCompat {
         ItemStack ammunition = findRangedAmmunition(squirrel, weapon).foundStack();
         if (!shootLauncher(squirrel, target, weapon, ammunition, speed, 0f, () -> new EntityBolt(squirrel.world))) return false;
 
-        crossbow.setLoaded(weapon, false);
+        if (!weapon.isEmpty()) crossbow.setLoaded(weapon, false);
         squirrel.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1f, 0.8f + squirrel.getRNG().nextFloat() * 0.2f);
         squirrel.resetActiveHand();
         return true;
@@ -314,6 +320,7 @@ public class TinkersConstructCompat {
         weapon.setTagCompound(consumedStack.getTagCompound());
         weapon.setItemDamage(consumedStack.getItemDamage());
         weapon.setCount(consumedStack.getCount());
+        handleBrokenTool(squirrel, weapon);
         squirrel.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1f, 0.8f + squirrel.getRNG().nextFloat() * 0.2f);
         squirrel.swingArm(EnumHand.MAIN_HAND);
         squirrel.resetActiveHand();
@@ -375,6 +382,11 @@ public class TinkersConstructCompat {
             if (!fired || consumeDurabilityPerProjectile) ToolHelper.damageTool(weapon, 1, squirrel);
             fired = true;
         }
+        if (fired) {
+            // Finish the volley before destroying either stack so extra projectiles retain their item data.
+            handleBrokenTool(squirrel, ammunition);
+            handleBrokenTool(squirrel, weapon);
+        }
         return fired;
     }
 
@@ -434,9 +446,20 @@ public class TinkersConstructCompat {
         return !stack.isEmpty() && stack.getItem() instanceof ArmorCore;
     }
 
+    public static boolean isBrokenAntiqueArmoryArmor(@NotNull ItemStack stack) {
+        return isAntiqueArmoryArmor(stack) && (ToolHelper.isBroken(stack) || ToolHelper.getCurrentDurability(stack) <= 0);
+    }
+
     public static void breakArmor(@NotNull ItemStack stack, @NotNull EntityLivingBase wearer) {
-        if (!wearer.world.isRemote && !ToolHelper.isBroken(stack) && ToolHelper.getCurrentDurability(stack) <= 0) {
+        if (!wearer.world.isRemote && isAntiqueArmoryArmor(stack) && !ToolHelper.isBroken(stack)
+                && ToolHelper.getCurrentDurability(stack) <= 0
+        ) {
             ToolHelper.breakTool(stack, wearer);
+            if (wearer instanceof MagicalSquirrelEntity squirrel) {
+                EntityEquipmentSlot slot = ((ArmorCore) stack.getItem()).getEquipmentSlot();
+                if (squirrel.getItemStackFromSlot(slot) == stack) squirrel.setItemStackToSlot(slot, ItemStack.EMPTY);
+                handleBrokenTool(squirrel, stack);
+            }
         }
     }
 }

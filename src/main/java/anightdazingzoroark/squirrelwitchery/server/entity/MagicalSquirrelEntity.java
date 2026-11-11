@@ -370,6 +370,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                     armor = this.inventoryHandler.findItem(
                             RiftLibInventoryHandler.ItemSearchDirection.LAST_TO_FIRST,
                             stack -> !stack.isEmpty() && stack.getItem() instanceof ItemArmor item && item.getEquipmentSlot() == slot
+                                    && (!Loader.isModLoaded("conarm") || !TinkersConstructCompat.isBrokenAntiqueArmoryArmor(stack))
                     ).foundStack();
                 }
                 this.setItemStackToSlot(slot, armor);
@@ -534,6 +535,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             if (armor.isEmpty() || !(armor.getItem() instanceof ItemArmor)) continue;
             if (armor.isItemStackDamageable()) this.markEquipmentDirty();
             armor.damageItem(durabilityDamage, this);
+            if (Loader.isModLoaded("conarm") && TinkersConstructCompat.isAntiqueArmoryArmor(armor)) {
+                TinkersConstructCompat.breakArmor(armor, this);
+            }
             if (armor.isEmpty()) this.setItemStackToSlot(slot, ItemStack.EMPTY);
         }
     }
