@@ -35,13 +35,15 @@ import org.jspecify.annotations.NonNull;
 
 public class SquirrelGunEntity extends EntityMob implements IAnimatable<AnimationDataEntityLiving>, IRangedAttackMob {
     private static final DataParameter<Boolean> SHOOTING = EntityDataManager.createKey(SquirrelGunEntity.class, DataSerializers.BOOLEAN);
-    private static final float SHOT_RANGE = 8f;
-    private static final float SHOT_DAMAGE = 2f;
+    private static final float SHOOT_RANGE = 8f;
 
     @NotNull
     private final AnimationDataEntityLiving animationData = new AnimationDataEntityLiving(this);
     @Nullable
     private EntityLivingBase pendingShotTarget;
+
+    //server only stuff
+    private boolean hasStoppedMovingToAttack;
 
     public SquirrelGunEntity(@NotNull World worldIn) {
         super(worldIn);
@@ -58,6 +60,7 @@ public class SquirrelGunEntity extends EntityMob implements IAnimatable<Animatio
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16D);
     }
@@ -65,10 +68,27 @@ public class SquirrelGunEntity extends EntityMob implements IAnimatable<Animatio
     @Override
     protected void initEntityAI() {
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackRanged(this, 1D, 60, SHOT_RANGE));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8f));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
+        this.tasks.addTask(2, new EntityAIAttackRanged(this, 1D, 60, SHOOT_RANGE) {
+            @Override
+            public void resetTask() {
+                super.resetTask();
+                SquirrelGunEntity.this.hasStoppedMovingToAttack = false;
+            }
+
+            @Override
+            public void startExecuting() {
+                this.rangedAttackTime = 1; //make sure sqrl can start shootin upon findin a target
+            }
+
+            @Override
+            public void updateTask() {
+                if (!SquirrelGunEntity.this.hasStoppedMovingToAttack) this.rangedAttackTime = 1;
+                super.updateTask();
+            }
+        });
+        this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 0.8));
+        this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 8f));
+        this.tasks.addTask(5, new EntityAILookIdle(this));
 
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
@@ -88,7 +108,7 @@ public class SquirrelGunEntity extends EntityMob implements IAnimatable<Animatio
     @Override
     public void attackEntityWithRangedAttack(@NotNull EntityLivingBase target, float distanceFactor) {
         if (this.world.isRemote || !this.isEntityAlive() || !target.isEntityAlive()) return;
-        if (target != this.getAttackTarget() || this.getDistanceSq(target) > SHOT_RANGE * SHOT_RANGE) return;
+        if (target != this.getAttackTarget() || this.getDistanceSq(target) > SHOOT_RANGE * SHOOT_RANGE) return;
         if (!this.getEntitySenses().canSee(target) || this.isShooting()) return;
 
         //send request for shootin by changin required variables
@@ -147,16 +167,16 @@ public class SquirrelGunEntity extends EntityMob implements IAnimatable<Animatio
             this.pendingShotTarget = null;
             if (target == null || !target.isEntityAlive() || target != this.getAttackTarget()) return;
             if (target instanceof EntityPlayer player && (player.isSpectator() || player.capabilities.disableDamage)) return;
-            if (this.getDistanceSq(target) > SHOT_RANGE * SHOT_RANGE || !this.getEntitySenses().canSee(target)) return;
+            if (this.getDistanceSq(target) > SHOOT_RANGE * SHOOT_RANGE || !this.getEntitySenses().canSee(target)) return;
 
             Vec3d start = this.getPositionEyes(1f);
             Vec3d direction = target.getPositionEyes(1f).subtract(start).normalize();
-            Vec3d end = start.add(direction.scale(SHOT_RANGE));
+            Vec3d end = start.add(direction.scale(SHOOT_RANGE));
             RayTraceResult blockHit = this.world.rayTraceBlocks(start, end, false, true, false);
-            double nearestDistance = blockHit == null ? SHOT_RANGE : start.distanceTo(blockHit.hitVec);
+            double nearestDistance = blockHit == null ? SHOOT_RANGE : start.distanceTo(blockHit.hitVec);
             Entity nearestEntity = null;
             AxisAlignedBB searchBounds = this.getEntityBoundingBox()
-                    .expand(direction.x * SHOT_RANGE, direction.y * SHOT_RANGE, direction.z * SHOT_RANGE)
+                    .expand(direction.x * SHOOT_RANGE, direction.y * SHOOT_RANGE, direction.z * SHOOT_RANGE)
                     .grow(1D);
 
             for (Entity candidate : this.world.getEntitiesWithinAABBExcludingEntity(this, searchBounds)) {
@@ -183,10 +203,13 @@ public class SquirrelGunEntity extends EntityMob implements IAnimatable<Animatio
             );
             if (nearestEntity != null) {
                 //scale damage based on world difficulty
-                nearestEntity.attackEntityFrom(
-                        DamageSource.causeMobDamage(this).setProjectile(),
-                        SHOT_DAMAGE * this.world.getDifficulty().ordinal()
-                );
+                float shotDamage = (float) this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() * this.world.getDifficulty().ordinal();
+
+                //shoot
+                nearestEntity.attackEntityFrom(DamageSource.causeMobDamage(this).setProjectile(), shotDamage);
+
+                //set flag
+                this.hasStoppedMovingToAttack = true;
             }
         }, Side.SERVER));
     }
