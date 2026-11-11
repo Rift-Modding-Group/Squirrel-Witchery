@@ -51,6 +51,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.common.lib.SoundsTC;
@@ -394,8 +395,13 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 this.setTamedBy(player);
                 if (player instanceof EntityPlayerMP serverPlayer) {
                     IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(serverPlayer);
-                    if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.MAGICAL_SQUIRREL_TAMED)) {
-                        knowledge.sync(serverPlayer);
+                    if (knowledge != null) {
+                        boolean researchChanged = knowledge.addResearch(SquirrelWitcheryResearch.MAGICAL_SQUIRREL_TAMED);
+                        researchChanged |= ThaumcraftApi.internalMethods.completeResearch(serverPlayer, SquirrelWitcheryResearch.MAGICAL_SQUIRREL);
+                        researchChanged |= ThaumcraftApi.internalMethods.completeResearch(serverPlayer, SquirrelWitcheryResearch.TAMED_MAGICAL_SQUIRREL);
+                        if (researchChanged) {
+                            knowledge.sync(serverPlayer);
+                        }
                     }
                 }
                 this.setNoAI(true);

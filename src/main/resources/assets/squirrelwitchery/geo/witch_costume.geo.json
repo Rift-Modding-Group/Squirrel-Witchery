@@ -65,7 +65,7 @@
 					"parent": "leftArm",
 					"pivot": [5, 22, 0],
 					"cubes": [
-						{"origin": [4, 12, -2], "size": [4, 2, 4], "inflate": 0.375, "uv": [8, 63]}
+						{"origin": [4, 11, -2], "size": [4, 2, 4], "inflate": 0.375, "uv": [8, 63]}
 					]
 				},
 				{
@@ -80,7 +80,7 @@
 					"parent": "rightArm",
 					"pivot": [-5, 22, 0],
 					"cubes": [
-						{"origin": [-8, 12, -2], "size": [4, 2, 4], "inflate": 0.375, "uv": [64, 23]}
+						{"origin": [-8, 11, -2], "size": [4, 2, 4], "inflate": 0.375, "uv": [64, 23]}
 					]
 				},
 				{

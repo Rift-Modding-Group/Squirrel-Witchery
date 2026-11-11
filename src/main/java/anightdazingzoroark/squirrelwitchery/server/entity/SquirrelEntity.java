@@ -127,9 +127,9 @@ public class SquirrelEntity extends EntityAnimal implements IAnimatable<Animatio
                 //block if player is not serverPlayer instance or if its a baby
                 if (!(player instanceof EntityPlayerMP serverPlayer) || this.growingAge < 0) return true;
 
-                //block if no knowledge or if research tab doesn't exist yet
+                //block if no knowledge
                 IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(serverPlayer);
-                if (knowledge == null || !knowledge.isResearchKnown(SquirrelWitcheryResearch.CRYSTALLIZED_SQUIRREL_HEART + "@1")) return true;
+                if (knowledge == null) return true;
 
                 //block ritual if its bein performed and when coolin down
                 if (this.isPerformingRitual() || this.ritualCooldown > 0) return true;

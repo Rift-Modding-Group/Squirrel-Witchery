@@ -25,6 +25,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
@@ -126,12 +127,23 @@ public class ServerEvents {
         ) {
             knowledge.sync(player);
         }
+    }
 
-        //add risunic devices when unlocking a risunic device research tab
-        if (SquirrelWitcheryResearch.RISUNIC_DEVICE_TABS.contains(event.getResearchKey())
-                && ThaumcraftApi.internalMethods.completeResearch(player, SquirrelWitcheryResearch.RISUNIC_DEVICES)
-        ) {
-            knowledge.sync(player);
+    @SubscribeEvent
+    public void unlockRisunicDevices(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || !(event.player instanceof EntityPlayerMP player)
+                || player.ticksExisted % 20 != 0) return;
+
+        IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
+        if (knowledge == null || knowledge.isResearchComplete(SquirrelWitcheryResearch.RISUNIC_DEVICES)) return;
+
+        for (String research : SquirrelWitcheryResearch.RISUNIC_DEVICE_TABS) {
+            if (knowledge.isResearchComplete(research)) {
+                if (ThaumcraftApi.internalMethods.completeResearch(player, SquirrelWitcheryResearch.RISUNIC_DEVICES)) {
+                    knowledge.sync(player);
+                }
+                break;
+            }
         }
     }
 
