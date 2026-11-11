@@ -173,8 +173,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 entityLivingBase -> {
                     //if tamed, run only from target when wandering and has no weapon
                     if (this.isTamed()) {
-                        return this.getBehavior() == Behavior.WANDER && this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()
-                                && entityLivingBase == this.getAttackTarget();
+                        return this.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && entityLivingBase == this.getAttackTarget();
                     }
                     //otherwise, run when player doesnt have a nut
                     else {
@@ -182,7 +181,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                                 (!player.isSneaking() || !SquirrelWitcheryUtils.isValidNut(entityLivingBase.getHeldItem(EnumHand.MAIN_HAND)));
                     }
                 },
-                16f, 0.8D, 1.33D
+                8f, 1D, 1.33D
         ) {
             @Override
             public void startExecuting() {
