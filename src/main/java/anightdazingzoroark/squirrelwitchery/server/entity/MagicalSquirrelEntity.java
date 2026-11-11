@@ -27,6 +27,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -41,6 +42,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -65,6 +67,8 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     private static final DataParameter<Byte> BEHAVIOR = EntityDataManager.createKey(MagicalSquirrelEntity.class, DataSerializers.BYTE);
     private static final DataParameter<Byte> WEAPON_TYPE = EntityDataManager.createKey(MagicalSquirrelEntity.class, DataSerializers.BYTE);
     private static final DataParameter<Boolean> USING_BOW = EntityDataManager.createKey(MagicalSquirrelEntity.class, DataSerializers.BOOLEAN);
+
+    private static final int WANDER_DIST = 16;
 
     @NonNull
     private final AnimationDataEntityLiving animationData = new AnimationDataEntityLiving(this);
@@ -115,6 +119,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             @Override
             public boolean shouldExecute() {
                 if (!MagicalSquirrelEntity.this.getTransformed() || MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
+                if (MagicalSquirrelEntity.this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) return false;
                 return super.shouldExecute();
             }
         });
@@ -122,6 +127,7 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             @Override
             public boolean shouldExecute() {
                 if (!MagicalSquirrelEntity.this.getTransformed() || MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
+                if (MagicalSquirrelEntity.this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) return false;
                 return super.shouldExecute();
             }
         });
@@ -129,9 +135,18 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             @Override
             public boolean shouldExecute() {
                 if (!MagicalSquirrelEntity.this.getTransformed() || MagicalSquirrelEntity.this.getBehavior() == Behavior.SIT) return false;
+                if (MagicalSquirrelEntity.this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) return false;
                 return super.shouldExecute();
             }
         });
+        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<>(
+                this, EntityMob.class, 10, true, false,
+                entityMob -> {
+                    if (!MagicalSquirrelEntity.this.getTransformed() || MagicalSquirrelEntity.this.getBehavior() != Behavior.WANDER) return false;
+                    if (MagicalSquirrelEntity.this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) return false;
+                    return !(entityMob instanceof SwarmerSquirrelEntity);
+                }
+        ));
 
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 1.25D) {
@@ -154,10 +169,18 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
             }
         });
         this.tasks.addTask(2, new EntityAIAvoidEntity<>(
-                this, EntityPlayer.class,
-                player -> {
-                    if (this.isTamed()) return false;
-                    return !player.isSneaking() || !SquirrelWitcheryUtils.isValidNut(player.getHeldItem(EnumHand.MAIN_HAND));
+                this, EntityLivingBase.class,
+                entityLivingBase -> {
+                    //if tamed, run only from target when wandering and has no weapon
+                    if (this.isTamed()) {
+                        return this.getBehavior() == Behavior.WANDER && this.getHeldItem(EnumHand.MAIN_HAND).isEmpty()
+                                && entityLivingBase == this.getAttackTarget();
+                    }
+                    //otherwise, run when player doesnt have a nut
+                    else {
+                        return entityLivingBase instanceof EntityPlayer player &&
+                                (!player.isSneaking() || !SquirrelWitcheryUtils.isValidNut(entityLivingBase.getHeldItem(EnumHand.MAIN_HAND)));
+                    }
                 },
                 16f, 0.8D, 1.33D
         ) {
@@ -200,15 +223,22 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 return super.shouldExecute();
             }
         });
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1D) {
+        this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 1D) {
             @Override
             public boolean shouldExecute() {
-                if (MagicalSquirrelEntity.this.isTamed()) return false;
+                if (!MagicalSquirrelEntity.this.isTamed() || MagicalSquirrelEntity.this.getBehavior() != Behavior.WANDER) return false;
                 return super.shouldExecute();
             }
         });
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6f));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+        this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1D) {
+            @Override
+            public boolean shouldExecute() {
+                if (MagicalSquirrelEntity.this.isTamed() && MagicalSquirrelEntity.this.getBehavior() != Behavior.WANDER) return false;
+                return super.shouldExecute();
+            }
+        });
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6f));
+        this.tasks.addTask(9, new EntityAILookIdle(this));
     }
 
     @Override
@@ -606,6 +636,11 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
 
     public void setBehavior(@NotNull Behavior behavior) {
         this.dataManager.set(BEHAVIOR, (byte) behavior.ordinal());
+        if (!this.world.isRemote) {
+            this.getNavigator().clearPath();
+            if (this.isTamed() && behavior == Behavior.WANDER) this.setHomePosAndDistance(this.getPosition(), WANDER_DIST);
+            else this.detachHome();
+        }
     }
 
     public Behavior getBehavior() {
@@ -670,6 +705,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         compound.setBoolean("Transformed", this.getTransformed());
         compound.setByte("Behavior", (byte) this.getBehavior().ordinal());
         compound.setTag("Inventory", this.inventoryHandler.serializeNBT());
+        if (this.isTamed() && this.getBehavior() == Behavior.WANDER && this.hasHome()) {
+            compound.setLong("WanderHome", this.getHomePosition().toLong());
+        }
 
         MagicalSquirrelWeaponType weaponType = this.getHeldWeaponType();
         compound.setByte("WeaponType", weaponType != null ? (byte) weaponType.ordinal() : (byte) -1);
@@ -680,6 +718,9 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         super.readEntityFromNBT(compound);
         this.setTransformed(compound.getBoolean("Transformed"));
         this.setBehavior(Behavior.values()[compound.getByte("Behavior")]);
+        if (this.isTamed() && this.getBehavior() == Behavior.WANDER && compound.hasKey("WanderHome", 4)) {
+            this.setHomePosAndDistance(BlockPos.fromLong(compound.getLong("WanderHome")), WANDER_DIST);
+        }
         if (compound.hasKey("Inventory", 10)) this.inventoryHandler.deserializeNBT(compound.getCompoundTag("Inventory"));
 
         this.setNoAI(this.isTamed() && !this.getTransformed()); //only here so that when restarting the world, still transforming magical sqrls still dont have ai
