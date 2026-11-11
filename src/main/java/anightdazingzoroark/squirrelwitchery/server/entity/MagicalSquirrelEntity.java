@@ -239,6 +239,15 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
                 this.getNavigator().clearPath();
                 this.motionX = 0;
                 this.motionZ = 0;
+
+                //reset look upon transforming
+                double lookYaw = Math.toRadians(this.renderYawOffset);
+                this.getLookHelper().setLookPosition(
+                        this.posX - Math.sin(lookYaw), this.posY + this.getEyeHeight(), this.posZ + Math.cos(lookYaw),
+                        180f, 180f
+                );
+                this.getLookHelper().onUpdateLook();
+                this.prevRotationPitch = this.rotationPitch;
                 this.transformTicks++;
 
                 if (this.transformTicks >= 100) {
