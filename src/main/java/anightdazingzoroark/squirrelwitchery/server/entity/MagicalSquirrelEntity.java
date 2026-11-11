@@ -491,6 +491,15 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         return false;
     }
 
+    public double getMeleeAttackReachSquared(@NotNull EntityLivingBase target) {
+        double reachSquared = this.width * 2D * (this.width * 2D) + target.width;
+        if (Loader.isModLoaded("spartanweaponry")) {
+            double reach = SpartanWeaponryCompat.getMeleeReach(this.getHeldItemMainhand());
+            reachSquared = Math.max(reachSquared, reach * reach);
+        }
+        return reachSquared;
+    }
+
     @Override
     public boolean attackEntityAsMob(@NonNull Entity entityIn) {
         ItemStack weapon = this.getHeldItemMainhand();

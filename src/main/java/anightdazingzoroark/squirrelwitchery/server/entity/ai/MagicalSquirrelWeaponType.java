@@ -46,8 +46,9 @@ public enum MagicalSquirrelWeaponType {
         public boolean canStart(@NotNull EntityLivingBase target) {
             Path path = this.squirrel.getNavigator().getPathToEntityLiving(target);
             this.attackPath = path;
-            double reachSquared = this.squirrel.width * 2D * (this.squirrel.width * 2D) + target.width;
-            return path != null || this.squirrel.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ) <= reachSquared;
+            double reachSquared = this.squirrel.getMeleeAttackReachSquared(target);
+            return path != null || this.squirrel.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ) <= reachSquared
+                    && this.squirrel.getEntitySenses().canSee(target);
         }
 
         @Override
@@ -65,6 +66,14 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void move(@NotNull EntityLivingBase target) {
+            if (this.squirrel.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ)
+                    <= this.squirrel.getMeleeAttackReachSquared(target) && this.squirrel.getEntitySenses().canSee(target)
+            ) {
+                this.squirrel.getNavigator().clearPath();
+                this.lastPathTarget = null;
+                this.nextPathUpdateTick = 0;
+                return;
+            }
             if (this.squirrel.ticksExisted < this.nextPathUpdateTick) return;
             if (this.lastPathTarget != null && target.getDistanceSq(this.lastPathTarget.x, this.lastPathTarget.y, this.lastPathTarget.z) < 1D
                     && this.squirrel.getRNG().nextFloat() >= 0.05f
@@ -88,9 +97,10 @@ public enum MagicalSquirrelWeaponType {
 
         @Override
         public void attack(@NotNull EntityLivingBase target) {
-            double reachSquared = this.squirrel.width * 2D * (this.squirrel.width * 2D) + target.width;
+            double reachSquared = this.squirrel.getMeleeAttackReachSquared(target);
             if (this.squirrel.ticksExisted < this.nextAttackTick
                     || this.squirrel.getDistanceSq(target.posX, target.getEntityBoundingBox().minY, target.posZ) > reachSquared
+                    || !this.squirrel.getEntitySenses().canSee(target)
             ) {
                 return;
             }

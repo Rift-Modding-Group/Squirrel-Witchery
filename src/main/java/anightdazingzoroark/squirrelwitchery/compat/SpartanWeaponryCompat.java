@@ -4,6 +4,9 @@ import anightdazingzoroark.riftlib.inventory.RiftLibInventoryHandler;
 import anightdazingzoroark.squirrelwitchery.SquirrelWitcheryConfig;
 import anightdazingzoroark.squirrelwitchery.server.entity.MagicalSquirrelEntity;
 import anightdazingzoroark.squirrelwitchery.server.entity.ai.MagicalSquirrelAttackAI;
+import com.oblivioussp.spartanweaponry.api.IWeaponPropertyContainer;
+import com.oblivioussp.spartanweaponry.api.WeaponProperties;
+import com.oblivioussp.spartanweaponry.api.weaponproperty.WeaponProperty;
 import com.oblivioussp.spartanweaponry.entity.projectile.EntityBolt;
 import com.oblivioussp.spartanweaponry.entity.projectile.EntityBoomerang;
 import com.oblivioussp.spartanweaponry.entity.projectile.EntityThrownJavelin;
@@ -36,6 +39,14 @@ import java.util.Collections;
 import java.util.UUID;
 
 public class SpartanWeaponryCompat {
+    //-----melee weapons-----
+    public static double getMeleeReach(@NotNull ItemStack stack) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof IWeaponPropertyContainer<?> weapon)) return 0D;
+        WeaponProperty reach = weapon.getFirstWeaponPropertyWithType(WeaponProperties.PROPERTY_TYPE_REACH);
+        if (reach == null) return 0D;
+        return Math.max(0D, reach.getMagnitude());
+    }
+
     //-----crossbows-----
     public static boolean isCrossbow(@NotNull ItemStack stack) {
         return !stack.isEmpty() && stack.getItem() instanceof ItemCrossbow;
