@@ -52,6 +52,7 @@ public class ServerProxy {
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryItems());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryEffects());
         MinecraftForge.EVENT_BUS.register(new SquirrelWitcherySounds());
+        MinecraftForge.EVENT_BUS.register(new SquirrelWitcheryRecipes());
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
     }
 

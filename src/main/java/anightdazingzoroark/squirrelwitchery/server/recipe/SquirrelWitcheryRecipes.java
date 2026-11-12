@@ -7,16 +7,24 @@ import anightdazingzoroark.squirrelwitchery.server.blocks.SquirrelWitcheryBlocks
 import anightdazingzoroark.squirrelwitchery.server.items.SquirrelWitcheryItems;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+import org.jetbrains.annotations.NotNull;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.aspects.IEssentiaContainerItem;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.InfusionRecipe;
+import thaumcraft.api.crafting.IngredientNBTTC;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.items.ItemsTC;
+import thaumcraft.common.items.consumables.ItemPhial;
 
 public class SquirrelWitcheryRecipes {
     private static final ResourceLocation WITCH_COSTUME_RECIPE_GROUP = new ResourceLocation(SquirrelWitchery.MODID, "witch_costume");
@@ -424,5 +432,19 @@ public class SquirrelWitcheryRecipes {
                         "leather"
                 )
         );
+    }
+
+    @SubscribeEvent
+    public void registerCraftingRecipes(@NotNull RegistryEvent.Register<IRecipe> event) {
+        ItemStack label = new ItemStack(ItemsTC.label, 1, 1);
+        ((IEssentiaContainerItem) label.getItem()).setAspects(
+                label, new AspectList().add(SquirrelWitcheryAspects.RISUNIUM, 1)
+        );
+        event.getRegistry().register(new ShapelessOreRecipe(
+                new ResourceLocation("thaumcraft", "jarlabels"),
+                label,
+                new ItemStack(ItemsTC.label),
+                new IngredientNBTTC(ItemPhial.makeFilledPhial(SquirrelWitcheryAspects.RISUNIUM))
+        ).setRegistryName(SquirrelWitchery.MODID, "label_risunium"));
     }
 }
