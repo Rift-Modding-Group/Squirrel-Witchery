@@ -56,6 +56,8 @@ import org.jspecify.annotations.Nullable;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.fx.particles.FXGeneric;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.items.casters.ItemCaster;
 
@@ -585,31 +587,57 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
         super.onDeath(cause);
 
         if (!this.world.isRemote) {
-            //---create essence---
-            MagicalSquirrelEssenceEntity essenceEntity = new MagicalSquirrelEssenceEntity(world);
-            essenceEntity.setPosition(this.posX, this.posY + 0.5D, this.posZ);
-            essenceEntity.copyInventoryFromSquirrel(this.inventoryHandler);
+            if (this.isTamed() && this.getTransformed()) {
+                //---create essence---
+                MagicalSquirrelEssenceEntity essenceEntity = new MagicalSquirrelEssenceEntity(world);
+                essenceEntity.setPosition(this.posX, this.posY + 0.5D, this.posZ);
+                essenceEntity.copyInventoryFromSquirrel(this.inventoryHandler);
 
-            //define essence item
-            ItemStack essenceItem = new ItemStack(SquirrelWitcheryItems.MAGICAL_SQUIRREL_ESSENCE);
-            NBTTagCompound squirrelData = new NBTTagCompound();
-            if (this.getOwnerId() != null) squirrelData.setUniqueId("Owner", this.getOwnerId());
-            squirrelData.setBoolean("Transformed", this.getTransformed());
-            squirrelData.setByte("Behavior", (byte) this.getBehavior().ordinal());
-            squirrelData.setString("CustomName", this.getCustomNameTag());
-            squirrelData.setBoolean("CustomNameVisible", this.getAlwaysRenderNameTag());
-            essenceItem.setTagInfo("MagicalSquirrel", squirrelData);
-            essenceEntity.addEssenceItem(essenceItem);
+                //define essence item
+                ItemStack essenceItem = new ItemStack(SquirrelWitcheryItems.MAGICAL_SQUIRREL_ESSENCE);
+                NBTTagCompound squirrelData = new NBTTagCompound();
+                if (this.getOwnerId() != null) squirrelData.setUniqueId("Owner", this.getOwnerId());
+                squirrelData.setBoolean("Transformed", this.getTransformed());
+                squirrelData.setByte("Behavior", (byte) this.getBehavior().ordinal());
+                squirrelData.setString("CustomName", this.getCustomNameTag());
+                squirrelData.setBoolean("CustomNameVisible", this.getAlwaysRenderNameTag());
+                essenceItem.setTagInfo("MagicalSquirrel", squirrelData);
+                essenceEntity.addEssenceItem(essenceItem);
 
-            //spawn
-            this.world.spawnEntity(essenceEntity);
+                //spawn
+                this.world.spawnEntity(essenceEntity);
 
-            //---unlock revival research---
-            EntityLivingBase owner = this.getOwner();
-            if (this.isTamed() && owner instanceof EntityPlayerMP playerOwner) {
-                IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(playerOwner);
-                if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.MAGICAL_SQUIRREL_DIED)) {
-                    knowledge.sync(playerOwner);
+                //---unlock revival research---
+                EntityLivingBase owner = this.getOwner();
+                if (this.isTamed() && owner instanceof EntityPlayerMP playerOwner) {
+                    IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(playerOwner);
+                    if (knowledge != null && knowledge.addResearch(SquirrelWitcheryResearch.MAGICAL_SQUIRREL_DIED)) {
+                        knowledge.sync(playerOwner);
+                    }
+                }
+            }
+            else {
+                for (int index = 0; index < 2; index++) {
+                    FXGeneric puff = new FXGeneric(
+                            this.world,
+                            this.posX + (this.rand.nextDouble() - 0.5D) * this.width,
+                            this.posY + this.rand.nextDouble() * this.height,
+                            this.posZ + (this.rand.nextDouble() - 0.5D) * this.width,
+                            this.rand.nextGaussian() * 0.005D, 0.005D + this.rand.nextDouble() * 0.005D,
+                            this.rand.nextGaussian() * 0.005D
+                    );
+                    puff.setMaxAge(28 + this.rand.nextInt(16));
+                    puff.setRBGColorF(0.9843f, 0.5569f, 0.6039f);
+                    puff.setAlphaF(0f, 0.35f, 0.35f, 0f);
+                    puff.setGridSize(16);
+                    puff.setParticles(56 + this.rand.nextInt(4), 1, 1);
+                    float scale = 3f + this.rand.nextFloat() * 2f;
+                    puff.setScale(scale * 0.65f, scale, scale * 1.25f);
+                    puff.setLayer(0);
+                    puff.setRotationSpeed(this.rand.nextFloat(), (this.rand.nextFloat() - 0.5f) * 0.5f);
+                    puff.setSlowDown(0.98D);
+                    puff.setGravity(0f);
+                    ParticleEngine.addEffect(this.world, puff);
                 }
             }
         }
@@ -851,7 +879,6 @@ public class MagicalSquirrelEntity extends EntityTameable implements IAnimatable
     @Override
     @Nullable
     protected SoundEvent getDeathSound() {
-        if (!this.getTransformed()) return SquirrelWitcherySounds.SQUIRREL_DEATH;
         return SquirrelWitcherySounds.MAGICAL_SQUIRREL_DEATH;
     }
 
